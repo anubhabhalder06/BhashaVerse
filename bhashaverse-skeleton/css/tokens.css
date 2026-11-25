@@ -1,0 +1,28 @@
+/* DESIGN TOKENS: BhashaVerse monochrome paper/ink specimen palette + semantic contrast */
+:root{
+  --color-bg:#EFEDE8;
+  --color-surface:#E3E0D8;
+  --color-ink-page:#0E0E0E;
+  --color-ink-elev:#181816;
+  --color-text:#0E0E0E;
+  --color-text-on-dark:#EFEDE8;
+  --color-muted:#52524E;
+  --color-muted-on-dark:#B8B5AE;
+  --color-accent:#0E0E0E;
+  --color-border:rgba(14,14,14,0.18);
+  --color-border-strong:rgba(14,14,14,0.55);
+  --color-border-dark:rgba(239,237,232,0.22);
+
+  --font-display:"Fraunces","Instrument Serif",Georgia,serif;
+  --font-body:"Plus Jakarta Sans",system-ui,-apple-system,sans-serif;
+  --font-heading:var(--font-display);
+  --font-hand:"Caveat",cursive;
+  --font-indic:"Noto Sans Devanagari","Noto Sans Kannada","Noto Sans Oriya","Noto Sans Tamil","Noto Sans Bengali","Noto Sans Ol Chiki","Noto Sans Sora Sompeng","Noto Sans Masaram Gondi","Noto Sans Gunjala Gondi","Nirmala UI",sans-serif;
+
+  --text-base:1.125rem; /* 18px minimum readable body size */
+  --line-height:1.6;
+  --space-1:.5rem; --space-2:1rem; --space-3:2rem; --space-4:4rem;
+  --radius:0px; --radius-tile:26px;
+  --max-width:80rem; --card-min:17.5rem;
+  color-scheme:light;
+}
