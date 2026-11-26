@@ -1,8 +1,12 @@
 /* STRUCTURE & ACCESSIBILITY BASE: shared across all BhashaVerse pages */
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
 html{
   scroll-behavior:smooth;
   scrollbar-width:none;
+  accent-color:var(--color-ink-page);
 }
 @supports not (scrollbar-width:none){
   html::-webkit-scrollbar{display:none}
@@ -13,6 +17,12 @@ html{
     scrollbar-color:#0E0E0E #FFFFFF;
   }
 }
+::selection{background:var(--color-ink-page);color:var(--color-bg)}
+.bv-spread--ink ::selection,.bv-map-canvas ::selection,.bv-glyph-chart ::selection,.bv-book-verso ::selection{
+  background:var(--color-bg);
+  color:var(--color-ink-page);
+}
+:focus:not(:focus-visible){outline:none}
 body{
   margin:0;
   font-family:var(--font-body);

@@ -443,15 +443,17 @@ body.bv-editorial{
   will-change:transform, opacity;
   transition:transform .24s cubic-bezier(.22,1,.36,1), opacity .22s ease;
 }
-.bv-poster-rows:hover .bv-poster-row:not(:hover){opacity:.62}
-.bv-poster-rows:hover .bv-poster-row:not(:hover) .bv-poster-script-link{transform:scale(0.92)}
-.bv-poster-row:hover .bv-poster-script-link,
 .bv-poster-row:focus-within .bv-poster-script-link,
 .bv-poster-row.is-active .bv-poster-script-link{
   transform:scale(1.1) translateX(4px);
 }
-.bv-poster-rows:hover .bv-poster-row.is-active:not(:hover) .bv-poster-script-link{
-  transform:scale(0.92);
+@media (hover:hover){
+  .bv-poster-rows:hover .bv-poster-row:not(:hover){opacity:.62}
+  .bv-poster-rows:hover .bv-poster-row:not(:hover) .bv-poster-script-link{transform:scale(0.92)}
+  .bv-poster-row:hover .bv-poster-script-link{transform:scale(1.1) translateX(4px)}
+  .bv-poster-rows:hover .bv-poster-row.is-active:not(:hover) .bv-poster-script-link{
+    transform:scale(0.92);
+  }
 }
 
 .bv-poster-meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem 1.15rem}
@@ -528,18 +530,25 @@ body.bv-editorial{
 }
 .bv-glyph-cell svg{transition:transform .24s cubic-bezier(.22,1,.36,1)}
 .bv-glyph-cell span{font-size:.92rem;letter-spacing:.01em}
-.bv-glyph-chart:hover .bv-glyph-cell:not(:hover):not(:focus-visible){opacity:.48}
-.bv-glyph-cell:hover,
 .bv-glyph-cell:focus-visible{
   opacity:1;
   transform:translateY(-4px);
   border-color:rgba(239,237,232,0.34);
   background:rgba(239,237,232,0.06);
 }
-.bv-glyph-cell:hover svg,
 .bv-glyph-cell:focus-visible svg{transform:scale(1.14)}
-.bv-glyph-cell:hover::after,
 .bv-glyph-cell:focus-visible::after{transform:scaleX(1)}
+@media (hover:hover){
+  .bv-glyph-chart:hover .bv-glyph-cell:not(:hover):not(:focus-visible){opacity:.48}
+  .bv-glyph-cell:hover{
+    opacity:1;
+    transform:translateY(-4px);
+    border-color:rgba(239,237,232,0.34);
+    background:rgba(239,237,232,0.06);
+  }
+  .bv-glyph-cell:hover svg{transform:scale(1.14)}
+  .bv-glyph-cell:hover::after{transform:scaleX(1)}
+}
 
 /* Section 4: Two-Page Featured Specimen Spread */
 .bv-book-spread{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--color-border-strong)}
