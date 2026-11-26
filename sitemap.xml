@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>index.html</loc></url>
+  <url><loc>languages.html</loc></url>
+  <url><loc>language-profile.html</loc></url>
+  <url><loc>library.html</loc></url>
+  <url><loc>library-item.html</loc></url>
+  <url><loc>gallery.html</loc></url>
+  <url><loc>audio.html</loc></url>
+  <url><loc>map.html</loc></url>
+  <url><loc>history.html</loc></url>
+  <url><loc>culture.html</loc></url>
+  <url><loc>stories.html</loc></url>
+  <url><loc>search.html</loc></url>
+  <url><loc>contribute.html</loc></url>
+  <url><loc>about.html</loc></url>
+  <url><loc>guidelines.html</loc></url>
+  <url><loc>privacy.html</loc></url>
+  <url><loc>terms.html</loc></url>
+  <url><loc>copyright.html</loc></url>
+  <url><loc>contact.html</loc></url>
+</urlset>

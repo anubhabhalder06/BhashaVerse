@@ -1,0 +1,67 @@
+/* COMPONENT: MediaFigure — rounded monochrome photographs + subtle halftone grain + vertical native-script labels */
+.mt-photo-frame {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mt-space-2);
+}
+
+.mt-photo-tile {
+  position: relative;
+  flex: 1 1 auto;
+  overflow: hidden;
+  border-radius: var(--mt-radius-media);
+  border: var(--mt-border-rule);
+  background: var(--mt-paper-elev);
+  aspect-ratio: 4 / 3;
+}
+
+.mt-photo-tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(1.12);
+}
+
+.mt-photo-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(var(--mt-grain-light) 1px, transparent 0);
+  background-size: 4px 4px;
+}
+
+.mt-tile-stub {
+  border-radius: var(--mt-radius-media);
+  border: 1px dashed var(--mt-rule-strong);
+  aspect-ratio: 4 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mt-space-2);
+  padding: var(--mt-space-4);
+  text-align: center;
+  color: var(--mt-ink-muted);
+  font-size: var(--mt-text-sm);
+}
+
+.mt-vertical-tag {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-family: var(--mt-font-indic);
+  font-size: var(--mt-text-md);
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--mt-ink);
+  padding: var(--mt-space-1);
+  flex-shrink: 0;
+}
+
+.mt-photo-caption {
+  margin: var(--mt-space-2) 0 0;
+  font-size: var(--mt-text-sm);
+  color: var(--mt-ink-muted);
+}

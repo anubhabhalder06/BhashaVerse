@@ -3,157 +3,121 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Home | BhashaVerse — India Language &amp; Cultural Heritage Archive</title>
-<meta name="description" content="Community-guided digital archive preserving India's underrepresented languages, manuscripts, oral histories, and cultural knowledge.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com; connect-src 'self'; base-uri 'self'; form-action 'self';">
+<title>Matrika — Digital Archive of India's Underrepresented Languages</title>
+<meta name="description" content="Matrika is a community-guided digital archive preserving India's underrepresented languages, scripts, oral histories, photographs, and cultural knowledge.">
+<meta name="application-name" content="Matrika">
+<meta property="og:site_name" content="Matrika">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Matrika — Digital Archive of India's Underrepresented Languages">
+<meta property="og:description" content="Community-guided digital archive preserving India's underrepresented languages, manuscripts, and cultural knowledge.">
+<link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600&family=Caveat:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+Kannada:wght@400;600&family=Noto+Sans+Oriya:wght@400;600&family=Noto+Sans+Tamil:wght@400;600&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Sans+Ol+Chiki:wght@400;600&family=Noto+Sans+Sora+Sompeng:wght@400;600&family=Noto+Sans+Gunjala+Gondi:wght@400;600&family=Noto+Sans+Masaram+Gondi:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600&family=Caveat:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&display=swap">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/editorial.css">
-<script src="js/data.js" defer></script>
-<script src="js/main.js" defer></script>
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components/header.css">
+<link rel="stylesheet" href="css/components/wordmark.css">
+<link rel="stylesheet" href="css/components/footer.css">
+<link rel="stylesheet" href="css/components/button.css">
+<link rel="stylesheet" href="css/components/badge.css">
+<link rel="stylesheet" href="css/components/figure.css">
+<link rel="stylesheet" href="css/components/audio.css">
+<link rel="stylesheet" href="css/components/chat.css">
+<link rel="stylesheet" href="css/pages/home.css">
+<link rel="stylesheet" href="css/print.css" media="print">
+<script type="module" src="js/main.js"></script>
 </head>
-<body class="bv-editorial bv-paper-grain">
+<body class="mt-paper-grain" data-page="home">
 <a class="skip-link" href="#main">Skip to main content</a>
 
-<!-- SVG Filters: subtle displacement (2.5) for hero Mishing script + stamp ink unevenness -->
 <svg class="sr-only" aria-hidden="true" width="0" height="0">
   <defs>
-    <filter id="bv-liquid-glyph" x="-8%" y="-8%" width="116%" height="116%">
+    <filter id="mt-liquid-glyph" x="-8%" y="-8%" width="116%" height="116%">
       <feTurbulence type="fractalNoise" baseFrequency="0.025 0.035" numOctaves="2" seed="7" result="noise"/>
       <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-    <filter id="bv-stamp-ink" x="-5%" y="-5%" width="110%" height="110%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.14" numOctaves="2" seed="11" result="tex"/>
-      <feDisplacementMap in="SourceGraphic" in2="tex" scale="1.35" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
   </defs>
 </svg>
 
-<div class="bv-header-wrap">
-  <header class="site-header container">
-    <a class="site-logo" href="index.html">BhashaVerse</a>
+<matrika-header>
+  <div class="mt-header-wrap">
+    <header class="site-header">
+      <a class="mt-brand-link" href="index.html">Matrika</a>
+    </header>
+  </div>
+</matrika-header>
 
-    <nav id="main-nav" class="site-nav" aria-label="Main">
-      <ul>
-        <li><a href="index.html" aria-current="page">Home</a></li>
-        <li><a href="languages.html">Languages</a></li>
-        <li><a href="library.html">Library</a></li>
-        <li><a href="gallery.html">Photo &amp; Video</a></li>
-        <li><a href="audio.html">Audio</a></li>
-        <li><a href="map.html">Map</a></li>
-        <li><a href="contribute.html">Contribute</a></li>
-        <li class="bv-nav-more">
-          <button id="bv-more-btn" class="bv-more-trigger" type="button" aria-expanded="false" aria-controls="bv-more-menu">
-            <span>More</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <ul id="bv-more-menu" class="bv-more-menu" hidden>
-            <li><a href="history.html">History &amp; Heritage</a></li>
-            <li><a href="culture.html">Culture &amp; Traditions</a></li>
-            <li><a href="stories.html">Community Stories</a></li>
-            <li><a href="about.html">About</a></li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
-
-    <div class="bv-header-controls">
-      <form class="site-search" role="search" action="search.html">
-        <label for="q" class="sr-only">Search the archive</label>
-        <input id="q" name="q" type="search" placeholder="Search records">
-        <button type="submit">Go</button>
-      </form>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
-    </div>
-  </header>
-</div>
-
-<main id="main" class="bv-main-full">
+<main id="main" class="mt-main-full">
   <section class="hero" id="s-hero">
     <div class="container hero-grid">
       <div class="hero-text">
         <p class="hero-purpose">An archive of India’s underrepresented languages: words, voices, scripts and photographs, shared with community consent.</p>
+        <span class="mt-chip mt-chip--demo">Demo content</span>
         <h1 class="hero-quote">“The loom remembers the river’s old name.”</h1>
         <p class="hero-byline">Community speaker · Mishing · Assam</p>
 
-        <div class="hero-audio-row">
-          <button id="bv-hero-play" type="button" class="bv-play-btn" aria-label="Play sample audio of the quote, 12 seconds">
-            <svg class="bv-play-circle" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="none"/>
-            </svg>
-            <span>Hear it · 0:12</span>
-          </button>
-          <button id="bv-transcript-toggle" type="button" class="hero-transcript-toggle" aria-expanded="false" aria-controls="bv-hero-transcript">Show transcript</button>
-          <span id="bv-hero-audio-note" class="sr-only" aria-live="polite"></span>
-        </div>
-
-        <div id="bv-hero-transcript" class="hero-transcript" hidden>
-          <p style="margin:0;">Mishing: awaiting verification from community speakers</p>
-          <p style="margin:0;">English: “The loom remembers the river’s old name.”</p>
+        <div id="mt-hero-audio-host" class="hero-audio-row">
+          <span class="mt-chip mt-chip--demo">Demo audio</span>
         </div>
 
         <div class="hero-actions">
-          <a class="bv-btn bv-btn--solid" href="languages.html">Explore Languages</a>
-          <a class="bv-text-arrow-link" href="library.html">Browse the archive <span aria-hidden="true">→</span></a>
+          <a class="mt-btn mt-btn--solid" href="languages.html">Explore Languages</a>
+          <a class="mt-text-arrow-link" href="library.html">Browse the archive <span aria-hidden="true">→</span></a>
         </div>
 
-        <p id="bv-hero-facts" class="hero-facts"></p>
+        <p id="mt-hero-facts" class="hero-facts">10 languages · 6 ISO scripts · photographs, metadata &amp; mock audio slots</p>
       </div>
 
       <figure class="hero-photo">
         <div class="hero-frame">
-          <img src="assets/images/loom-weaver-assam.jpg" alt="Black-and-white photograph of a weaver working at a handloom" loading="eager">
+          <img src="assets/images/loom-weaver-assam.jpg" width="1280" height="853" alt="Black-and-white photograph of a weaver working at a handloom" loading="eager">
           <div class="hero-gradient" aria-hidden="true"></div>
-          <span class="hero-mishing-word" lang="as" aria-label="Mishing, written in Assamese script">মিশিং</span>
+          <span class="hero-mishing-word" lang="mrg-Beng" aria-hidden="true">মিশিং</span>
           <span class="hero-mishing-caption">Mishing</span>
         </div>
-        <figcaption>Handloom, Mishing weaver. Photo: Deepraj, <a href="https://commons.wikimedia.org/wiki/File:Assamese_woman_using_traditional_handloom.jpg" target="_blank" rel="noopener">CC BY 2.5</a>.</figcaption>
+        <figcaption>Handloom, Mishing weaver (label: মিশিং). Photo: Deepraj, <a href="https://commons.wikimedia.org/wiki/File:Assamese_woman_using_traditional_handloom.jpg" target="_blank" rel="noopener noreferrer">CC BY 2.5</a>.</figcaption>
       </figure>
     </div>
 
     <div class="container hero-scroll-row">
       <a class="scroll-cue" href="#s-poster">
-        <span id="bv-scroll-cue-text">Scroll: one word in eight languages</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 5v14M6 13l6 6 6-6"/>
-        </svg>
+        <span id="mt-scroll-cue-text">Scroll: one word across 8 languages</span>
+        <span aria-hidden="true">↓</span>
       </a>
     </div>
   </section>
 
-  <!-- 2. SIGNATURE POSTER (Only Full Dark Section on Home): One rotating word in eight scripts + visible Koda entry -->
-  <section id="s-poster" class="bv-spread bv-spread--ink">
-    <div class="bv-spread-inner">
-      <div class="bv-poster-head">
+  <section id="s-poster" class="mt-spread mt-spread--ink">
+    <div class="mt-spread-inner">
+      <div class="mt-poster-head">
         <div>
-          <p style="margin:0;color:var(--color-muted-on-dark);">One word across the archive · eight sourced scripts &amp; Koda</p>
-          <h2 id="bv-poster-concept" class="bv-poster-word">water</h2>
+          <p class="mt-muted" style="margin:0;">One word across the archive · documented scripts &amp; open verification slots</p>
+          <h2 id="mt-poster-concept" class="mt-poster-word">water</h2>
         </div>
-        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:1rem;">
-          <span id="bv-audio-status" class="bv-muted" aria-live="polite" style="font-size:.95rem;">Select any Play control for spoken preview</span>
-          <button id="bv-rotate-word" type="button" class="bv-btn">Next specimen word</button>
+        <div class="mt-cta-row">
+          <span class="mt-chip mt-chip--demo">Demo lexicon samples</span>
+          <button id="mt-rotate-word" type="button" class="mt-btn" style="color:var(--mt-paper-always); border-color:var(--mt-paper-always);">Next specimen word</button>
         </div>
       </div>
-
-      <ul id="bv-poster-rows" class="bv-poster-rows" aria-label="Rotating word across archive languages including Koda"></ul>
+      <ul id="mt-poster-rows" class="mt-poster-rows" aria-label="Rotating word across archive languages"></ul>
     </div>
   </section>
 
-  <!-- 3. FADING WORD LIST (Listen / Speak / Remember / Teach / Return) + B/W Masonry + Interactive Monoline Glyph Chart -->
-  <section id="s-pillars" class="bv-spread">
-    <div class="bv-spread-inner">
-      <div class="bv-pillars-grid">
+  <section id="s-pillars" class="mt-spread">
+    <div class="mt-spread-inner">
+      <div class="mt-pillars-grid">
         <div>
-          <ol class="bv-fading-stack" aria-label="Archive principles">
-            <li class="bv-fading-word" data-step="1">Listen</li>
-            <li class="bv-fading-word" data-step="2">Speak</li>
-            <li class="bv-fading-word" data-step="3">Remember</li>
-            <li class="bv-fading-word" data-step="4">Teach</li>
-            <li class="bv-fading-word" data-step="5">Return</li>
+          <ol class="mt-fading-stack" aria-label="Archive principles">
+            <li class="mt-fading-word" data-step="1">Listen</li>
+            <li class="mt-fading-word" data-step="2">Speak</li>
+            <li class="mt-fading-word" data-step="3">Remember</li>
+            <li class="mt-fading-word" data-step="4">Teach</li>
+            <li class="mt-fading-word" data-step="5">Return</li>
           </ol>
-          <div style="margin-top:2rem;max-width:44ch;display:grid;gap:1rem;">
+          <div class="mt-pillars-copy">
             <p style="margin:0;"><strong>Discover</strong> underrepresented scripts, oral narratives, and regional vocabularies linked to real geographies.</p>
             <p style="margin:0;"><strong>Preserve</strong> community-cleared books, manuscripts, portraits, and recordings with explicit rights attribution.</p>
             <p style="margin:0;"><strong>Contribute</strong> corrections, photographs, and speech records through consent-checked archival moderation.</p>
@@ -161,174 +125,104 @@
         </div>
 
         <div>
-          <div class="bv-masonry-pair">
+          <div class="mt-masonry-pair">
             <figure>
-              <div class="bv-photo-frame">
-                <div class="bv-photo-tile" style="aspect-ratio:4/3;">
-                  <img src="assets/images/lachen-weaving-sikkim.jpg" alt="Traditional weaver operating a wooden treadle loom in Lachen, Sikkim" loading="lazy">
+              <div class="mt-photo-frame">
+                <div class="mt-photo-tile">
+                  <img src="assets/images/lachen-weaving-sikkim.jpg" width="1280" height="960" alt="Traditional weaver operating a wooden treadle loom in Lachen, Sikkim" loading="lazy">
                 </div>
-                <span class="bv-vertical-tag" lang="hi" title="Weaving craft">बुनकर</span>
+                <span class="mt-vertical-tag" lang="hi-Deva" aria-hidden="true">बुनकर</span>
               </div>
-              <figcaption class="bv-photo-caption">Lachen loom practice · Jirah P Lepcha (CC BY-SA 4.0)</figcaption>
+              <figcaption class="mt-photo-caption">Lachen loom practice · Jirah P Lepcha (CC BY-SA 4.0) · Label: Devanagari bunkar (बुनकर, unverified)</figcaption>
             </figure>
 
-            <figure class="bv-masonry-offset">
-              <div class="bv-photo-frame">
-                <div class="bv-photo-tile" style="aspect-ratio:3/4;">
-                  <img src="assets/images/toda-archival-1871.jpg" alt="1871 archival photograph of Toda people in traditional Nilgiri Poothkuli shawls" loading="lazy">
+            <figure class="mt-masonry-offset">
+              <div class="mt-photo-frame">
+                <div class="mt-photo-tile" style="aspect-ratio:3/4;">
+                  <img src="assets/images/toda-archival-1871.jpg" width="960" height="1200" alt="1871 archival photograph of Toda people in traditional Nilgiri Poothkuli shawls" loading="lazy">
                 </div>
-                <span class="bv-vertical-tag" lang="tod" title="Toda dwelling">அர்ஸ்</span>
+                <span class="mt-vertical-tag" lang="tcx-Taml" aria-hidden="true">அர்ஸ்</span>
               </div>
-              <figcaption class="bv-photo-caption">Nilgiri 1871 witness · Madras School of Arts (Public domain)</figcaption>
+              <figcaption class="mt-photo-caption">Nilgiri 1871 witness · Madras School of Arts (Public domain) · Label: Toda ars in Tamil script (அர்ஸ், demo)</figcaption>
             </figure>
           </div>
         </div>
       </div>
 
-      <div id="bv-category-chart" class="bv-glyph-chart" aria-label="Archive category glyph index"></div>
+      <div id="mt-category-chart" class="mt-glyph-chart" aria-label="Archive category index"></div>
     </div>
   </section>
 
-  <!-- 4. FEATURED TWO-PAGE SPECIMEN SPREADS (Scroll-driven & manually scrubbable across all 9 languages) -->
-  <section id="s-spread" class="bv-spread bv-spread--scroll-stage" aria-roledescription="carousel" aria-label="Featured language specimen spreads">
-    <div class="bv-spread-sticky">
-      <div class="bv-spread-inner bv-spread-shell">
-        <div class="bv-spread-bar">
-          <div class="bv-spread-bar-meta">
-            <span class="bv-hand-note">scroll down or drag below to turn folios</span>
-            <span id="bv-spread-counter" class="bv-spread-counter">Folio 01 / 09 · Tulu</span>
-          </div>
-          <div class="bv-spread-nav-btns">
-            <button id="bv-spread-prev" type="button" class="bv-folio-arrow-btn" aria-label="Previous language folio">
-              <span aria-hidden="true">←</span> Previous
-            </button>
-            <button id="bv-spread-next" type="button" class="bv-folio-arrow-btn" aria-label="Next language folio">
-              Next <span aria-hidden="true">→</span>
-            </button>
-          </div>
+  <section id="s-spread" class="mt-spread" aria-label="Featured language specimen spreads">
+    <div class="mt-spread-inner">
+      <div class="mt-spread-bar">
+        <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:var(--mt-space-3);">
+          <span class="mt-hand-note">turn folios across the registry</span>
+          <span id="mt-spread-counter" style="font-family:var(--mt-font-display); font-weight:500;">Folio 01 / 10 · Tulu</span>
         </div>
-
-        <div id="bv-spread-viewport" class="bv-spread-viewport" tabindex="0" role="group" aria-label="Language specimen folios">
-          <div id="bv-spread-track" class="bv-spread-track"></div>
+        <div class="mt-cta-row">
+          <button id="mt-spread-prev" type="button" class="mt-btn" aria-label="Previous language folio">← Previous</button>
+          <button id="mt-spread-next" type="button" class="mt-btn" aria-label="Next language folio">Next →</button>
         </div>
-
-        <div class="bv-scrubber-panel" aria-label="Manual folio scroll control">
-          <div class="bv-scrubber-row">
-            <label for="bv-spread-scrubber" class="bv-scrubber-label">Folio scroll</label>
-            <div class="bv-scrubber-track-wrap">
-              <div id="bv-scrubber-fill" class="bv-scrubber-fill" aria-hidden="true"></div>
-              <input id="bv-spread-scrubber" class="bv-folio-scrubber" type="range" min="0" max="800" value="0" step="1" aria-label="Scrub manually across all language specimen folios">
-            </div>
-            <span id="bv-scrubber-pct" class="bv-scrubber-readout" aria-hidden="true">01 · 09</span>
-          </div>
-          <nav id="bv-spread-pips" class="bv-folio-pips" aria-label="Select a language folio directly"></nav>
-        </div>
-
-        <p id="bv-spread-status" class="sr-only" role="status" aria-live="polite"></p>
       </div>
+
+      <div id="mt-spread-host"></div>
+      <nav id="mt-spread-pips" class="mt-folio-pips" aria-label="Select language folio"></nav>
+      <p id="mt-spread-status" class="sr-only" role="status" aria-live="polite"></p>
     </div>
   </section>
 
-  <!-- 5. LATEST ARCHIVE ADDITIONS: 4 equal image-led tiles, 1px hairline, first tile carries archival stamp -->
-  <section id="s-additions" class="bv-spread">
-    <div class="bv-spread-inner">
-      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:2rem;">
-        <h2 style="font-size:clamp(2rem,3.8vw,3rem);margin:0;">Latest archive additions</h2>
-        <a href="library.html">Browse full library</a>
+  <section id="s-additions" class="mt-spread">
+    <div class="mt-spread-inner">
+      <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:var(--mt-space-4); margin-bottom:var(--mt-space-5);">
+        <h2 style="font-size:var(--mt-text-2xl); margin:0;">Latest archive plates</h2>
+        <div class="mt-cta-row">
+          <a class="mt-text-arrow-link" href="map.html">Explore by region <span aria-hidden="true">→</span></a>
+          <a class="mt-text-arrow-link" href="library.html">Browse full library <span aria-hidden="true">→</span></a>
+        </div>
       </div>
-
-      <div id="bv-additions-grid" class="bv-additions-row"></div>
+      <div id="mt-additions-grid" class="mt-additions-row"></div>
     </div>
   </section>
 
-  <!-- 6. CONTRIBUTE SECTION (Paper background, 3 side-by-side tiles, 3-step line) -->
-  <section id="s-contribute" class="bv-spread">
-    <div class="bv-spread-inner" style="display:grid;gap:2rem;">
-      <div style="display:grid;gap:.75rem;max-width:48rem;">
-        <h2 style="font-size:clamp(2.1rem,4vw,3.35rem);margin:0;">Know a word we got wrong? Have a photo or story to share?</h2>
-        <p style="margin:0;color:var(--color-muted);">Community speakers, families, and local researchers help keep this archive accurate and accountable.</p>
+  <section id="s-contribute" class="mt-spread">
+    <div class="mt-spread-inner" style="display:grid; gap:var(--mt-space-5);">
+      <div style="display:grid; gap:var(--mt-space-2); max-width:48rem;">
+        <h2 style="font-size:var(--mt-text-2xl); margin:0;">Know a word we got wrong? Have a photo or story to share?</h2>
+        <p class="mt-muted" style="margin:0;">Community speakers, families, and local educators help keep this archive accurate and accountable.</p>
       </div>
 
-      <div class="bv-contrib-grid">
-        <article class="bv-contrib-tile">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="8" cy="17" r="3"/><path d="M11 17V6l8-2v9"/><circle cx="16" cy="15" r="3"/>
-          </svg>
-          <h3 style="font-size:1.35rem;margin:0;">A word or recording</h3>
-          <p style="margin:0;color:var(--color-muted);font-size:.98rem;">Pronunciation, everyday phrases, songs, and speaker attribution.</p>
+      <div class="mt-contrib-grid">
+        <article class="mt-contrib-tile">
+          <h3 style="margin:0;">A word or recording</h3>
+          <p class="mt-muted" style="margin:0;">Pronunciation, everyday phrases, songs, and speaker attribution.</p>
         </article>
-
-        <article class="bv-contrib-tile">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="5" width="18" height="14" rx="4"/><circle cx="12" cy="12" r="3.5"/>
-          </svg>
-          <h3 style="font-size:1.35rem;margin:0;">A photograph</h3>
-          <p style="margin:0;color:var(--color-muted);font-size:.98rem;">Manuscript plates, craft textiles, places, and portraits with clear consent.</p>
+        <article class="mt-contrib-tile">
+          <h3 style="margin:0;">A photograph</h3>
+          <p class="mt-muted" style="margin:0;">Manuscript plates, craft textiles, places, and portraits with documented consent.</p>
         </article>
-
-        <article class="bv-contrib-tile">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M4 6h16v10H9l-5 4V6z"/><path d="M9 10h6M9 13h4"/>
-          </svg>
-          <h3 style="font-size:1.35rem;margin:0;">A story or correction</h3>
-          <p style="margin:0;color:var(--color-muted);font-size:.98rem;">Oral memories, spelling fixes, or source updates on existing entries.</p>
+        <article class="mt-contrib-tile">
+          <h3 style="margin:0;">A story or correction</h3>
+          <p class="mt-muted" style="margin:0;">Oral memories, spelling fixes, or source updates on existing entries.</p>
         </article>
       </div>
 
-      <p class="bv-contrib-steps" aria-label="Contribution review stages">
+      <p class="mt-contrib-steps">
         <span><strong>1.</strong> Submit</span>
         <span aria-hidden="true">→</span>
         <span><strong>2.</strong> Reviewed with the community</span>
         <span aria-hidden="true">→</span>
-        <span><strong>3.</strong> Published with credit</span>
+        <span><strong>3.</strong> Published with attribution</span>
       </p>
 
-      <div class="bv-cta-row">
-        <a class="bv-btn bv-btn--solid" href="contribute.html">Open contribution form</a>
-        <a class="bv-btn" href="guidelines.html">Read guidelines</a>
+      <div class="mt-cta-row">
+        <a class="mt-btn mt-btn--solid" href="contribute.html">Open contribution form</a>
+        <a class="mt-btn" href="guidelines.html">Read guidelines</a>
       </div>
     </div>
   </section>
 </main>
 
-<footer class="bv-footer-wrap">
-  <p class="bv-quiet-notice" role="note">
-    Sample records, quotes and audio on this site are placeholders pending community verification.
-  </p>
-
-  <nav class="bv-footer-cols" aria-label="Footer navigation">
-    <div class="bv-footer-col">
-      <h2>Explore</h2>
-      <ul>
-        <li><a href="languages.html">Languages</a></li>
-        <li><a href="library.html">Library</a></li>
-        <li><a href="gallery.html">Photo and Video</a></li>
-        <li><a href="audio.html">Audio</a></li>
-        <li><a href="map.html">Map</a></li>
-      </ul>
-    </div>
-    <div class="bv-footer-col">
-      <h2>Learn</h2>
-      <ul>
-        <li><a href="history.html">History and Heritage</a></li>
-        <li><a href="culture.html">Culture and Traditions</a></li>
-        <li><a href="stories.html">Community Stories</a></li>
-        <li><a href="about.html">About</a></li>
-      </ul>
-    </div>
-    <div class="bv-footer-col">
-      <h2>Policies</h2>
-      <ul>
-        <li><a href="privacy.html">Privacy</a></li>
-        <li><a href="terms.html">Terms</a></li>
-        <li><a href="copyright.html">Copyright and reuse</a></li>
-        <li><a href="guidelines.html">Contribution guidelines</a></li>
-        <li><a href="contact.html">Contact / Report</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <p style="margin:0;color:var(--color-muted);font-size:.9rem;">BhashaVerse · Digital Language &amp; Cultural Heritage Archive</p>
-</footer>
+<matrika-footer></matrika-footer>
 </body>
 </html>

@@ -1,0 +1,40 @@
+/* PRINT: Clean monochrome print stylesheet showing static Matrika wordmark only */
+@media print {
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  .mt-wordmark-frame:not([data-script="Latn"]),
+  .mt-wordmark-pause,
+  .mt-wordmark-caption,
+  .mt-header-controls,
+  .site-nav,
+  .mt-chat-root,
+  .mt-theme-btn,
+  .skip-link,
+  .mt-filter-panel {
+    display: none !important;
+  }
+
+  .mt-wordmark-frame[data-script="Latn"] {
+    visibility: visible !important;
+    position: static !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .mt-spread {
+    border-bottom: 1px solid #000000;
+    padding: 1rem 0;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+  }
+}

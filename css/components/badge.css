@@ -1,0 +1,58 @@
+/* COMPONENT: Monochrome RightsBadge, DemoBadge, StatusChip, and StateView */
+.mt-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mt-space-2);
+}
+
+.mt-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mt-space-1);
+  padding: var(--mt-space-1) var(--mt-space-2);
+  border: var(--mt-border-strong);
+  border-radius: var(--mt-radius-control);
+  font-size: var(--mt-text-xs);
+  line-height: 1.3;
+  color: var(--mt-ink);
+  background: transparent;
+}
+
+.mt-chip--demo {
+  border-style: dashed;
+  color: var(--mt-ink-muted);
+}
+
+.mt-chip--status {
+  background: var(--mt-paper-elev);
+}
+
+.mt-spread--ink .mt-chip {
+  border-color: var(--mt-paper-muted-always);
+  color: var(--mt-paper-always);
+}
+
+.mt-spread--ink .mt-chip--demo {
+  color: var(--mt-paper-muted-always);
+}
+
+.mt-rights-explain {
+  margin: 0;
+  font-size: var(--mt-text-xs);
+  color: var(--mt-ink-muted);
+}
+
+.mt-state-box {
+  padding: var(--mt-space-5);
+  border: var(--mt-border-strong);
+  border-radius: var(--mt-radius-control);
+  background: var(--mt-paper-elev);
+  display: grid;
+  gap: var(--mt-space-3);
+}
+
+.mt-state-box--empty {
+  border-style: dashed;
+  background: transparent;
+}

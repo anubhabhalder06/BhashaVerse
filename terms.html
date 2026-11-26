@@ -3,84 +3,55 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Terms of Use | BhashaVerse</title>
-<meta name="description" content="Terms governing archival access, respectful citation, and non-exploitation of community language heritage records.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com; connect-src 'self'; base-uri 'self'; form-action 'self';">
+<title>Terms of Use · Matrika</title>
+<meta name="description" content="Terms governing archival viewing, citation, and demonstration features on Matrika.">
+<meta property="og:site_name" content="Matrika">
+<meta property="og:title" content="Terms of Use · Matrika">
+<link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600&family=Caveat:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600&family=Caveat:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&display=swap">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/editorial.css">
-<script src="js/data.js" defer></script>
-<script src="js/main.js" defer></script>
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components/header.css">
+<link rel="stylesheet" href="css/components/wordmark.css">
+<link rel="stylesheet" href="css/components/footer.css">
+<link rel="stylesheet" href="css/components/button.css">
+<link rel="stylesheet" href="css/components/badge.css">
+<link rel="stylesheet" href="css/components/chat.css">
+<link rel="stylesheet" href="css/print.css" media="print">
+<script type="module" src="js/main.js"></script>
 </head>
-<body class="bv-editorial bv-paper-grain">
+<body class="mt-paper-grain" data-page="terms">
 <a class="skip-link" href="#main">Skip to main content</a>
 
-<div class="bv-header-wrap">
-  <header class="site-header container">
-    <a class="site-logo" href="index.html">BhashaVerse</a>
-    <nav id="main-nav" class="site-nav" aria-label="Main">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="languages.html">Languages</a></li>
-        <li><a href="library.html">Library</a></li>
-        <li><a href="gallery.html">Photo &amp; Video</a></li>
-        <li><a href="audio.html">Audio</a></li>
-        <li><a href="map.html">Map</a></li>
-        <li><a href="contribute.html">Contribute</a></li>
-        <li class="bv-nav-more">
-          <button id="bv-more-btn" class="bv-more-trigger" type="button" aria-expanded="false" aria-controls="bv-more-menu">
-            <span>More</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <ul id="bv-more-menu" class="bv-more-menu" hidden>
-            <li><a href="history.html">History &amp; Heritage</a></li>
-            <li><a href="culture.html">Culture &amp; Traditions</a></li>
-            <li><a href="stories.html">Community Stories</a></li>
-            <li><a href="about.html">About</a></li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
-    <div class="bv-header-controls">
-      <form class="site-search" role="search" action="search.html">
-        <label for="q" class="sr-only">Search the archive</label>
-        <input id="q" name="q" type="search" placeholder="Search records">
-        <button type="submit">Go</button>
-      </form>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
-    </div>
-  </header>
-</div>
+<matrika-header>
+  <div class="mt-header-wrap"><header class="site-header"><a class="mt-brand-link" href="index.html">Matrika</a></header></div>
+</matrika-header>
 
-<main id="main" class="bv-main-full">
-  <section class="bv-spread">
+<main id="main" class="mt-main-full">
+  <section class="mt-spread">
     <div class="container">
-      <header class="bv-page-head">
-        <span class="bv-hand-note">archival stewardship &amp; community respect</span>
-        <h1 class="bv-page-title">Terms of Use</h1>
+      <header class="mt-page-head">
+        <span class="mt-hand-note">archival stewardship terms</span>
+        <h1 class="mt-page-title">Terms of Use</h1>
       </header>
-      <div class="bv-prose">
-        <h2>Educational &amp; cultural preservation scope</h2>
-        <p>Materials on BhashaVerse are shared for research, mother-tongue learning, cultural preservation, and reference within the rights stated on each record.</p>
-        <h2>Respectful citation &amp; non-commercial terms</h2>
-        <p>Do not detach community credits or redistribute restricted records. When citing placeholder items from this preview, note that community verification is pending.</p>
-        <h2>Withdrawal &amp; revision requests</h2>
-        <p>Community elders or rightsholders may request corrections, access restrictions, or withdrawal at any time through <a href="contact.html">Contact / Report</a>.</p>
+      <div class="mt-prose">
+        <h2>Respectful research &amp; educational use</h2>
+        <p><strong>Matrika</strong> provides open metadata and openly licensed materials for non-harmful linguistic, cultural, and educational study. Viewing an archival item does not grant permission to redistribute restricted or permission-only materials.</p>
+
+        <h2>Takedown, correction &amp; consent withdrawal</h2>
+        <p>Any community speaker, custodian, or rights holder may request immediate review, attribution updates, access restriction, or removal of any record through the <a href="contact.html">Contact / Report</a> page.</p>
+
+        <h2>Prototype notice</h2>
+        <p>Matrika Review 1 operates entirely in the browser with no external data storage outside your device.</p>
       </div>
     </div>
   </section>
 </main>
 
-<footer class="bv-footer-wrap container">
-  <p class="bv-quiet-notice" role="note">Sample records, quotes and audio on this site are placeholders pending community verification.</p>
-  <nav class="bv-footer-cols" aria-label="Footer navigation">
-    <div class="bv-footer-col"><h2>Explore</h2><ul><li><a href="languages.html">Languages</a></li><li><a href="library.html">Library</a></li><li><a href="gallery.html">Photo and Video</a></li><li><a href="audio.html">Audio</a></li><li><a href="map.html">Map</a></li></ul></div>
-    <div class="bv-footer-col"><h2>Learn</h2><ul><li><a href="history.html">History and Heritage</a></li><li><a href="culture.html">Culture and Traditions</a></li><li><a href="stories.html">Community Stories</a></li><li><a href="about.html">About</a></li></ul></div>
-    <div class="bv-footer-col"><h2>Policies</h2><ul><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li><li><a href="copyright.html">Copyright and reuse</a></li><li><a href="guidelines.html">Contribution guidelines</a></li><li><a href="contact.html">Contact / Report</a></li></ul></div>
-  </nav>
-  <p style="margin:0;color:var(--color-muted);font-size:.9rem;">BhashaVerse · Digital Language &amp; Cultural Heritage Archive</p>
-</footer>
+<matrika-footer></matrika-footer>
 </body>
 </html>

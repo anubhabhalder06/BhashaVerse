@@ -1,0 +1,33 @@
+{
+  "categories": [
+    { "key": "Word", "href": "languages.html", "icon": "word" },
+    { "key": "Song", "href": "audio.html", "icon": "song" },
+    { "key": "Story", "href": "stories.html", "icon": "story" },
+    { "key": "Manuscript", "href": "library.html", "icon": "manuscript" },
+    { "key": "Photograph", "href": "gallery.html", "icon": "photograph" },
+    { "key": "Elder", "href": "stories.html", "icon": "elder" },
+    { "key": "Place", "href": "map.html", "icon": "place" },
+    { "key": "Festival", "href": "culture.html", "icon": "festival" },
+    { "key": "Craft", "href": "culture.html", "icon": "craft" }
+  ],
+  "galleryCollections": [
+    "People and portraits",
+    "Village life",
+    "Festivals",
+    "Clothing",
+    "Architecture",
+    "Food",
+    "Art and crafts",
+    "Historical photographs"
+  ],
+  "heroQuote": {
+    "id": "hero-quote-mishing-01",
+    "isDemo": true,
+    "quote": "“The loom remembers the river’s old name.”",
+    "attribution": "Community speaker · Mishing · Assam",
+    "audioLabel": "Hear it · 0:12",
+    "durationSec": 12,
+    "transcriptNative": "Mishing transcript awaiting verification from community speakers.",
+    "transcriptTranslation": "“The loom remembers the river’s old name.” (Demo placeholder quote)"
+  }
+}

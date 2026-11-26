@@ -1,0 +1,85 @@
+/* COMPONENT: Sharp-cornered buttons, arrow links, bookmark toggle */
+.mt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mt-space-2);
+  min-height: var(--mt-touch-min);
+  padding: var(--mt-space-2) var(--mt-space-5);
+  border: var(--mt-border);
+  border-radius: var(--mt-radius-control);
+  text-decoration: none;
+  font-weight: var(--mt-weight-medium);
+  font-size: var(--mt-text-sm);
+  background: transparent;
+  color: var(--mt-ink);
+  transition: background-color var(--mt-dur-fast) var(--mt-ease), color var(--mt-dur-fast) var(--mt-ease), opacity var(--mt-dur-fast) var(--mt-ease);
+}
+
+.mt-btn:hover:not(:disabled) {
+  background: var(--mt-ink);
+  color: var(--mt-paper);
+}
+
+.mt-btn--solid {
+  background: var(--mt-ink);
+  color: var(--mt-paper);
+  border-color: var(--mt-ink);
+}
+
+.mt-btn--solid:hover:not(:disabled) {
+  opacity: 0.86;
+}
+
+.mt-btn:disabled,
+.mt-btn[aria-disabled="true"] {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.mt-text-arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mt-space-2);
+  min-height: var(--mt-touch-min);
+  text-decoration: none;
+  font-weight: var(--mt-weight-medium);
+  font-size: var(--mt-text-sm);
+  transition: transform var(--mt-dur-fast) var(--mt-ease);
+}
+
+.mt-text-arrow-link:hover,
+.mt-text-arrow-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  transform: translateX(3px);
+}
+
+.mt-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mt-space-3);
+  align-items: center;
+}
+
+.mt-bookmark-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mt-space-1);
+  min-height: var(--mt-touch-min);
+  min-width: var(--mt-touch-min);
+  padding: 0 var(--mt-space-3);
+  border: var(--mt-border-strong);
+  border-radius: var(--mt-radius-control);
+  background: transparent;
+  color: var(--mt-ink);
+  font-size: var(--mt-text-xs);
+  transition: background-color var(--mt-dur-fast) var(--mt-ease), color var(--mt-dur-fast) var(--mt-ease);
+}
+
+.mt-bookmark-btn[aria-pressed="true"] {
+  background: var(--mt-ink);
+  color: var(--mt-paper);
+  border-color: var(--mt-ink);
+  font-weight: var(--mt-weight-semibold);
+}

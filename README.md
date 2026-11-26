@@ -1,24 +1,10 @@
 <div align="center">
 
-<h1>BhashaVerse</h1>
-<p><em>India Language &amp; Cultural Heritage Archive</em></p>
+<h1>Matrika &nbsp;·&nbsp; मातृका</h1>
+<p><em>Digital Archive of India's Underrepresented Languages</em></p>
 
 <p>
   <strong>An archive of India’s underrepresented languages: words, voices, scripts and photographs, shared with community consent.</strong>
-</p>
-
-<p>
-  <code>ತುಳು</code> &nbsp;·&nbsp; <code>गोंडी</code> &nbsp;·&nbsp; <code>ᱥᱟᱱᱛᱟᱲᱤ</code> &nbsp;·&nbsp; <code>𑃐𑃦𑃝</code> &nbsp;·&nbsp; <code>କୁଇ</code> &nbsp;·&nbsp; <code>தோதா</code> &nbsp;·&nbsp; <code>মিশিং</code> &nbsp;·&nbsp; <code>भीली</code> &nbsp;·&nbsp; <em>Koda (Kora)</em>
-</p>
-
-<p>
-  <a href="https://anubhabhalder06.github.io/BhashaVerse/"><strong>Visit the Live Archive →</strong></a>
-  &nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="https://anubhabhalder06.github.io/BhashaVerse/map.html">Explore Language Map</a>
-  &nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="https://anubhabhalder06.github.io/BhashaVerse/languages.html">Language Directory</a>
-  &nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="https://anubhabhalder06.github.io/BhashaVerse/contribute.html">Contribute</a>
 </p>
 
 </div>
@@ -29,173 +15,51 @@
   <img src="assets/images/loom-weaver-assam.jpg" alt="Handloom weaver at frame in Upper Assam" width="820">
 </p>
 <p align="center">
-  <em>“The loom remembers the river’s old name.”</em><br>
-  <sub>Hero archival plate: Assamese handloom weaver · Photo by <a href="https://commons.wikimedia.org/wiki/File:Assamese_woman_using_traditional_handloom.jpg">Deepraj</a> (CC BY 2.5)</sub>
+  <em>“The loom remembers the river’s old name.” (Demo content)</em><br>
+  <sub>Archival visual plate: Assamese handloom weaver · Photo by <a href="https://commons.wikimedia.org/wiki/File:Assamese_woman_using_traditional_handloom.jpg">Deepraj</a> (CC BY 2.5)</sub>
 </p>
 
 ---
 
-## About the Website
+## About Matrika
 
-**BhashaVerse** is a community-guided digital archive prototype built to preserve India’s lesser-documented, regional, and indigenous languages alongside their living visual and oral heritage. Rather than treating language purely as isolated dictionary rows, the archive connects **scripts, spoken cadence, manuscripts, textiles, regional geography, and oral histories** under transparent attribution and consent rules.
+**Matrika (मातृका)** — pronounced **MAA-tri-kaa** — comes from Sanskrit *mātṛkā*, “little mother”. In the Sanskrit grammatical tradition, the letters of the alphabet are the “mothers” of all speech. It also reads as “mother tongue”.
 
-Inside the website, visitors can:
-- **Compare living scripts side by side** on the Home *Signature Poster*, rotating shared core concepts (*water*, *home*, *song*) across eight documented scripts with Romanisation, IPA, and optional spoken-tone previews.
-- **Explore 9 language communities** across coastal Karnataka, the Central Deccan, Jharkhand, Odisha, the Nilgiris, Assam, western India, and West Bengal—including an open verification slot for **Koda (Kora)** without fabricated placeholder words.
-- **Navigate an interactive map of India** spanning 35 states and union territories with zoom/pan controls and regional language inspectors.
-- **Browse rights-labelled manuscripts & photographs** in the Digital Library and monochrome Gallery, where restricted or metadata-only items never expose unauthorised files.
-- **Submit corrections, words, audio, or stories** through a consent-checked contribution flow backed by a preview moderation queue.
+Matrika is an academic EPICS Review 1 static digital archive prototype designed to document, display, and protect India’s underrepresented languages alongside manuscripts, oral histories, photographs, and regional cultural knowledge under transparent rights and consent rules.
 
 ---
 
-## Design & Artistic Vision
+## Key Architecture & Features
 
-BhashaVerse is art-directed as a **contemporary archival broadsheet and linguistic specimen book** rather than a conventional web dashboard. Every visual choice serves readability, cultural dignity, and editorial calm:
-
-### 1. Archival Paper & Carbon Ink Palette (`css/tokens.css`)
-- **Warm Rag Paper (`#EFEDE8`) & Vellum Surface (`#E3E0D8`):** Replaces sterile `#FFFFFF` glare with the quiet warmth of archival rag paper, overlaid with a subtle two-layer `radial-gradient` paper grain (`.bv-paper-grain`).
-- **Carbon Ink Spreads (`#0E0E0E` & `#181816`):** Only key focal spreads—such as the Home *Eight-Script Signature Poster* and the *Featured Specimen Verso*—invert onto deep ink, creating dramatic broadsheet contrast against `#EFEDE8` paper text.
-- **Restrained Semantic Colour:** Chromatic colour is deliberately withheld from chrome and navigation. Per-language hues (`--lang-accent`) appear strictly on interactive audio controls, map pins, and script accent details.
-
-### 2. Typography Across Nine Writing Systems
-- **Editorial Serif Display (`Fraunces` & `Instrument Serif`):** Expressive literary serif headlines pair with **Plus Jakarta Sans** set at an accessible `18px` minimum body size (`1.6` line height).
-- **Archival Marginalia (`Caveat`):** Handwritten field notes annotate plates and spreads without interrupting hierarchy.
-- **Pan-Indic Script Stack (`--font-indic`):** Pairs `Noto Sans` typefaces across **Ol Chiki**, **Sora Sompeng**, **Masaram Gondi**, **Gunjala Gondi**, **Devanagari**, **Kannada**, **Oriya**, **Tamil**, and **Bengali**, paired with runtime `canvas` glyph-rendering verification (`canRenderChar`) so missing OS fonts never display silent broken boxes.
-
-### 3. Tactile Print Craft & Geometry
-- **SVG Ink Displacement:** Subtle `<feTurbulence>` and `<feDisplacementMap>` SVG filters soften the edges of the Home hero’s Mishing script word (`মিশিং`, scale `2.5`) and give catalogue stamps (`BV-REC-041`) an authentic rubber-ink impression.
-- **Asymmetrical Bleed & Hairlines:** The hero handloom photograph bleeds cleanly to the right viewport edge with `32px` left-side rounding, while `1px` editorial rules (`rgba(14,14,14,0.18)`) separate sections without heavy drop shadows or rounded card clutter.
-- **Ethical Visual Grammar:** On the map and directory, verified samples carry solid markers while **Koda (Kora)** uses a **dashed hollow ring** and `"Awaiting community verification"` label—making missing community verification visible by design rather than filling gaps with guesses.
+- **Rotating Multi-Script Header Wordmark:** Cycles smoothly across `Latn` (**Matrika**), `Deva` (**मातृका**), and registry script frames (`Beng`, `Knda`, `Orya`, `Olck`) with `Intl.Segmenter` grapheme-cluster transitions, `FontGate` tofu protection, zero layout shift, `prefers-reduced-motion` static lockup, and a `44×44px` Pause/Play toggle (`matrika:wordmark-paused`).
+- **Editorial Paper & Ink Design Tokens (`css/tokens.css`):** Warm rag paper (`#EFEDE8`), vellum surface (`#E3E0D8`), solid carbon ink (`#0E0E0E`), `Fraunces` & `Plus Jakarta Sans` typography, optional high-contrast dark theme toggle (`matrika:theme`), sharp chrome controls against `24px` monochrome halftone photographs.
+- **Layered Object-Oriented ES Modules (`js/`):** Clean `config → models → data → services → components → pages` architecture with a single `Container` dependency-injection root in `js/main.js`, `DataSource` / `JsonDataSource` backend swap point, `ContributionStore` / `LocalContributionStore`, `RightsPolicy` enforcement, and zero `innerHTML` data templates.
+- **Rights-Aware Digital Library & Gallery:** Separates `public-domain`, `open-licence`, `permission-granted`, `restricted`, and `metadata-only` records; restricted and metadata-only entries never expose unauthorised downloads.
+- **Interactive Leaflet Language Map (`map.html`):** Lazy-loads pinned Leaflet `1.9.4` with OpenStreetMap attribution, approximate state/district markers, an accessible non-map button selector, and required orientation disclaimers.
+- **Scripted Matrika Assistant (`Ask Matrika`):** Browser-only, zero-network assistant powered by `IntentMatcher`, `KnowledgeBase` (`data/chat/knowledge.json`), and `SearchService`.
 
 ---
 
-## Visual Plates from the Archive
+## Development Setup
 
-On the live site, archival and field photographs are unified under monochrome high-contrast treatment with subtle paper grain and full Wikimedia Commons attribution:
+Because Matrika uses native ES modules (`<script type="module">`) and `fetch()` to load JSON datasets under `data/`, opening HTML files via `file://` will not work.
 
-<table>
-  <tr>
-    <td width="33%" valign="top">
-      <img src="assets/images/toda-archival-1871.jpg" alt="Toda men and women in traditional Poothkuli shawls, Nilgiris (1871)">
-      <br><sub><strong>Nilgiri 1871 Witness (Toda)</strong><br>Madras School of Arts · Public domain</sub>
-    </td>
-    <td width="33%" valign="top">
-      <img src="assets/images/kannada-talegari.png" alt="Historical Kannada palm-leaf talegari folio">
-      <br><sub><strong>Coastal Talegari Folio (Tulu)</strong><br>Ananda Devaraj · CC BY-SA 4.0</sub>
-    </td>
-    <td width="33%" valign="top">
-      <img src="assets/images/gond-art-detail.jpg" alt="Close-up of Gond traditional painting">
-      <br><sub><strong>Gond Line-and-Dot Study (Gondi)</strong><br>Sumita Roy Dutta · CC BY-SA 4.0</sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="33%" valign="top">
-      <img src="assets/images/odia-palm-leaf.jpg" alt="Odia cord-bound palm-leaf manuscript">
-      <br><sub><strong>Palm-Leaf Bundle (Sora / Odia)</strong><br>Manoj Choudhury · CC BY-SA 3.0</sub>
-    </td>
-    <td width="33%" valign="top">
-      <img src="assets/images/lachen-weaving-sikkim.jpg" alt="Traditional weaver at wooden loom in Lachen, Sikkim">
-      <br><sub><strong>Lachen Loom Practice</strong><br>Jirah P Lepcha · CC BY-SA 4.0</sub>
-    </td>
-    <td width="33%" valign="top">
-      <img src="assets/images/weaver-hands-bundi.jpg" alt="Weaver hands at wooden handloom, Bundi">
-      <br><sub><strong>Warp &amp; Shuttle Craft, Bundi</strong><br>Daniel Villafruela · CC BY-SA 3.0</sub>
-    </td>
-  </tr>
-</table>
+Serve the repository over a local HTTP server during development (or use **VS Code Live Server**):
 
----
+```bash
+python -m http.server
+```
 
-## Documented Languages (`js/data.js`)
+Run unit tests (Node built-in test runner, zero dependencies):
 
-| Language | Family | Primary Region | Script(s) | Archive Status |
-| :--- | :--- | :--- | :--- | :--- |
-| **Tulu** (`ತುಳು`) | Dravidian | Karnataka / Kerala | Tigalari / Kannada | Sample lexicon & talegari folio |
-| **Gondi** (`गोंडी`) | Dravidian | Central Deccan | Devanagari / Masaram | Sample lexicon & Gond art study |
-| **Santali** (`ᱥᱟᱱᱛᱟᱲᱤ`) | Austroasiatic | Jharkhand / Odisha | Ol Chiki | Sample lexicon & script chart |
-| **Sora** (`𑃐𑃦𑃝` / `ସଉରା`) | Austroasiatic | Odisha / Andhra | Sora Sompeng & Odia | Sample lexicon & palm-leaf bundle |
-| **Kui** (`କୁଇ`) | Dravidian | Odisha | Odia / Oral | Sample lexicon & cultural context |
-| **Toda** (`தோதா`) | Dravidian | Tamil Nadu | Tamil / Phonetic | Sample lexicon & 1871 archival plate |
-| **Mishing** (`মিশিং`) | Tibeto-Burman | Assam / Arunachal | Assamese / Latin | Sample lexicon & hero handloom plate |
-| **Bhili** (`भीली`) | Indo-Aryan | Gujarat / MP / Rajasthan | Devanagari / Gujarati | Sample lexicon & textile craft study |
-| **Koda (Kora)** | Austroasiatic | West Bengal | *To be verified* | **Awaiting community verification** |
-
----
-
-## Archive Pages (20 Static Routes)
-
-| Section | Pages | Purpose |
-| :--- | :--- | :--- |
-| **Explore & Read** | `index.html`, `languages.html`, `language-profile.html`, `map.html`, `search.html` | Hero showcase, 8-script rotating poster, filterable directory, dynamic `?lang=` profiles, 35-region India SVG map, and cross-archive search |
-| **Collections** | `library.html`, `library-item.html`, `gallery.html`, `audio.html` | Rights-gated digital library (`CC BY-SA` vs. `Restricted` / `Metadata only`), archival B/W photography plates, and transcript-enabled audio showcase |
-| **Context** | `history.html`, `culture.html`, `stories.html` | Script timelines, community heritage contexts, festivals, crafts, and oral-memory story slots |
-| **Stewardship** | `contribute.html`, `admin.html`, `about.html`, `guidelines.html`, `copyright.html`, `privacy.html`, `terms.html`, `contact.html` | Consent-first contribution form, browser-side moderation queue preview, editorial governance, and policy documentation |
-
----
-
-## Technical Architecture
-
-BhashaVerse is built with **zero build tools, zero framework lock-in, and zero external runtime dependencies**—making long-term archival preservation, offline inspection, and static hosting straightforward.
-
-### 1. Layered CSS Design System
-- `css/tokens.css` defines the complete palette, type stacks, spacing scale (`--space-1` to `--space-4`), and accessible `18px` base sizing.
-- `css/base.css` provides reset rules, keyboard skip links, high-contrast `:focus-visible` outlines, and `prefers-reduced-motion` safeguards.
-- `css/editorial.css` implements the `1200px` shared container grid, right-bleed hero layout (`--bleed`), responsive navigation with an accessible `More` disclosure menu, and editorial spreads.
-
-### 2. Data-Driven Client Rendering (`js/data.js` & `js/main.js`)
-- `window.BhashaVerseData` acts as the single source of truth for languages, lexical triads (`water`, `home`, `song`), category glyphs, library records, gallery plates, stories, and heritage contexts.
-- Home hero fact counts (number of languages and verified scripts) are **computed dynamically from `LANGUAGES`** rather than hard-coded.
-- URL query routing drives reusable templates without server rendering: `language-profile.html?lang=<id>`, `library-item.html?id=<record>`, `search.html?q=<term>`, and `contribute.html?lang=<id>`.
-
-### 3. Cartographic Vector Map (`js/india-geo.js`)
-- `window.BhashaVerseGeo` stores vector SVG path data for **35 Indian states and union territories** projected into a `640 × 720` cartographic viewport (`67°E` to `98°E`) using cosine-adjusted coordinates and Ramer–Douglas–Peucker path simplification.
-- Supports interactive zoom (`+` / `−` / `Reset`), coordinate projection (`lat`/`lng` to SVG space), keyboard-focusable pins, and an accessible side inspector.
-
-### 4. Web Audio Synthesis & Runtime Glyph Checks
-- Audio preview buttons synthesize clean two-note sine cadences via the **Web Audio API** (`AudioContext`) strictly on user click—never autoplaying—until community-recorded `.mp3`/`.wav` field audio is deposited.
-- `canRenderChar()` inspects rendered glyph pixel ink on an off-screen `<canvas>` to detect unsupported complex Indic fonts and display clear notices when fallback script rendering is needed.
-
-### 5. Automated GitHub Pages Deployment
-- `.github/workflows/deploy-pages.yml` runs a two-stage GitHub Actions pipeline (`build` → `deploy`) that stages HTML, CSS, JS, `assets/`, and `.nojekyll` into `_site/` and publishes via `actions/upload-pages-artifact@v3` and `actions/deploy-pages@v4`.
-
----
-
-## Directory Layout
-
-```text
-BhashaVerse/
-├── .github/workflows/
-│   └── deploy-pages.yml      # Two-stage GitHub Actions Pages deployment
-├── assets/images/            # 7 Wikimedia Commons plates + manifest.json
-├── css/
-│   ├── tokens.css            # Colour palette, typography & spacing tokens
-│   ├── base.css              # Accessibility primitives, focus & motion defaults
-│   └── editorial.css         # Multi-page editorial broadsheet styles
-├── js/
-│   ├── data.js               # Structured datasets (languages, library, gallery, stories)
-│   ├── india-geo.js          # 35-state/UT India vector geometry + coordinate helpers
-│   └── main.js               # UI hydration, search, map inspector, audio & contribution flow
-├── index.html                # Home broadsheet + hero + rotating 8-script poster
-└── *.html                    # 19 additional archive, profile, map, and policy pages
+```bash
+npm test
 ```
 
 ---
 
-## Live Archive Access
+## Stewardship & Prototype Disclaimer
 
-BhashaVerse is hosted directly on **GitHub Pages** and requires no backend server or build step:
-
-- **Home Broadsheet:** https://anubhabhalder06.github.io/BhashaVerse/
-- **India Language Map:** https://anubhabhalder06.github.io/BhashaVerse/map.html
-- **Language Directory:** https://anubhabhalder06.github.io/BhashaVerse/languages.html
-- **Digital Library:** https://anubhabhalder06.github.io/BhashaVerse/library.html
-- **Contribution Form:** https://anubhabhalder06.github.io/BhashaVerse/contribute.html
-
-If you clone the repository to inspect or contribute to the source code, open `index.html` directly in your browser.
-
----
-
-## Stewardship & Prototype Notice
-
-- Sample records, quotes, and synthesized tone previews on this prototype are **placeholders pending community verification and consent clearance**.
-- `contribute.html` and `admin.html` persist preview submissions locally in browser `localStorage`; production deployment requires authenticated moderation, consent-ledger storage, and verified speaker recordings.
+- Wordmark renderings marked as demonstration are transliterations pending review by native readers.
+- Sample records, quotes, and mock audio tracks (`Mock player — no recording`) are Review 1 placeholders pending community verification and consent clearance.
+- Submissions, bookmarks, theme settings, and admin mockup status changes stay strictly inside your browser's `localStorage`.

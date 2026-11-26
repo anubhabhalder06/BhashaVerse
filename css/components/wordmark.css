@@ -1,0 +1,163 @@
+/* COMPONENT: Header Wordmark Rotator — single grid-cell layout lock, grapheme rise, accessible controls */
+.mt-brand-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mt-space-2);
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.mt-brand-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--mt-space-2);
+  min-height: var(--mt-touch-min);
+  padding: var(--mt-space-1) 0;
+  text-decoration: none;
+  color: var(--mt-ink);
+}
+
+.mt-wordmark-stack {
+  display: inline-grid;
+  align-items: baseline;
+  justify-items: start;
+  font-family: var(--mt-font-display);
+  font-size: var(--mt-text-lg);
+  font-weight: var(--mt-weight-semibold);
+}
+
+.mt-wordmark-frame {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--mt-space-2);
+  white-space: nowrap;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mt-wordmark-frame[data-script="Latn"] {
+  font-family: var(--mt-font-display);
+  letter-spacing: -0.02em;
+  line-height: var(--mt-wordmark-lh-Latn);
+}
+
+.mt-wordmark-frame:not([data-script="Latn"]) {
+  font-family: var(--mt-font-indic);
+  letter-spacing: 0;
+}
+
+.mt-wordmark-frame[data-script="Deva"] { line-height: var(--mt-wordmark-lh-Deva); }
+.mt-wordmark-frame[data-script="Beng"] { line-height: var(--mt-wordmark-lh-Beng); }
+.mt-wordmark-frame[data-script="Knda"] { line-height: var(--mt-wordmark-lh-Knda); }
+.mt-wordmark-frame[data-script="Orya"] { line-height: var(--mt-wordmark-lh-Orya); }
+.mt-wordmark-frame[data-script="Olck"] { line-height: var(--mt-wordmark-lh-Olck); }
+
+.mt-wordmark-text {
+  display: inline-flex;
+  align-items: baseline;
+  overflow: hidden;
+  padding-block: 0.08em;
+}
+
+.mt-wordmark-cluster {
+  display: inline-block;
+  transform: translateY(0.35em);
+  opacity: 0;
+  clip-path: inset(0 0 100% 0);
+  transition:
+    transform var(--mt-wordmark-transition) var(--mt-ease),
+    opacity var(--mt-wordmark-transition) var(--mt-ease),
+    clip-path var(--mt-wordmark-transition) var(--mt-ease);
+  transition-delay: calc(var(--mt-grapheme-i, 0) * var(--mt-wordmark-stagger));
+}
+
+.mt-wordmark-frame.is-active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.mt-wordmark-frame.is-active .mt-wordmark-cluster {
+  transform: translateY(0);
+  opacity: 1;
+  clip-path: inset(-0.15em 0 -0.15em 0);
+}
+
+.mt-wordmark-frame.is-exiting {
+  visibility: visible;
+  opacity: 1;
+}
+
+.mt-wordmark-frame.is-exiting .mt-wordmark-cluster {
+  transform: translateY(-0.35em);
+  opacity: 0;
+  clip-path: inset(100% 0 0 0);
+}
+
+.mt-wordmark-caption {
+  font-family: var(--mt-font-body);
+  font-size: var(--mt-text-xs);
+  font-weight: var(--mt-weight-regular);
+  color: var(--mt-ink-muted);
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+@media (max-width: 21.25rem) {
+  .mt-wordmark-caption {
+    display: none;
+  }
+}
+
+.mt-wordmark-pause {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--mt-touch-min);
+  height: var(--mt-touch-min);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--mt-ink-muted);
+  border-radius: var(--mt-radius-control);
+  transition: color var(--mt-dur-fast) var(--mt-ease), border-color var(--mt-dur-fast) var(--mt-ease);
+}
+
+.mt-wordmark-pause:hover,
+.mt-wordmark-pause:focus-visible {
+  color: var(--mt-ink);
+  border-color: var(--mt-rule-strong);
+}
+
+/* Reduced motion: calm static lockup ("Matrika · मातृका"), zero cycling */
+@media (prefers-reduced-motion: reduce) {
+  .mt-wordmark-stack {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--mt-space-2);
+  }
+
+  .mt-wordmark-frame {
+    display: none;
+  }
+
+  .mt-wordmark-frame[data-script="Latn"],
+  .mt-wordmark-frame[data-script="Deva"] {
+    display: inline-flex;
+    visibility: visible;
+    opacity: 1;
+    position: static;
+  }
+
+  .mt-wordmark-frame[data-script="Deva"] .mt-wordmark-caption,
+  .mt-wordmark-pause {
+    display: none;
+  }
+
+  .mt-wordmark-cluster {
+    transform: none;
+    opacity: 1;
+    clip-path: none;
+    transition: none;
+  }
+}

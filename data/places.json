@@ -1,0 +1,12 @@
+[
+  { "id": "tulu", "languageId": "tulu", "name": "Tulu", "regionLabel": "Dakshina Kannada & Kasaragod (approx.)", "lat": 12.91, "lng": 74.85, "approximate": true },
+  { "id": "gondi", "languageId": "gondi", "name": "Gondi", "regionLabel": "Central Deccan uplands (approx.)", "lat": 21.15, "lng": 79.09, "approximate": true },
+  { "id": "santali", "languageId": "santali", "name": "Santali", "regionLabel": "Chota Nagpur plateau (approx.)", "lat": 22.80, "lng": 86.20, "approximate": true },
+  { "id": "sora", "languageId": "sora", "name": "Sora", "regionLabel": "Gajapati & Rayagada, Odisha (approx.)", "lat": 19.17, "lng": 84.18, "approximate": true },
+  { "id": "kui", "languageId": "kui", "name": "Kui", "regionLabel": "Kandhamal uplands, Odisha (approx.)", "lat": 20.47, "lng": 84.23, "approximate": true },
+  { "id": "toda", "languageId": "toda", "name": "Toda", "regionLabel": "Upper Nilgiris, Tamil Nadu (approx.)", "lat": 11.41, "lng": 76.69, "approximate": true },
+  { "id": "mishing", "languageId": "mishing", "name": "Mishing", "regionLabel": "Upper Brahmaputra valley, Assam (approx.)", "lat": 27.48, "lng": 94.91, "approximate": true },
+  { "id": "bhili", "languageId": "bhili", "name": "Bhili", "regionLabel": "Vindhya-Satpura belt (approx.)", "lat": 22.77, "lng": 74.59, "approximate": true },
+  { "id": "lepcha", "languageId": "lepcha", "name": "Lepcha", "regionLabel": "North Sikkim & Kalimpong (approx.)", "lat": 27.51, "lng": 88.53, "approximate": true },
+  { "id": "koda", "languageId": "koda", "name": "Koda (Kora)", "regionLabel": "Bankura / Purulia belt, West Bengal (approx.)", "lat": 23.23, "lng": 87.07, "approximate": true }
+]

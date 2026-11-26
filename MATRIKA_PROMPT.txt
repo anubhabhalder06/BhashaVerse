@@ -1,0 +1,628 @@
+MATRIKA — MASTER BUILD PROMPT FOR ANTIGRAVITY
+Review 1 prototype · plain text · version 1.0
+
+Save this file in the repository root as MATRIKA_PROMPT.txt, then instruct the agent: "Read MATRIKA_PROMPT.txt completely and execute it phase by phase."
+
+
+SECTION 0. HOW TO READ THIS PROMPT
+
+Read the whole prompt before touching any file.
+
+Authority order when instructions conflict:
+1. Section 4 (identity) and Section 17 (do and don't).
+2. The existing live design described in Section 5. It is the canonical visual identity.
+3. Sections 6 to 16.
+
+If something is ambiguous, choose the most conservative option: the one that changes less of the existing design, makes fewer factual claims, and better protects rights and consent. Record every such choice in the final report under DECISIONS MADE. Do not stop to ask questions unless Section 3 says so.
+
+
+SECTION 1. ROLE AND MISSION
+
+You are a senior front-end engineer and design-systems engineer working inside this repository.
+
+The repository is a live GitHub Pages prototype of a website that is being renamed from "BhashaVerse" to "Matrika". Matrika is a digital archive and cultural discovery platform for India's underrepresented languages: their histories, literature, oral traditions, photographs, audio, and community knowledge. It is a university EPICS project, and this build is for Review 1. Later reviews will add a real backend, so this prototype must show the finished experience and be structured so a backend can be swapped in without rewriting pages.
+
+Mission:
+- Evolve the existing live site into a polished, navigable, accessible Review 1 prototype.
+- Keep the existing visual identity (Section 5). Do not redesign it.
+- Rename the project everywhere to Matrika and add the auto-cycling multi-script header wordmark (Sections 4 and 6).
+- Build it with clean object-oriented architecture and strong abstractions (Section 7).
+- Add a scripted, no-backend chatbot assistant prototype (Section 12).
+
+
+SECTION 2. HARD CONSTRAINTS
+
+- Static site hosted on GitHub Pages. No server code. No build step. No frameworks. No bundler. Vanilla HTML, CSS and JavaScript (ES modules, classes).
+- Everything must work when served from a sub-path such as /repo-name/. Use relative paths only. Never write a path starting with "/" for site assets.
+- Page-specific pages use query-string routing (for example language-profile.html?id=lepcha). Do not depend on server rewrites.
+- All data lives in JSON files under data/. Contributions, the admin mockup, bookmarks, theme and chatbot state are front-end demos stored in the browser only (localStorage, wrapped in try/catch, with an in-memory fallback).
+- Free and open tools only. External libraries allowed: Leaflet (pinned version, loaded from a CDN or self-hosted) and Google Fonts. Nothing else unless Section 15 allows it.
+- No API keys, secrets, analytics, tracking, or third-party scripts that collect user data.
+- Everything must be host-agnostic so the repository can move to Cloudflare Pages or any static host with no code change.
+- ES modules and fetch need an HTTP server during development. Add a README note: run python -m http.server or use VS Code Live Server. Opening files with file:// will not work.
+
+
+SECTION 3. WORKFLOW AND PHASES
+
+Before writing code, produce an implementation plan and a task list. At the end, produce a walkthrough with screenshots at 360x800, 768x1024 and 1280x800, plus evidence of the keyboard-only pass.
+
+PHASE 0 — AUDIT (no functional changes)
+- Inventory every page and file in the repository. For each page, record: complete, partial, or placeholder.
+- Read css/ and the HTML heads. Extract the exact design tokens in use (colours, fonts, sizes, spacing, radii, borders).
+- Compare the audit with Section 5 and list every gap or defect found.
+- Output: an audit report and the implementation plan. Then continue.
+
+PHASE 1 — FOUNDATION
+- css/tokens.css built from the extracted values. The rendered result must not change.
+- Global rename (Section 4). BRAND constant.
+- Core classes, data layer, JSON schemas, test harness (Section 7).
+- Shared components: header with wordmark rotator, footer, navigation, search box, breadcrumbs, badges, states.
+
+PHASE 2 — PRIORITY 1 CONTENT
+- Homepage, navigation, language directory, language profile template, archive categories, sample records, responsive layout.
+- At least 8 to 10 language cards and at least 3 detailed profiles.
+
+PHASE 3 — PRIORITY 2
+- Global search page, library list and detail pages, photo and video gallery, audio archive with player, contribution form, About and policy pages.
+
+PHASE 4 — PRIORITY 3
+- Language map, filters polish, featured collections, history, culture and stories pages, timeline, bookmarks, admin mockup.
+
+PHASE 5 — CHATBOT
+- Scripted assistant prototype (Section 12).
+
+PHASE 6 — QUALITY
+- Accessibility, performance, link checks, tests, final report (Sections 14 to 18).
+
+Do not build Priority 4 items (advanced language comparison, multilingual interface, richer search infrastructure, community accounts, analytics, integrations). Keep the architecture ready for them, but do not build them.
+
+
+SECTION 4. IDENTITY AND GLOBAL RENAME
+
+4.1 The name (authoritative)
+- Official name: Matrika (Latin script) and मातृका (Devanagari script).
+- The old working name "BhashaVerse" is retired. It must not appear anywhere in the shipped site, code, data, docs or comments.
+- Pronunciation: MAA-tri-kaa.
+- Meaning, for the About page (the team approves the final wording): from Sanskrit mātṛkā, "little mother". In the Sanskrit grammatical tradition, the letters of the alphabet are the "mothers" of all speech. It also reads as "mother tongue".
+- Descriptor (proposed, the team confirms): Matrika — Digital Archive of India's Underrepresented Languages.
+- Chatbot name: Matrika Assistant.
+
+4.2 Terminology
+Use the editorial rules of the requirements document: community-preferred language and community names; "underrepresented" or "marginalised" and never "backward". Do not label languages "tribal" in site copy. Not every featured language is a tribal language, so everything that iterates over languages uses the language registry (data/languages.json), never a "tribal" flag.
+
+4.3 Single source of truth
+Create js/config/brand.js:
+
+  export const BRAND = Object.freeze({
+    name: "Matrika",
+    nativeName: "मातृका",
+    nativeLang: "sa-Deva",
+    descriptor: "Digital Archive of India's Underrepresented Languages",
+    pronunciation: "MAA-tri-kaa",
+  });
+
+Every JavaScript-rendered string containing the name imports it from BRAND. Static HTML (title, meta tags, no-script fallbacks) is the only place literals are allowed, and the checks in 4.5 cover them.
+
+4.4 What to replace
+Old (any casing or spacing): BhashaVerse, Bhashaverse, bhashaverse, BHASHAVERSE, Bhasha Verse, bhasha-verse, bhasha_verse.
+New: Matrika in visible text; matrika in identifiers, file names and storage keys.
+Old prefixes bv-, bv_, --bv- become mt-, mt_, --mt-.
+Storage keys bhashaverse:* become matrika:*.
+
+Search every one of these places: every .html file (title, meta description, og:*, twitter:*, application-name, JSON-LD, header, footer, alt text, aria-labels, comments), css/, js/, data/*.json, README.md (title, badges, clone and deploy URLs), manifest, sitemap and robots files, chatbot strings, the admin mockup, and the privacy, terms and copyright pages (use "Matrika" as the service name).
+
+Title pattern for pages: "<Page name> · Matrika". Home page: "Matrika — Digital Archive of India's Underrepresented Languages".
+
+Do not blindly replace the standalone word "Bhasha" (language) inside content. Do not rename the workspace root folder or the git repository yourself. In the final report, tell the owner to rename both to "matrika" by hand and to update the GitHub Pages URL references afterwards.
+
+4.5 Verification (run these and paste the output in the report)
+  grep -rniE "bhasha[ _-]?verse|bhashaverse" . --exclude-dir=.git --exclude-dir=node_modules --exclude=MATRIKA_PROMPT.txt
+  grep -rnE "(^|[^a-zA-Z])bv[-_]" css js *.html
+Both must return nothing. Then open every page and confirm the header, footer, page title and visible text show "Matrika".
+
+
+SECTION 5. DESIGN LANGUAGE (EXTRACTED FROM THE LIVE SITE)
+
+The live site is the design. These notes describe what is visible in screenshots of the live mobile site (the home page and the gallery). Treat them as observations to verify against the real CSS and HTML, which win over this description wherever they differ. Never approximate a value from this description; read it from the code.
+
+5.1 Overall character
+Calm, editorial, archival: a modern museum or research-archive feel, as the requirements ask. Monochrome, paper-like ground, ink-black text, generous white space, left-aligned single column on mobile. No decorative colour.
+
+5.2 Colour (observed)
+- Warm off-white page ground ("paper").
+- Near-black text ("ink").
+- A mid grey for secondary text: the intro sentence, captions, attribution lines.
+- Primary button: solid black rectangle with white text.
+- Hairline 1px rules and 1px ink outlines.
+- Photographs in black and white. No accent colour is visible.
+
+5.3 Typography (observed)
+- Two families: a refined serif for display (wordmark, hero word stack, pull quote, headings) and a clean sans for body, UI, buttons and captions. Identify the exact families in the existing code and keep them.
+- Hero word stack: five single-word lines, "Listen / Speak / Remember / Teach / Return", very large serif, with tone progressing from lighter grey (Listen) to full ink (Return).
+- Three short paragraphs follow, each starting with a bold lead word: "Discover", "Preserve", "Contribute". This is the requirements document's three main ideas.
+- Pull quote in large bold serif, followed by a grey attribution line in the pattern "Role · Language · Place" (middle dot separator).
+- Captions follow the pattern "Title · Creator (Licence)".
+
+5.4 Controls (observed)
+- Search field, "Go" and "Menu": rectangular, sharp corners, 1px ink outline.
+- Primary call to action: solid black rectangle ("Explore Languages").
+- Secondary action: plain text with an arrow ("Browse the archive →").
+- Tertiary action: underlined text ("Show transcript").
+- Audio control: outlined circular play icon with a bold label ("Hear it · 0:12").
+- Sharp-cornered interface chrome against rounded photographs is deliberate. Keep it.
+
+5.5 Imagery (observed)
+- Monochrome photographs with large rounded corners and a subtle halftone dot texture overlay.
+- Each photograph is paired with a vertical native-script label beside the image (rotated so the text reads top to bottom). One shows a Devanagari word beside a Lepcha loom photograph; another shows a Tamil-script word beside a Nilgiri photograph.
+- A caption sits beneath each photograph with title, creator and licence, for example "(CC BY-SA 4.0)" or "(Public domain)".
+- Originals stay unmodified in assets/. The black-and-white and halftone treatments are applied in CSS, so licences and originals remain intact.
+
+5.6 Layout and rhythm (observed)
+- Header: wordmark top-left, then one row with [search field][Go][Menu], then a hairline divider.
+- Home page order: grey intro sentence, large pull quote with attribution, audio control and transcript link, primary call to action, secondary link, hero photograph, then the five-word stack, the three Discover/Preserve/Contribute paragraphs, then the photo gallery.
+- Generous vertical spacing between blocks. Single column on mobile with side gutters.
+
+5.7 Desktop (not shown in the screenshots; derive it from the same language)
+- Mobile first. Breakpoints: 480, 768, 1024, 1280 (confirm against the existing CSS).
+- A 12-column grid with a maximum content width of about 1200px.
+- Hero as two columns: text on the left, photograph with its vertical native-script label on the right.
+- Navigation becomes an inline horizontal bar with the search field at the right and a clear active-page indicator (not colour alone).
+- Galleries: two or three equal-gutter columns. Vertical native-script labels stay beside each image.
+- Language card: 1px ink outline rectangle, serif language name, native-script name, "Region · Script" line, resource counts, an arrow link to the profile.
+- Sharp corners for interface chrome; rounded corners only on photographs.
+
+5.8 Motion
+No motion is observed. The requirements allow subtle animation only where it does not distract or slow the experience. The wordmark rotator (Section 6) is the only continuous animation. Everything else is limited to hover and focus transitions of 200ms or less. All motion respects prefers-reduced-motion.
+
+5.9 Preserve
+Preserve everything above. Do not introduce new colours, gradients, shadows, glassmorphism, emoji, rounded buttons, or icon libraries. Icons, where needed, are small inline SVGs in the same stroke style as the existing play icon.
+
+5.10 Formalise as tokens
+Create css/tokens.css holding the values read from the existing code, using these names:
+- Colour: --mt-paper, --mt-ink, --mt-ink-muted, --mt-rule.
+- Type: --mt-font-display, --mt-font-body, a fluid size scale built with clamp(), line-height and weight tokens.
+- Space: a spacing scale on a 4px base (--mt-space-1 to --mt-space-9).
+- Shape: --mt-radius-media (the photograph radius), --mt-radius-control: 0, --mt-border: 1px solid var(--mt-ink).
+- Motion: --mt-ease, --mt-dur-fast, --mt-dur-base, --mt-dur-slow.
+All component CSS refers to tokens by name. No literal colours, sizes or durations outside tokens.css.
+
+Dark theme (optional in the requirements): implement as a token swap under [data-theme="dark"], following prefers-color-scheme, with a toggle persisted in localStorage key matrika:theme. Photographs stay black and white. Ship it only if every text and control pair passes the contrast rules in Section 14.
+
+5.11 Known issues to verify and fix
+Verify each of these in the code and fix it if confirmed:
+1. The search placeholder is cut off on narrow screens ("Search recor…"). Shorten the placeholder to "Search records" and give the field enough width, or let the row wrap. Give the field a real label (visually hidden if needed) and use type="search".
+2. The home hero shows a pull quote attributed to "Community speaker · Mishing · Assam" with a "Hear it · 0:12" audio control and a transcript, and nothing marks it as demonstration content. Unless the team confirms it is a verified, permission-cleared record, add a visible "Demo content" badge to the quote, the audio and the transcript, and mark the data record isDemo: true (see Section 13).
+3. The vertical native-script labels beside photographs: record which language and script each label is in and where the term came from. A label should use the community's own language and script where known, and must not be presented as verified when it is not. Give each label a lang attribute. Decide accessibility per Section 14 (the information must also appear in the text caption).
+4. The lightest step of the five-word hero stack must still meet the contrast requirement for large text (3:1 minimum). Darken the ramp if it does not.
+5. Touch targets in the header (search field, Go, Menu) must be at least 44px high.
+
+
+SECTION 6. HEADER WORDMARK ROTATOR (THE LOGO THAT SPEAKS EVERY SCRIPT)
+
+6.1 Behaviour
+The header logo is a text wordmark set in the site's display serif (--mt-font-display), replacing the old static "BhashaVerse" wordmark in the same position. It cycles automatically:
+
+  Matrika (Latin) → मातृका (Devanagari) → the name rendered in the native script of each language in the registry → back to Matrika
+
+- Frames are per SCRIPT (ISO 15924 code), not per language. Group registry languages by their primary script. Languages that share a script share one frame.
+- Each frame carries a small caption naming the language or languages that use that script (maximum two names, then "+N"). Caption text comes from the registry (name and nativeName fields), never hand-written. The caption sits inline to the right of the wordmark on the same baseline, in small grey sans (colour --mt-ink-muted, contrast 4.5:1 or better), and is hidden below 340px width.
+- Do not design a logo icon. The rotating wordmark is the logo. Use a temporary SVG monogram favicon and flag it in the report.
+
+6.2 Data: data/brand/wordmarks.json
+Create exactly this seed. status is one of: official, demo-unverified, pending.
+
+  {
+    "version": 1,
+    "baseText": "Matrika",
+    "anchors": ["Latn", "Deva"],
+    "scripts": {
+      "Latn": { "text": "Matrika", "lang": "en-Latn",  "font": "display-latin",          "status": "official" },
+      "Deva": { "text": "मातृका",    "lang": "sa-Deva",  "font": "Noto Serif Devanagari", "status": "official" },
+      "Beng": { "text": "মাতৃকা",    "lang": "bn-Beng",  "font": "Noto Serif Bengali",    "status": "demo-unverified" },
+      "Knda": { "text": "ಮಾತೃಕಾ",   "lang": "kn-Knda",  "font": "Noto Serif Kannada",    "status": "demo-unverified" },
+      "Orya": { "text": "ମାତୃକା",    "lang": "or-Orya",  "font": "Noto Serif Oriya",      "status": "demo-unverified" },
+      "Olck": { "text": "ᱢᱟᱛᱨᱤᱠᱟ",   "lang": "sat-Olck", "font": "Noto Sans Ol Chiki",    "status": "demo-unverified" },
+      "Mtei": { "text": null, "lang": "mni-Mtei", "font": "Noto Sans Meetei Mayek",  "status": "pending" },
+      "Wara": { "text": null, "lang": "hoc-Wara", "font": "Noto Sans Warang Citi",   "status": "pending" },
+      "Gong": { "text": null, "lang": "gon-Gong", "font": "Noto Sans Gunjala Gondi", "status": "pending" },
+      "Gonm": { "text": null, "lang": "gon-Gonm", "font": "Noto Sans Masaram Gondi", "status": "pending" },
+      "Lepc": { "text": null, "lang": "lep-Lepc", "font": "Noto Sans Lepcha",        "status": "pending" },
+      "Limb": { "text": null, "lang": "lif-Limb", "font": "Noto Sans Limbu",         "status": "pending" },
+      "Toto": { "text": null, "lang": "txo-Toto", "font": "Noto Serif Toto",         "status": "pending" }
+    }
+  }
+
+Integrity rules (critical):
+- Never invent, translate, "correct" or complete a rendering. Frames with "text": null are skipped silently until the team supplies a verified string.
+- The demo-unverified rows are phonetic transliterations of a Sanskrit-origin name and must be reviewed by native readers before public release. The About page carries a visible note: "Wordmark renderings marked as demonstration are transliterations pending review by native readers."
+- Tulu is written in the Kannada script here: map Tulu to the Knda frame. Do not add Tulu-Tigalari unless a licensed web font is supplied (none was found in the Google Fonts list when this prompt was written).
+- Adding a script means editing this JSON and the language registry only. No code change may be needed.
+
+6.3 Fonts
+Build a FontGate class. Before a frame enters the rotation it awaits document.fonts.load('1em "<font>"', <text>) and confirms with document.fonts.check. If loading fails or times out (3 seconds), skip the frame. Never show empty boxes (tofu).
+- Load through a Google Fonts link with display=swap. Preload only the Latin display face and Noto Serif Devanagari. Lazy-load the rest on requestIdleCallback.
+- Confirmed available on Google Fonts: Noto Serif Devanagari, Bengali, Kannada, Oriya and Toto; Noto Sans Ol Chiki, Meetei Mayek, Warang Citi, Lepcha, Limbu, Gunjala Gondi and Masaram Gondi.
+- Every frame element carries its own lang attribute (the "lang" field above).
+
+6.4 Motion
+Defaults stand until the owner changes them. Every duration and easing is a CSS custom property (--mt-wordmark-hold, --mt-wordmark-hold-anchor, --mt-wordmark-transition) mapped to the motion tokens.
+- Timing: anchor frames (Latin, Devanagari) hold 3400ms; other frames hold 2400ms; transition 700ms.
+- Transition ("grapheme rise"): the outgoing frame lifts 0.35em and fades behind a clip mask; the incoming frame rises from 0.35em below. Stagger 35ms per grapheme cluster.
+- Never split Indic text by code unit or code point. Segment with Intl.Segmenter (granularity "grapheme") so conjuncts and vowel signs stay intact. If Intl.Segmenter is unavailable, animate the whole word as one unit.
+- Layout stability: stack all frames in one CSS grid cell (grid-area: 1 / 1). The container then takes the width and height of the widest and tallest frame and nothing shifts. Inactive frames are visibility: hidden and aria-hidden="true".
+- Performance: animate only transform, opacity and clip-path. No blur, no layout properties, no per-frame style writes from JavaScript (use class toggles with CSS transitions, or the Web Animations API). No animation libraries.
+- Typography: letter-spacing 0 on every non-Latin frame (non-zero tracking breaks Indic shaping). Tune line-height per script through --mt-wordmark-lh-<script>.
+- Feel: calm, precise, unhurried, like letters being woven in. No glitch, typewriter, bounce or neon effects, consistent with the museum-archive character.
+
+6.5 State machine and controls
+States: idle, running, paused, reduced.
+- Start after the two anchor fonts are ready.
+- Pause automatically on: pointer hover or keyboard focus within the logo; document.hidden; the header scrolled out of view (IntersectionObserver); an explicit user pause.
+- prefers-reduced-motion: reduce → show a static lockup ("Matrika" with "मातृका" beside it). No cycling, no translation. React live to changes of the media query.
+- The loop is endless, so a pause/play control is mandatory (WCAG 2.2.2): a real button with aria-pressed and aria-label ("Pause wordmark animation" / "Play wordmark animation"), a 44x44px hit area, visually quiet but fully visible on keyboard focus. Persist the choice in localStorage key matrika:wordmark-paused, wrapped in try/catch.
+
+6.6 Accessibility and fallbacks
+- Brand link: <a href="index.html" aria-label="Matrika, home">. Screen readers must always hear "Matrika", never each script. Rotating frames are aria-hidden="true". No aria-live.
+- document.title never changes with the rotation.
+- The print stylesheet shows the static "Matrika" wordmark only.
+- No-script fallback: the matrika-header element contains <a class="mt-brand" href="index.html">Matrika</a>, which the component upgrades.
+
+6.7 Classes
+BrandConfig (BRAND), WordmarkFrame (value object), WordmarkRepository, FontGate, MotionPreferences, WordmarkView, WordmarkRotator, MatrikaHeader. Responsibilities are in Section 7.4.
+
+
+SECTION 7. ARCHITECTURE (OOP AND ABSTRACTIONS)
+
+7.1 Principles
+- Layered architecture: config → models → data (repositories) → services → components → pages. A layer only depends on layers to its left.
+- SOLID. Composition over inheritance. One responsibility per class. Dependencies are passed through constructors (dependency injection) so every class can be tested alone.
+- No globals. No hidden singletons. A small Container class wires dependencies once, in js/main.js.
+- ES modules with relative imports. JSDoc types on all public methods, with "// @ts-check" at the top of each file. Files stay under about 250 lines.
+- Models are immutable value objects (Object.freeze).
+- Never put data into innerHTML. Build DOM with a small safe helper (el(), text()) or template elements, and set text through textContent.
+- Components are custom elements in the light DOM (no Shadow DOM), so global tokens, forms and focus styles work without extra plumbing.
+- Every async operation exposes loading, empty, success and error states, and every component renders all four.
+
+7.2 Directory layout (extend what already exists; keep existing page file names)
+
+  index.html, languages.html, language-profile.html, library.html, library-item.html,
+  audio.html, gallery.html, map.html, stories.html, culture.html, history.html,
+  contribute.html, admin.html, search.html, about.html, contact.html,
+  privacy.html, terms.html, copyright.html, guidelines.html, 404.html, README.md,
+  MATRIKA_PROMPT.txt, .nojekyll, robots.txt, sitemap.xml
+  css/
+    tokens.css, base.css, layout.css
+    components/ (header.css, footer.css, card.css, button.css, form.css, badge.css, figure.css, audio.css, map.css, chat.css, wordmark.css)
+    pages/ (home.css, languages.css, profile.css, library.css, ...)
+    print.css
+  js/
+    main.js
+    config/ (brand.js, routes.js, features.js)
+    core/ (Container.js, EventBus.js, Component.js, Page.js, Url.js)
+    models/ (Language.js, Resource.js, MediaItem.js, AudioItem.js, Story.js, Place.js, Contribution.js, WordmarkFrame.js, enums.js)
+    data/ (DataSource.js, JsonDataSource.js, LanguageRepository.js, ResourceRepository.js, MediaRepository.js, StoryRepository.js, PlaceRepository.js, ContributionStore.js, LocalContributionStore.js, WordmarkRepository.js)
+    services/ (SearchService.js, FilterService.js, RightsPolicy.js, MapService.js, AudioService.js, ThemeService.js, MotionPreferences.js, FontGate.js, BookmarkService.js)
+    chat/ (ChatEngine.js, ScriptedChatEngine.js, IntentMatcher.js, KnowledgeBase.js, ChatSession.js)
+    components/ (MatrikaHeader.js, MatrikaFooter.js, WordmarkRotator.js, WordmarkView.js, SearchBox.js, Breadcrumbs.js, LanguageCard.js, ResourceCard.js, MediaFigure.js, RightsBadge.js, DemoBadge.js, StatusChip.js, AudioPlayer.js, FilterBar.js, MapView.js, ContributionForm.js, ChatWidget.js, StateView.js)
+    pages/ (HomePage.js, LanguagesPage.js, LanguageProfilePage.js, LibraryPage.js, LibraryItemPage.js, AudioPage.js, GalleryPage.js, MapPage.js, StoriesPage.js, CulturePage.js, HistoryPage.js, ContributePage.js, AdminPage.js, SearchPage.js, AboutPage.js, StaticPage.js)
+    utils/ (dom.js, format.js, a11y.js, storage.js)
+  data/
+    languages.json, resources.json, media.json, audio.json, stories.json, places.json, culture.json, history.json, taxonomy.json, rights.json
+    brand/wordmarks.json
+    chat/knowledge.json
+  assets/ (img/, audio/, fonts/ only if self-hosting, icons/)
+  tests/ (node --test files for pure logic)
+  package.json (only for "type": "module" and the "test" script; no dependencies)
+
+Each HTML page loads one module script (js/main.js). The <body> carries data-page="languages" (and so on). main.js reads it and instantiates the matching Page subclass from a registry. No inline scripts.
+
+7.3 Key abstractions
+- DataSource is an interface with load(name). JsonDataSource implements it with fetch, relative URLs and an in-memory cache. A later Supabase source implements the same interface with no page changes. This is the swap point for the backend.
+- Repositories (LanguageRepository, ResourceRepository, ...) expose queries such as getById, list, findByLanguage and return model objects, never raw JSON.
+- ContributionStore is an interface; LocalContributionStore implements it over localStorage. The admin mockup reads from the same store.
+- ChatEngine is an interface (reply(message, context) returns a response object). ScriptedChatEngine is today's implementation; a real model-backed engine can replace it later.
+- RightsPolicy is a pure class: given a record it returns { canPreview, canDownload, label, explanation }. Every component that shows a file or download asks RightsPolicy, never inspects rights fields itself.
+
+7.4 Responsibilities of the wordmark classes
+- BrandConfig: frozen brand constants.
+- WordmarkFrame: value object (script, text, lang, font, captionLanguages, status).
+- WordmarkRepository: loads wordmarks.json and the language registry; getFrames() groups by script, anchors first, then registry order, skipping null text.
+- FontGate: ensure(frame) returns Promise<boolean>.
+- MotionPreferences: reduced-motion query plus stored pause; emits change events.
+- WordmarkView: builds and updates the DOM; the only code that touches the wordmark markup.
+- WordmarkRotator: timer and state machine: start(), pause(), resume(), destroy().
+- MatrikaHeader: custom element composing brand, navigation, search and theme toggle. It is used on every page so the header exists in one place.
+Inject repository, fontGate, motionPrefs and a scheduler through constructors.
+
+7.5 Tests
+Use Node's built-in test runner (node --test) with no dependencies. Cover at least: SearchService (ranking, grouping, Unicode handling), RightsPolicy (every status), FilterService, IntentMatcher, WordmarkRepository (grouping, skipping null text), LocalContributionStore. Pure logic classes must not touch the DOM so they can run in Node.
+
+
+SECTION 8. DATA MODEL AND SAMPLE DATA
+
+8.1 Record envelope (every archive record uses this shape; fields follow the metadata groups of the requirements)
+
+  id                 stable slug, for example "res-lepcha-loom-01"
+  type               book, dictionary, grammar, folk-literature, childrens-story, paper, manuscript, community-publication, teaching-resource, photo, video, audio, story
+  title, altTitles[], summary
+  isDemo             true when the content is demonstration content
+  languages[]        language ids; communityName; variety (null unless confirmed); scripts[] (ISO 15924)
+  place              { region, precision: "state" or "district", approximate: true }
+  time               { date, period, range }
+  creators[]         { name, role: author, speaker, photographer, contributor, recorder, interviewer }
+  source             { institution, url, citation }
+  description        { caption, transcript (null if none), translation (null if none), keywords[], subject, notes }
+  rights             { status, owner, licence, attribution, consent, access }
+  quality            { verification, reviewer, references[], added, updated }
+  technical          { format, sizeBytes, durationSec, dimensions, metadataLang, altText }
+
+8.2 Enumerations
+- rights.status: public-domain, open-licence, permission-granted, restricted, metadata-only.
+- rights.consent: documented, not-applicable, pending.
+- rights.access: open, view-only, on-request, none.
+- quality.verification: verified, oral-account, interpretation, unverified, demo.
+The last list implements the editorial rule "distinguish verified facts, oral accounts, interpretation and unverified submissions". Render it with a StatusChip whose meaning is carried by text, not by colour alone.
+
+8.3 Language profile (data/languages.json) sections, as the requirements list them
+- Names: language name, alternate names and spellings, community-preferred terminology, pronunciation where available.
+- scripts[] with a primary script (this drives the wordmark rotator).
+- Overview and community context, written respectfully and marked as pending review by speakers.
+- Geographic distribution at state or district level, with a visible note that boundaries and speaker locations are approximate.
+- Family and classification, with source and date verified.
+- Writing system and examples, where applicable.
+- History and timeline with citations or source notes.
+- Vocabulary and phrases with spelling, meaning and usage context. Audio only where permission exists.
+- Literature, books, dictionaries, educational resources (links to library records).
+- Related photographs, video, audio, stories (links to records).
+- References, contributors, review status, date updated, and a visible "Report a correction" link.
+Every sourced fact carries { source, url, verifiedOn }. A fact that cannot be sourced is left out. Never invent speaker counts, dates, or history.
+
+8.4 Sample content for Review 1 (minimums from the requirements)
+- 8 to 10 languages (directory cards); at least 3 with complete profiles.
+- 8 to 10 library resources with detail pages.
+- A small curated gallery (about 8 to 12 items) with captions, credits and categories.
+- A few audio records (3 to 5).
+- About 4 community stories and a short culture and history set.
+- A basic set of map places, one per language region.
+Keep everything already on the live site (for example the Lepcha, Mishing and Nilgiri material) and extend from it. To reach 8 to 10 languages, proposed candidates (the team confirms) chosen partly for script variety so the wordmark rotator has real range: Santali (Ol Chiki), Ho (Warang Citi), Gondi, Toto, Khasi, Tulu, Kodava. Prefer languages whose basic facts can be sourced from Glottolog, ISO 639-3, the Census of India, UNESCO's World Atlas of Languages or the Central Institute of Indian Languages.
+
+8.5 Sourcing rules for sample content
+- Every record not sourced from a verified, permission-cleared item has isDemo: true and shows a visible "Demo content" badge (DemoBadge).
+- Photographs and audio come only from items you can verify as public domain or openly licensed (for example on Wikimedia Commons), with the licence checked per file. Store them locally under assets/ (never hotlink), keep the credit line, and put the source URL in the record.
+- If no cleared photograph exists for a record, use a clearly labelled typographic or abstract placeholder in the site's monochrome style. Do not invent photographs.
+- Audio: never synthesise speech or pronunciation in these languages (no text-to-speech). Use a cleared real recording, or render the player in labelled mock mode ("Mock player — no recording") on a silent track.
+- Never fabricate transcripts or translations. Where none exists, show "Transcript not yet available".
+- All text you write for the sample data is original. Do not copy articles or encyclopaedia text.
+
+8.6 Location precision
+Place data is state or district level only. Never include precise coordinates for villages, ceremonial sites, or anything sensitive. Always display "approximate" with the map and profile geography.
+
+
+SECTION 9. PAGES AND FEATURES
+
+9.1 Global elements on every page (all provided by shared components)
+- Header: Matrika wordmark linking to Home, responsive navigation with a clear active-page indicator that does not rely on colour alone, and a visible global search.
+- Breadcrumbs on deeper pages.
+- Footer: About, Contact, Contribution guidelines, Privacy, Terms, Copyright, and project links.
+- Skip-to-content link as the first focusable element.
+- Descriptive page title, meta description, canonical-style clean links.
+
+9.2 Pages
+Home (index.html) — Priority 1
+  Keep the live layout (Section 5.6) and extend in the requirements' order after the hero: short introduction, featured languages (cards), explore by region (map or region selector), featured heritage, digital library preview, voices and stories, latest additions, contribute call to action, footer. Hero buttons: "Explore Languages" and "Browse the archive".
+
+Explore Languages (languages.html) — Priority 1
+  Searchable directory. Search by language name, alternate spelling, script, region or community name. Filters for state or region, language family, script, resource type, content availability. Show a filter only where the data behind it is verified. Result count, clear-all, filter state in the URL. Cards link to language-profile.html?id=<id>.
+
+Language profile (language-profile.html) — Priority 1
+  One template driven by ?id=. Sections as in 8.3. Unknown id shows a helpful not-found state with a link back to the directory.
+
+Digital Library (library.html, library-item.html) — Priority 2
+  Categories and filters by language, author, title, subject, format, year, type. Detail page: title, creator, language, description, publication details, source, format, rights, citation. In-browser preview for supported files and a download link only when RightsPolicy allows. Labels for public domain, openly licensed, permission granted, restricted, metadata-only. Never host copyrighted books without authorisation; use metadata-only records or openly licensed items.
+
+Photo and Video Archive (gallery.html) — Priority 2
+  Keep the live gallery figure pattern (rounded monochrome photograph, vertical native-script label, credit caption). Collections: people and portraits, village life, festivals, clothing, architecture, food, art, crafts, historical photographs. Every item shows title, caption, date or period, location at appropriate precision, language or community, creator, source, rights and consent status. Alt text on every image; captions or transcripts for video. Lazy-load below the first screen. Do not include identifiable children or identifiable people without documented consent. Historical colonial-era ethnographic photographs (such as the 1871 Nilgiri image) get a short context note and the community's preferred names where known.
+
+Audio Archive (audio.html) — Priority 2
+  Collections: pronunciation, everyday speech, interviews, oral histories, songs, stories, proverbs. Player with play/pause, progress, duration and volume. Metadata: speaker or approved anonymity, language, recording date, place, recorder, transcript, translation, consent. Never autoplay. Respect restricted and sacred material by not including it.
+
+Language Map (map.html) — Priority 3
+  Leaflet (pin an exact version) with the OpenStreetMap tile layer and its required attribution. Load Leaflet lazily on this page and on the home page region selector only when needed. One marker per language region at state or district level, each opening a popup that links to the language profile. Provide an accessible equivalent: a list or chip selector of the same regions that works without the map. Do not import or draw any national or state boundary geometry yourself. Add a note under the map: "For orientation only. Boundaries follow the basemap provider and are not an official depiction. Locations are approximate." In the final report, tell the team to confirm the basemap's border depiction is acceptable for their institution before public launch. Respect tile usage policy: low traffic prototype only; mention switching provider for production.
+
+Culture and Traditions, History and Heritage, Community Stories — Priority 3
+  Category-driven listing pages with the shared card and figure components. History includes a simple timeline component. Stories are first-person accounts marked demonstration unless real and permitted. Distinguish verified facts, oral accounts, interpretation and unverified material with StatusChip. Cite sources and show date of last review.
+
+Contribute (contribute.html) — Priority 2
+  See Section 10.
+
+Admin (admin.html) — Priority 3, mockup
+  See Section 10.
+
+Search (search.html) — Priority 2
+  See Section 11.
+
+About, Contact, Privacy, Terms, Copyright, Guidelines — Priority 2
+  About: project goals, team, methodology, partners, acknowledgements, contact, the wordmark note from 6.2, and the name meaning from 4.1. Policies are clear, plain-language prototype versions that explain how contribution files and contact details would be stored and used, the consent model, takedown, correction and withdrawal, and credit rules. State plainly that this prototype stores nothing outside the visitor's own browser.
+
+Bookmarks (Priority 3)
+  A save icon button on cards and detail pages storing record ids in localStorage (matrika:bookmarks). A "Saved" view reachable from the header menu.
+
+
+SECTION 10. CONTRIBUTION FORM AND ADMIN MOCKUP
+
+10.1 Contribution form (demo)
+Fields: type of contribution (text or story, photograph, video, audio, document, correction); title; description or caption; related language, community, region and topic; contributor name or an approved anonymous option; contact method for follow-up; creator or source and approximate date; file upload field with format and size guidance (do not actually upload anywhere; read the file name and size only); rights declaration and confirmation that the contributor has permission; consent confirmation covering display, storage and any stated reuse; option to request restricted access or ask the team to contact the contributor before publication.
+- Real <label> for every field, grouped with fieldset and legend, instructions linked with aria-describedby, accessible inline error messages, error summary on submit.
+- On success, store the submission in LocalContributionStore with status "pending" and show a confirmation that explains the review process.
+- A permanent banner: "Demonstration only. Nothing you enter here is sent anywhere."
+- Collect only what the form needs. Do not log or persist file contents.
+
+10.2 Moderation workflow shown on the Contribute page and used by the admin mockup
+Submission is pending and never published automatically. A reviewer checks accuracy, completeness, rights, consent, safety and cultural sensitivity, and can approve, request clarification, restrict access, or reject. Approved records receive metadata, attribution, a review date and a stable page. A route to correct, withdraw or report content after publication always exists.
+
+10.3 Admin mockup
+A visual mockup with sample data and the demo store: pending submissions, status changes (pending, needs clarification, approved, restricted, rejected), content status overview, featured homepage content, role labels (administrator, editor or reviewer, contributor). Status changes may persist in localStorage for the demo.
+- A static site cannot secure anything. Show a visible banner: "Admin mockup — no real authentication or security in this prototype."
+- Add <meta name="robots" content="noindex"> and exclude admin.html from sitemap.xml.
+- Never implement a fake password check that suggests real security.
+
+
+SECTION 11. SEARCH, FILTERS AND RIGHTS-AWARE BEHAVIOUR
+
+11.1 SearchService
+- Build an in-memory index from all repositories at load. Index language names, alternate spellings, community names, scripts, regions, titles, keywords, summaries, subjects and creators.
+- Normalise text with NFC, case-fold, and strip diacritics for Latin text only. Never strip or reorder Indic vowel signs. Match native-script and Latin queries equally.
+- Tokenise on whitespace and punctuation; support prefix matching and simple typo tolerance for Latin queries.
+- Rank by field weight (title and name highest) then exact over prefix over fuzzy.
+- Group results by content type (languages, library, images, video, audio, stories) with counts per group and filters, plus a clear-all control. The query and filters live in the URL so results are shareable.
+- Empty, loading and error states are explicit. Never return unrelated results just to fill the page.
+
+11.2 FilterService
+Generic, data-driven filtering (facets derived from the repositories). It only offers facets where data is present and verified.
+
+11.3 RightsPolicy behaviour matrix
+- public-domain: preview and download allowed; label shows the status.
+- open-licence: preview and download allowed with required attribution shown.
+- permission-granted: preview allowed; download only if the record's access field is open; label shows the terms.
+- restricted: view-only inside the page; no download control rendered.
+- metadata-only: record page shows metadata and a short explanation; no file and no preview.
+Every record page shows a RightsBadge with a plain-language explanation. The distinction between stored, viewable and reusable material must be visible.
+
+
+SECTION 12. CHATBOT PROTOTYPE (NO BACKEND)
+
+12.1 Purpose
+Matrika Assistant helps visitors find their way around the site and understand its rules. It is a scripted prototype that demonstrates the intended experience; a real model-backed assistant arrives in a later review.
+
+12.2 Honesty
+- The panel header or first message must state: "Prototype — scripted answers, no AI model connected."
+- The assistant never claims to be human. It never invents archive facts.
+- If it cannot answer, it says so and offers navigation links or the contact page.
+
+12.3 Capabilities
+- Navigation: "take me to the audio archive", "show the map".
+- Find content: language name queries open the profile; topic queries run SearchService and show up to 3 result cards inside the chat with a "See all results" link to search.html.
+- Explain site rules: rights labels, consent, how contributions are reviewed, how to report a correction, what "demo content" means, what "approximate location" means.
+- Guide contribution: a short step-by-step with a link to the form.
+- Small talk: one friendly line, then back to the task.
+
+12.4 Design
+Matches Section 5. A square, outlined launcher button labelled "Ask Matrika" (44px minimum, fixed at the bottom right, never covering primary content or the footer links on small screens). The panel is a sharp-cornered rectangle with a 1px ink border on a paper background, with a serif title. On mobile it opens as a full-width bottom sheet. Messages in sans type, assistant and user messages differentiated by alignment and a text label, not colour alone. Suggested-question chips: "Find a language", "How do I contribute?", "What does public domain mean here?", "Which records can I download?".
+
+12.5 Engineering
+- ChatWidget (UI) → ChatSession (state, in memory only) → ChatEngine interface → ScriptedChatEngine.
+- IntentMatcher scores intents with keyword and phrase lists from data/chat/knowledge.json, with simple fuzzy matching; return an intent id and confidence. Below a confidence threshold, use the fallback response.
+- KnowledgeBase loads data/chat/knowledge.json (intents, canned answers, link targets). Answers that mention records are built from the repositories, not hard-coded.
+- No network calls. No API keys. No conversation persistence beyond the open page. No logging of user text.
+- Accessibility: role="dialog" with an accessible name, focus moves into the panel on open and returns to the launcher on close, Escape closes it, new messages announced politely (aria-live="polite" on the message list only), all controls reachable by keyboard.
+- A feature flag in js/config/features.js can disable the chat entirely.
+- Tests for IntentMatcher with a table of sample questions and expected intents.
+
+
+SECTION 13. CONTENT, RIGHTS AND CULTURAL SAFETY RULES
+
+- Digitisation does not mean permission to publish. Store, view and reuse are different permissions and the interface must show which one applies.
+- Demonstration content is always labelled. Invented facts must never look like verified history.
+- Use names and descriptions the communities prefer. Note regional and local variation. Never treat a community as culturally uniform.
+- Do not publish sensitive locations, sacred knowledge, private ceremonies, or information about vulnerable people. Do not include identifiable children or identifiable people without documented consent.
+- Credit creators and rights holders exactly as their licence requires.
+- Every record shows its source and date of last review; every profile and record offers a visible "Report a correction" route.
+- Do not fabricate transcripts, translations, quotations, speaker attributions or biographies. The home hero quote must be handled as in Section 5.11, item 2.
+
+
+SECTION 14. ACCESSIBILITY (WCAG 2.2 AA)
+
+- Semantic landmarks (header, nav, main, footer), one h1 per page, logical heading order.
+- Full keyboard operation, visible focus indicators on every interactive element, no keyboard traps, no focus loss on dynamic updates.
+- Contrast: 4.5:1 for normal text and 3:1 for large text and UI components. Never rely on colour alone; status uses text, and the active nav item uses a mark beyond colour.
+- Touch targets at least 44x44px.
+- Text can be resized to 200% without loss; body text is never tiny.
+- Images have meaningful alt text from the record's technical.altText; decorative images have empty alt.
+- Vertical native-script labels: give each a lang attribute and mark the label itself aria-hidden="true" only if the same information (word and language) also appears in the text caption; otherwise expose it with its lang.
+- Each element in a non-English script has the correct lang attribute.
+- Forms: labels, instructions, inline errors and an error summary.
+- Audio and video have visible controls and transcripts or captions where they exist. No autoplay. The wordmark rotator and any other moving content respect prefers-reduced-motion and have a pause control.
+- Test with keyboard only and axe. Where possible note a screen reader pass (NVDA or VoiceOver) in the report.
+
+
+SECTION 15. PERFORMANCE, SEO, HOSTING AND SECURITY
+
+- Budgets (mobile, throttled): Largest Contentful Paint under 2.5s; total JavaScript under about 120KB gzipped excluding Leaflet; main CSS under about 40KB gzipped; no layout shift from the header.
+- Images: resize and compress, serve WebP (with a fallback where needed), width and height attributes, srcset where useful, loading="lazy" below the first screen. Keep hero images modest in size.
+- Fonts: limit weights, display=swap, preconnect to Google Fonts, lazy-load script fonts as in 6.3.
+- Leaflet: pin an exact version and load it only on pages that need it.
+- Provide 404.html (relative links), .nojekyll, robots.txt, sitemap.xml (exclude admin.html), descriptive titles and meta descriptions, clean internal links, Open Graph tags using BRAND.
+- Security: no secrets in the repository; no innerHTML with data; external links use rel="noopener noreferrer"; add a restrictive Content-Security-Policy meta tag that still allows the Google Fonts, Leaflet and map-tile hosts actually used; validate and sanitise everything read from the URL (ids, query strings).
+- Offline behaviour is not required.
+
+
+SECTION 16. QUALITY GATES AND ACCEPTANCE CRITERIA
+
+Verify each item yourself and report the result with evidence.
+1. Both grep commands in 4.5 return nothing.
+2. The visual identity matches the original live design. Before and after screenshots of the home page and gallery at 360px show no unintended visual change other than the header wordmark and the fixes in 5.11.
+3. Every page uses the single matrika-header; the logo cycles Latin, Devanagari, each registry script, then Latin again, with identical header width and height for every frame.
+4. No empty-box glyphs in any frame (document.fonts.check passes for every displayed frame).
+5. With reduced motion enabled, the static lockup shows and nothing animates. The pause button works by keyboard and persists across reloads. The accessibility tree always reports the brand as "Matrika".
+6. Every navigation item opens the correct page. Every language card opens its correct profile. Unknown ids show a not-found state.
+7. Search and filters return relevant results, show counts, and can be cleared; their state is in the URL.
+8. Library preview and download behaviour matches RightsPolicy for every rights status.
+9. Audio controls work on mobile and desktop and nothing autoplays.
+10. The contribution form validates required fields, shows accessible errors, stores a pending demo submission and shows a confirmation. The admin page is clearly a mockup.
+11. The chatbot works through its listed capabilities, states it is scripted, makes no network calls, and passes keyboard checks.
+12. Pages remain usable at 320px width. No horizontal scrolling at 320, 360, 768 and 1280px.
+13. Zero console errors or warnings at those widths. Zero broken internal links. axe reports no serious or critical violations on any page.
+14. Lighthouse (mobile): Accessibility 95 or higher, Best Practices 95 or higher, SEO 95 or higher, Performance 85 or higher.
+15. node --test passes.
+16. The site works unchanged when served from a sub-path.
+17. Demonstration content is labelled everywhere it appears.
+
+
+SECTION 17. DO AND DON'T
+
+DO
+- Audit first, then build in the phase order of Section 3.
+- Read the real CSS and extract tokens before writing any styling.
+- Keep one place for every kind of knowledge: brand strings in BRAND, design values in tokens.css, data in JSON, rights logic in RightsPolicy.
+- Source and cite every fact you add; leave a field out rather than guess.
+- Label demonstration content and use the site's monochrome placeholder style when no cleared media exists.
+- Write small, tested, documented classes.
+- Report anything you skipped (null renderings, missing fonts, uncleared media) in the final summary.
+
+DON'T
+- Don't redesign the site, change its fonts or palette, or add colours, gradients, shadows, rounded buttons, emoji or icon libraries.
+- Don't invent facts, transcripts, translations, quotations, speaker attributions, photographs, audio, or non-Latin renderings of the name.
+- Don't call languages "tribal" or "backward" in site copy.
+- Don't use a framework, a bundler, a build step, a backend, a database, tracking, analytics or paid services.
+- Don't use absolute paths ("/css/...") or server-dependent routing.
+- Don't put data in innerHTML, add inline scripts, or leave hard-coded colours, sizes or durations outside tokens.css.
+- Don't split Indic text by code points, apply letter-spacing to Indic scripts, or hotlink images or audio.
+- Don't synthesise speech or pronunciations.
+- Don't publish precise coordinates, sensitive locations, or identifiable children without documented consent.
+- Don't present the admin page or any form as secure or as sending data anywhere.
+- Don't autoplay audio or video.
+- Don't change document.title with the wordmark rotation.
+- Don't replace the generic word "bhasha" in content, rename the workspace folder or repository yourself, or design a logo icon.
+- Don't build Priority 4 features.
+
+
+SECTION 18. FINAL REPORT (WRITE THIS WHEN DONE)
+
+The report contains:
+1. SUMMARY: what now exists, in a few sentences.
+2. PHASES: what was completed in each phase and any item deferred, with reasons.
+3. FILES: created, modified, deleted.
+4. DECISIONS MADE: every ambiguity you resolved conservatively and why.
+5. EVIDENCE: grep output, test output, Lighthouse and axe results, and screenshots at 360x800, 768x1024 and 1280x800, plus the keyboard-only pass.
+6. DEMONSTRATION CONTENT: a list of every record flagged isDemo and every wordmark rendering not marked official.
+7. OWNER ACTIONS (manual steps the agent cannot do):
+   - Rename the local folder and the GitHub repository to "matrika"; update the GitHub Pages URL references afterwards.
+   - Approve the descriptor and the About-page meaning text.
+   - Have native readers verify every demo-unverified wordmark rendering and supply the pending ones.
+   - Confirm the final language registry, since it decides which scripts appear in the header.
+   - Confirm or replace the home page quote, audio and transcript (Section 5.11, item 2).
+   - Confirm every photograph's licence line and every vertical native-script label.
+   - Confirm that the basemap's depiction of borders is acceptable before public launch.
+8. KNOWN LIMITATIONS and suggested next steps for Review 2 (backend swap via DataSource, real authentication, moderation workflow, richer search, multilingual interface).
+
+END OF PROMPT

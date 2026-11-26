@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "baseText": "Matrika",
+  "anchors": ["Latn", "Deva"],
+  "scripts": {
+    "Latn": { "text": "Matrika", "lang": "en-Latn",  "font": "display-latin",          "status": "official" },
+    "Deva": { "text": "मातृका",    "lang": "sa-Deva",  "font": "Noto Serif Devanagari", "status": "official" },
+    "Beng": { "text": "মাতৃকা",    "lang": "bn-Beng",  "font": "Noto Serif Bengali",    "status": "demo-unverified" },
+    "Knda": { "text": "ಮಾತೃಕಾ",   "lang": "kn-Knda",  "font": "Noto Serif Kannada",    "status": "demo-unverified" },
+    "Orya": { "text": "ମାତୃକା",    "lang": "or-Orya",  "font": "Noto Serif Oriya",      "status": "demo-unverified" },
+    "Olck": { "text": "ᱢᱟᱛᱨᱤᱠᱟ",   "lang": "sat-Olck", "font": "Noto Sans Ol Chiki",    "status": "demo-unverified" },
+    "Mtei": { "text": null, "lang": "mni-Mtei", "font": "Noto Sans Meetei Mayek",  "status": "pending" },
+    "Wara": { "text": null, "lang": "hoc-Wara", "font": "Noto Sans Warang Citi",   "status": "pending" },
+    "Gong": { "text": null, "lang": "gon-Gong", "font": "Noto Sans Gunjala Gondi", "status": "pending" },
+    "Gonm": { "text": null, "lang": "gon-Gonm", "font": "Noto Sans Masaram Gondi", "status": "pending" },
+    "Lepc": { "text": null, "lang": "lep-Lepc", "font": "Noto Sans Lepcha",        "status": "pending" },
+    "Limb": { "text": null, "lang": "lif-Limb", "font": "Noto Sans Limbu",         "status": "pending" },
+    "Toto": { "text": null, "lang": "txo-Toto", "font": "Noto Serif Toto",         "status": "pending" }
+  }
+}

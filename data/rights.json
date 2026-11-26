@@ -1,0 +1,31 @@
+{
+  "rightsStatuses": {
+    "public-domain": {
+      "label": "Public domain",
+      "explanation": "Out-of-copyright or dedicated to the public domain. In-browser viewing and download are allowed with archival attribution."
+    },
+    "open-licence": {
+      "label": "Openly licensed",
+      "explanation": "Shared under a Creative Commons open licence. In-browser viewing and download are allowed with required creator attribution."
+    },
+    "permission-granted": {
+      "label": "Permission granted",
+      "explanation": "Displayed with documented community or creator permission. Download depends on the contributor's stated access terms."
+    },
+    "restricted": {
+      "label": "Restricted",
+      "explanation": "View-only metadata inside the archive. File download and external reuse are disabled pending community custodian approval."
+    },
+    "metadata-only": {
+      "label": "Metadata only",
+      "explanation": "Catalogue description only; no file is stored or previewed until source rights and consent are verified."
+    }
+  },
+  "verifications": {
+    "verified": "Verified reference",
+    "oral-account": "Oral account",
+    "interpretation": "Scholarly interpretation",
+    "unverified": "Awaiting speaker verification",
+    "demo": "Demo content"
+  }
+}

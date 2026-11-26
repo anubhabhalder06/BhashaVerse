@@ -1,0 +1,87 @@
+{
+  "confidenceThreshold": 0.35,
+  "suggestedChips": [
+    "Find a language",
+    "How do I contribute?",
+    "What does public domain mean here?",
+    "Which records can I download?"
+  ],
+  "intents": [
+    {
+      "id": "greeting",
+      "phrases": ["hello", "hi", "hey", "namaste", "good morning", "good evening"],
+      "reply": "Hello — I can help you explore Matrika's languages, open records, map, or contribution guidelines.",
+      "links": [
+        { "label": "Explore Languages", "href": "languages.html" },
+        { "label": "Open Language Map", "href": "map.html" }
+      ]
+    },
+    {
+      "id": "nav_map",
+      "phrases": ["show the map", "open map", "language map", "geography", "regions", "where spoken"],
+      "reply": "You can inspect approximate regional locations across India on the interactive Language Map (also accessible via the region list below the map).",
+      "links": [{ "label": "Open Language Map", "href": "map.html" }]
+    },
+    {
+      "id": "nav_audio",
+      "phrases": ["take me to audio", "audio archive", "listen", "recordings", "pronunciation", "songs"],
+      "reply": "Visit the Audio Archive for spoken word slots, mock-mode players pending cleared recordings, and transcript panels.",
+      "links": [{ "label": "Open Audio Archive", "href": "audio.html" }]
+    },
+    {
+      "id": "nav_gallery",
+      "phrases": ["photos", "gallery", "images", "photographs", "video"],
+      "reply": "Browse openly licensed and public-domain monochrome plates with creator credits in the Photo & Video Archive.",
+      "links": [{ "label": "Open Photo & Video Archive", "href": "gallery.html" }]
+    },
+    {
+      "id": "nav_library",
+      "phrases": ["library", "books", "manuscripts", "which records can i download", "downloadable", "download"],
+      "reply": "Openly licensed and public-domain records in the Digital Library include download buttons; restricted and metadata-only records never expose unauthorised files.",
+      "links": [{ "label": "Browse Digital Library", "href": "library.html" }]
+    },
+    {
+      "id": "nav_languages",
+      "phrases": ["find a language", "languages", "all languages", "language directory", "scripts"],
+      "reply": "Matrika currently documents 10 language entries in the directory, with filters for script, family, and state/region.",
+      "links": [{ "label": "Explore Languages Directory", "href": "languages.html" }]
+    },
+    {
+      "id": "contribute",
+      "phrases": ["how do i contribute", "contribute", "submit", "add word", "upload photo", "share story"],
+      "reply": "1. Open the Contribution form. 2. Choose the material type, language, and creator attribution. 3. Confirm rights and consent (or request restricted access). In Review 1, submissions save locally in your browser preview queue.",
+      "links": [
+        { "label": "Open Contribution Form", "href": "contribute.html" },
+        { "label": "Read Contribution Guidelines", "href": "guidelines.html" }
+      ]
+    },
+    {
+      "id": "rights_public_domain",
+      "phrases": ["what does public domain mean here", "rights", "licence", "license", "restricted", "metadata only", "copyright"],
+      "reply": "Public domain and open-licence records allow viewing and downloads with attribution. Permission-granted depends on access terms; restricted and metadata-only items withhold downloads to protect community consent.",
+      "links": [{ "label": "Copyright & Reuse Policy", "href": "copyright.html" }]
+    },
+    {
+      "id": "demo_and_location",
+      "phrases": ["demo content", "approximate location", "why placeholder", "what does demo mean", "correct", "report correction"],
+      "reply": "Items marked 'Demo content' are Review 1 placeholders awaiting native-speaker verification. Map and profile regions are intentionally approximate (state or district level only) to protect privacy and sensitive sites.",
+      "links": [
+        { "label": "About Matrika", "href": "about.html" },
+        { "label": "Report a Correction", "href": "contact.html" }
+      ]
+    },
+    {
+      "id": "saved_bookmarks",
+      "phrases": ["saved", "bookmarks", "bookmarked", "favorites"],
+      "reply": "Saved records are stored privately inside your browser's localStorage and can be viewed on the Explore Languages or Saved view.",
+      "links": [{ "label": "View Saved Items", "href": "languages.html?saved=1" }]
+    }
+  ],
+  "fallback": {
+    "reply": "I couldn't match a specific rule or language record for that request. Try searching the full archive or sending a note via Contact.",
+    "links": [
+      { "label": "Open Global Search", "href": "search.html" },
+      { "label": "Contact / Report", "href": "contact.html" }
+    ]
+  }
+}

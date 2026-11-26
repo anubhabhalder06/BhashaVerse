@@ -1,28 +1,126 @@
-/* DESIGN TOKENS: BhashaVerse monochrome paper/ink specimen palette + semantic contrast */
-:root{
-  --color-bg:#EFEDE8;
-  --color-surface:#E3E0D8;
-  --color-ink-page:#0E0E0E;
-  --color-ink-elev:#181816;
-  --color-text:#0E0E0E;
-  --color-text-on-dark:#EFEDE8;
-  --color-muted:#52524E;
-  --color-muted-on-dark:#B8B5AE;
-  --color-accent:#0E0E0E;
-  --color-border:rgba(14,14,14,0.18);
-  --color-border-strong:rgba(14,14,14,0.55);
-  --color-border-dark:rgba(239,237,232,0.22);
+/* DESIGN TOKENS: Matrika monochrome paper/ink specimen palette + semantic contrast */
+:root {
+  /* Core Colours */
+  --mt-paper: #EFEDE8;
+  --mt-paper-elev: #E3E0D8;
+  --mt-ink: #0E0E0E;
+  --mt-ink-elev: #181816;
+  --mt-ink-muted: #52524E;
+  --mt-paper-muted: #B8B5AE;
+  --mt-ink-soft: rgba(14, 14, 14, 0.8);
+  --mt-rule: rgba(14, 14, 14, 0.18);
+  --mt-rule-strong: rgba(14, 14, 14, 0.55);
+  --mt-rule-dark: rgba(239, 237, 232, 0.22);
+  --mt-grain-dark: rgba(14, 14, 14, 0.038);
+  --mt-grain-dark-2: rgba(14, 14, 14, 0.022);
+  --mt-grain-light: rgba(255, 255, 255, 0.06);
+  --mt-hero-fade: rgba(14, 14, 14, 0.6);
+  --mt-hero-fade-0: rgba(14, 14, 14, 0);
+  --mt-surface-hover: rgba(239, 237, 232, 0.08);
+  --mt-ink-always: #0E0E0E;
+  --mt-paper-always: #EFEDE8;
+  --mt-paper-muted-always: #B8B5AE;
+  --mt-rule-dark-always: rgba(239, 237, 232, 0.22);
 
-  --font-display:"Fraunces","Instrument Serif",Georgia,serif;
-  --font-body:"Plus Jakarta Sans",system-ui,-apple-system,sans-serif;
-  --font-heading:var(--font-display);
-  --font-hand:"Caveat",cursive;
-  --font-indic:"Noto Sans Devanagari","Noto Sans Kannada","Noto Sans Oriya","Noto Sans Tamil","Noto Sans Bengali","Noto Sans Ol Chiki","Noto Sans Sora Sompeng","Noto Sans Masaram Gondi","Noto Sans Gunjala Gondi","Nirmala UI",sans-serif;
+  /* Hero Stack Progression (>= 5.9:1 on #EFEDE8 paper) */
+  --mt-step-1: #595954;
+  --mt-step-2: #464642;
+  --mt-step-3: #333330;
+  --mt-step-4: #1F1F1D;
+  --mt-step-5: #0E0E0E;
 
-  --text-base:1.125rem; /* 18px minimum readable body size */
-  --line-height:1.6;
-  --space-1:.5rem; --space-2:1rem; --space-3:2rem; --space-4:4rem;
-  --radius:0px; --radius-tile:26px;
-  --max-width:80rem; --card-min:17.5rem;
-  color-scheme:light;
+  /* Typography Families */
+  --mt-font-display: "Fraunces", "Instrument Serif", Georgia, serif;
+  --mt-font-body: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --mt-font-hand: "Caveat", cursive;
+  --mt-font-indic: "Noto Serif Devanagari", "Noto Serif Bengali", "Noto Serif Kannada", "Noto Serif Oriya", "Noto Sans Ol Chiki", "Noto Sans Sora Sompeng", "Noto Sans Devanagari", "Noto Sans Kannada", "Noto Sans Oriya", "Noto Sans Tamil", "Noto Sans Bengali", "Noto Sans Masaram Gondi", "Noto Sans Gunjala Gondi", "Noto Sans Lepcha", "Noto Sans Limbu", "Noto Sans Meetei Mayek", "Noto Sans Warang Citi", "Noto Serif Toto", "Nirmala UI", sans-serif;
+
+  /* Fluid Type Scale */
+  --mt-text-xs: 0.8125rem;
+  --mt-text-sm: 0.9375rem;
+  --mt-text-base: 1.125rem;
+  --mt-text-md: 1.25rem;
+  --mt-text-lg: clamp(1.35rem, 2vw, 1.7rem);
+  --mt-text-xl: clamp(1.6rem, 2.8vw, 2.25rem);
+  --mt-text-2xl: clamp(2rem, 3.8vw, 3rem);
+  --mt-text-hero: clamp(2.25rem, 3.9vw, 3.75rem);
+  --mt-text-stack: clamp(2.25rem, 5vw, 4rem);
+  --mt-text-giant: clamp(4rem, 8.8vw, 7.75rem);
+
+  /* Line Heights & Weights */
+  --mt-lh-tight: 1.05;
+  --mt-lh-heading: 1.12;
+  --mt-lh-body: 1.6;
+  --mt-weight-regular: 400;
+  --mt-weight-medium: 500;
+  --mt-weight-semibold: 600;
+
+  /* Per-Script Wordmark Line Heights (no letter-spacing on Indic text) */
+  --mt-wordmark-lh-Latn: 1.08;
+  --mt-wordmark-lh-Deva: 1.32;
+  --mt-wordmark-lh-Beng: 1.32;
+  --mt-wordmark-lh-Knda: 1.36;
+  --mt-wordmark-lh-Orya: 1.36;
+  --mt-wordmark-lh-Olck: 1.25;
+
+  /* 4px-Base Spacing Scale */
+  --mt-space-1: 0.25rem;
+  --mt-space-2: 0.5rem;
+  --mt-space-3: 0.75rem;
+  --mt-space-4: 1rem;
+  --mt-space-5: 1.5rem;
+  --mt-space-6: 2rem;
+  --mt-space-7: 3rem;
+  --mt-space-8: 4rem;
+  --mt-space-9: 5rem;
+
+  /* Layout & Touch Dimensions */
+  --mt-container: 1200px;
+  --mt-max-width: 80rem;
+  --mt-card-min: 17.5rem;
+  --mt-touch-min: 44px;
+  --mt-header-h: 68px;
+  --mt-bleed: max(24px, calc((100vw - 1200px) / 2));
+
+  /* Shape & Borders */
+  --mt-radius-media: 24px;
+  --mt-radius-tile: 26px;
+  --mt-radius-hero: 32px;
+  --mt-radius-control: 0px;
+  --mt-border: 1px solid var(--mt-ink);
+  --mt-border-rule: 1px solid var(--mt-rule);
+  --mt-border-strong: 1px solid var(--mt-rule-strong);
+  --mt-border-dark: 1px solid var(--mt-rule-dark);
+
+  /* Motion */
+  --mt-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --mt-dur-fast: 150ms;
+  --mt-dur-base: 200ms;
+  --mt-dur-slow: 700ms;
+  --mt-wordmark-hold: 2400ms;
+  --mt-wordmark-hold-anchor: 3400ms;
+  --mt-wordmark-transition: 700ms;
+  --mt-wordmark-stagger: 35ms;
+
+  color-scheme: light;
+}
+
+/* Optional High-Contrast Dark Theme Token Swap (persisted via matrika:theme) */
+[data-theme="dark"] {
+  --mt-paper: #0E0E0E;
+  --mt-paper-elev: #181816;
+  --mt-ink: #EFEDE8;
+  --mt-ink-elev: #181816;
+  --mt-ink-muted: #B8B5AE;
+  --mt-ink-soft: rgba(239, 237, 232, 0.88);
+  --mt-rule: rgba(239, 237, 232, 0.24);
+  --mt-rule-strong: rgba(239, 237, 232, 0.62);
+  --mt-grain-dark: rgba(239, 237, 232, 0.032);
+  --mt-grain-dark-2: rgba(239, 237, 232, 0.018);
+  --mt-step-1: #9D9A93;
+  --mt-step-2: #B2AFA8;
+  --mt-step-3: #C9C6BF;
+  --mt-step-4: #DFDDD7;
+  --mt-step-5: #EFEDE8;
+  color-scheme: dark;
 }
