@@ -18,6 +18,7 @@ import { MapService } from "./services/MapService.js";
 import { AudioService } from "./services/AudioService.js";
 import { ThemeService } from "./services/ThemeService.js";
 import { MotionPreferences } from "./services/MotionPreferences.js";
+import { MotionController } from "./services/MotionController.js";
 import { FontGate } from "./services/FontGate.js";
 import { BookmarkService } from "./services/BookmarkService.js";
 import { KnowledgeBase } from "./chat/KnowledgeBase.js";
@@ -75,6 +76,7 @@ export function buildContainer() {
   c.singleton("audioService", () => new AudioService());
   c.singleton("themeService", (di) => new ThemeService(di.resolve("storage")));
   c.singleton("motionPrefs", (di) => new MotionPreferences(di.resolve("storage")));
+  c.singleton("motionController", (di) => new MotionController(di.resolve("motionPrefs")));
   c.singleton("fontGate", () => new FontGate(3000));
   c.singleton("bookmarkService", (di) => new BookmarkService(di.resolve("storage")));
 
@@ -161,6 +163,8 @@ function registerElements() {
 async function bootstrap() {
   const container = buildContainer();
   container.resolve("themeService").init();
+  const motionController = container.resolve("motionController");
+  motionController.init();
   registerElements();
 
   document.querySelectorAll("matrika-header").forEach((el) => /** @type {MatrikaHeader} */ (el).hydrate(container));
@@ -168,7 +172,12 @@ async function bootstrap() {
 
   const pageName = document.body.dataset.page || "home";
   const page = createPage(pageName, container);
-  await page.mount();
+  try {
+    await page.mount();
+  } finally {
+    motionController.observeMain();
+    motionController.finishLoading();
+  }
 
   if (FEATURES.enableChatbot) {
     const chatHost = document.createElement("div");

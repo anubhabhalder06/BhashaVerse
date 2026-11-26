@@ -15,7 +15,7 @@ export class LanguageProfilePage extends Page {
     if (!root) return;
 
     clear(root);
-    root.appendChild(StateView.loading());
+    root.appendChild(StateView.loading("Loading language profile…", "detail"));
 
     const langId = UrlHelper.getId("id", "lang") || "tulu";
     const langRepo = this.container.resolve("languageRepo");

@@ -15,7 +15,7 @@ export class LibraryItemPage extends Page {
     if (!root) return;
 
     clear(root);
-    root.appendChild(StateView.loading());
+    root.appendChild(StateView.loading("Loading archival item…", "detail"));
 
     const id = UrlHelper.getId("id") || "res-sora-palm-leaf-01";
     const resourceRepo = this.container.resolve("resourceRepo");

@@ -22,7 +22,7 @@ export class AudioPage extends Page {
     if (!grid) return;
 
     clear(grid);
-    grid.appendChild(StateView.loading());
+    grid.appendChild(StateView.loading("Loading audio recordings…", "rows"));
 
     try {
       const items = await mediaRepo.listAudio();

@@ -176,9 +176,12 @@ export class HomePage extends Page {
     if (!host || !languages.length) return;
 
     let current = 0;
+    let hasRendered = false;
 
-    const renderSpread = (idx) => {
-      current = Math.max(0, Math.min(languages.length - 1, idx));
+    const renderSpread = (idx, dir = "next") => {
+      const targetIdx = Math.max(0, Math.min(languages.length - 1, idx));
+      const resolvedDir = dir || (targetIdx >= current ? "next" : "prev");
+      current = targetIdx;
       const lang = languages[current];
       const plate = lang.featuredImageId ? mediaItems.find((m) => m.id === lang.featuredImageId) : null;
 
@@ -247,7 +250,11 @@ export class HomePage extends Page {
         el("span", {}, `Page ${pad2(current + 1)} of ${pad2(languages.length)}`)
       );
 
-      host.append(el("div", { class: "mt-book-spread" }, verso, recto), meta);
+      const spreadEl = el("div", {
+        class: `mt-book-spread${hasRendered ? ` mt-folio-turn-${resolvedDir}` : ""}`,
+      }, verso, recto);
+      hasRendered = true;
+      host.append(spreadEl, meta);
 
       if (counterEl) counterEl.textContent = `Folio ${pad2(current + 1)} / ${pad2(languages.length)} · ${lang.name}`;
       if (prevBtn) prevBtn.disabled = current === 0;
@@ -268,16 +275,25 @@ export class HomePage extends Page {
             type: "button",
             class: "mt-folio-pip",
             "aria-current": i === 0 ? "true" : "false",
-            onClick: () => renderSpread(i),
+            onClick: () => renderSpread(i, i >= current ? "next" : "prev"),
           }, pad2(i + 1), " ", lang.name.split(" ")[0])
         );
       });
     }
 
-    if (prevBtn) prevBtn.addEventListener("click", () => renderSpread(current - 1));
-    if (nextBtn) nextBtn.addEventListener("click", () => renderSpread(current + 1));
+    if (prevBtn) prevBtn.addEventListener("click", () => renderSpread(current - 1, "prev"));
+    if (nextBtn) nextBtn.addEventListener("click", () => renderSpread(current + 1, "next"));
+    host.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" && current < languages.length - 1) {
+        e.preventDefault();
+        renderSpread(current + 1, "next");
+      } else if (e.key === "ArrowLeft" && current > 0) {
+        e.preventDefault();
+        renderSpread(current - 1, "prev");
+      }
+    });
 
-    renderSpread(0);
+    renderSpread(0, "next");
   }
 
   /**

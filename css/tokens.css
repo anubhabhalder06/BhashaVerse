@@ -17,6 +17,7 @@
   --mt-hero-fade: rgba(14, 14, 14, 0.6);
   --mt-hero-fade-0: rgba(14, 14, 14, 0);
   --mt-surface-hover: rgba(239, 237, 232, 0.08);
+  --mt-paper-sheen: rgba(239, 237, 232, 0.72);
   --mt-ink-always: #0E0E0E;
   --mt-paper-always: #EFEDE8;
   --mt-paper-muted-always: #B8B5AE;
@@ -95,8 +96,13 @@
   /* Motion */
   --mt-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --mt-dur-fast: 150ms;
+  --mt-dur-exit: 170ms;
   --mt-dur-base: 200ms;
+  --mt-dur-enter: 300ms;
+  --mt-dur-reveal: 360ms;
   --mt-dur-slow: 700ms;
+  --mt-dur-shimmer: 1100ms;
+  --mt-stagger-step: 28ms;
   --mt-wordmark-hold: 2400ms;
   --mt-wordmark-hold-anchor: 3400ms;
   --mt-wordmark-exit: 220ms;

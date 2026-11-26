@@ -24,10 +24,24 @@ export class MatrikaFooter extends HTMLElement {
       navCols.appendChild(el("div", { class: "mt-footer-col" }, el("h2", {}, col.heading), ul));
     }
 
+    const topBtn = el(
+      "button",
+      {
+        type: "button",
+        class: "mt-footer-top",
+        onClick: () => {
+          const reduced = typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+          window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+        },
+      },
+      "Back to top ↑"
+    );
+
     const colophon = el(
-      "p",
-      { class: "mt-footer-colophon" },
-      `${BRAND.name} (${BRAND.nativeName}) · ${BRAND.descriptor}`
+      "div",
+      { class: "mt-footer-bottom" },
+      el("p", { class: "mt-footer-colophon" }, `${BRAND.name} (${BRAND.nativeName}) · ${BRAND.descriptor}`),
+      topBtn
     );
 
     this.append(notice, navCols, colophon);

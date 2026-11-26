@@ -1,4 +1,44 @@
 /* PAGE: Home — Broadsheet Hero, Eight-Script Poster, Listen/Return Stack, Specimen Switcher, Latest Additions, Contribute */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-text > * {
+    animation: mt-hero-rise var(--mt-dur-reveal) var(--mt-ease) backwards;
+  }
+
+  .hero-text > *:nth-child(1) { animation-delay: 20ms; }
+  .hero-text > *:nth-child(2) { animation-delay: 50ms; }
+  .hero-text > *:nth-child(3) { animation-delay: 80ms; }
+  .hero-text > *:nth-child(4) { animation-delay: 110ms; }
+  .hero-text > *:nth-child(5) { animation-delay: 140ms; }
+  .hero-text > *:nth-child(6) { animation-delay: 170ms; }
+
+  .hero-frame {
+    animation: mt-hero-frame var(--mt-dur-reveal) var(--mt-ease) backwards;
+    animation-delay: 90ms;
+  }
+}
+
+@keyframes mt-hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mt-hero-frame {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .hero {
   overflow-x: clip;
   min-height: calc(100svh - var(--mt-header-h));
@@ -477,4 +517,71 @@
   padding: var(--mt-space-4) 0;
   border-top: var(--mt-border-rule);
   border-bottom: var(--mt-border-rule);
+}
+
+/* Specimen Folio Page Turn + Native CSS Scroll-Driven Accent Motion */
+@media (prefers-reduced-motion: no-preference) {
+  .mt-folio-turn-next {
+    animation: mt-folio-next var(--mt-dur-enter) var(--mt-ease) both;
+  }
+
+  .mt-folio-turn-prev {
+    animation: mt-folio-prev var(--mt-dur-enter) var(--mt-ease) both;
+  }
+
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    .hero-frame img {
+      animation: mt-hero-scrub auto linear both;
+      animation-timeline: view(block);
+      animation-range: exit 0% exit 90%;
+    }
+
+    .mt-fading-word {
+      animation: mt-principle-scrub auto linear both;
+      animation-timeline: view(block);
+      animation-range: entry 0% entry 85%;
+    }
+  }
+}
+
+@keyframes mt-folio-next {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes mt-folio-prev {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes mt-hero-scrub {
+  from {
+    transform: scale(1) translateY(0);
+  }
+  to {
+    transform: scale(1.05) translateY(16px);
+  }
+}
+
+@keyframes mt-principle-scrub {
+  from {
+    opacity: 0.35;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
