@@ -25,7 +25,7 @@
     {
       "id": "nav_audio",
       "phrases": ["take me to audio", "audio archive", "listen", "recordings", "pronunciation", "songs"],
-      "reply": "Visit the Audio Archive for spoken word slots, mock-mode players pending cleared recordings, and transcript panels.",
+      "reply": "Visit the Audio Archive for spoken-word records, pronunciation attributions, and documented transcripts.",
       "links": [{ "label": "Open Audio Archive", "href": "audio.html" }]
     },
     {
@@ -49,7 +49,7 @@
     {
       "id": "contribute",
       "phrases": ["how do i contribute", "contribute", "submit", "add word", "upload photo", "share story"],
-      "reply": "1. Open the Contribution form. 2. Choose the material type, language, and creator attribution. 3. Confirm rights and consent (or request restricted access). In Review 1, submissions save locally in your browser preview queue.",
+      "reply": "1. Open the Contribution form. 2. Choose the material type, language, and creator attribution. 3. Confirm rights and consent (or request restricted access). Entries save locally in your browser's review queue.",
       "links": [
         { "label": "Open Contribution Form", "href": "contribute.html" },
         { "label": "Read Contribution Guidelines", "href": "guidelines.html" }
@@ -62,9 +62,9 @@
       "links": [{ "label": "Copyright & Reuse Policy", "href": "copyright.html" }]
     },
     {
-      "id": "demo_and_location",
-      "phrases": ["demo content", "approximate location", "why placeholder", "what does demo mean", "correct", "report correction"],
-      "reply": "Items marked 'Demo content' are Review 1 placeholders awaiting native-speaker verification. Map and profile regions are intentionally approximate (state or district level only) to protect privacy and sensitive sites.",
+      "id": "review_and_location",
+      "phrases": ["community review", "approximate location", "why unverified", "correct", "report correction"],
+      "reply": "Items marked 'Community review' remain open for native-speaker verification. Map and profile regions are intentionally approximate (state or district level only) to protect privacy and sensitive sites.",
       "links": [
         { "label": "About Matrika", "href": "about.html" },
         { "label": "Report a Correction", "href": "contact.html" }

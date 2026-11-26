@@ -12,6 +12,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600&family=Caveat:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&display=swap">
+<link rel="preload" as="style" href="css/base.css">
+<script blocking="render" src="js/boot.js"></script>
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/layout.css">
@@ -38,7 +40,7 @@
       <header class="mt-page-head" style="margin-bottom:0;">
         <span class="mt-hand-note">takedowns, attribution &amp; orthography updates</span>
         <h1 class="mt-page-title">Contact / Report a Correction</h1>
-        <p class="mt-muted" style="margin:0;">Demonstration prototype — nothing entered here is transmitted off your browser.</p>
+        <p class="mt-muted" style="margin:0;">Submit spelling updates, attribution fixes, or takedown requests. In this static edition, submissions are logged locally inside your browser.</p>
       </header>
 
       <form id="mt-contact-form" class="mt-form-editorial" novalidate>
@@ -61,7 +63,7 @@
         <div>
           <button type="submit" class="mt-btn mt-btn--solid">Send report</button>
         </div>
-        <p class="form-status mt-status-banner" role="status" aria-live="polite" hidden>Correction report recorded locally inside this static prototype preview (no email server connected).</p>
+        <p class="form-status mt-status-banner" role="status" aria-live="polite" hidden>Correction report recorded locally inside this browser session.</p>
       </form>
     </div>
   </section>

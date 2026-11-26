@@ -1,17 +1,11 @@
-/* COMPONENT: MatrikaFooter — quiet placeholder notice + 3-column navigation */
+/* COMPONENT: MatrikaFooter — stewardship notice + 3-column navigation */
 .mt-footer-wrap {
   max-width: var(--mt-container);
   width: 100%;
   margin-inline: auto;
-  padding: var(--mt-space-7) 0 calc(var(--mt-touch-min) + var(--mt-space-7));
+  padding: var(--mt-space-7) var(--gutter) calc(var(--mt-touch-min) + var(--mt-space-7));
   display: grid;
   gap: var(--mt-space-5);
-}
-
-@media (max-width: 1247.98px) {
-  .mt-footer-wrap {
-    padding-inline: var(--mt-space-5);
-  }
 }
 
 .mt-quiet-notice {

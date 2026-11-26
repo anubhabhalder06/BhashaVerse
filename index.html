@@ -14,6 +14,9 @@
 <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="css/base.css">
+<link rel="preload" as="image" href="assets/images/loom-weaver-assam.jpg" fetchpriority="high">
+<script blocking="render" src="js/boot.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600&family=Caveat:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&display=swap">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/base.css">
@@ -52,34 +55,38 @@
 
 <main id="main" class="mt-main-full">
   <section class="hero" id="s-hero">
-    <div class="container hero-grid">
-      <div class="hero-text">
-        <p class="hero-purpose">An archive of India’s underrepresented languages: words, voices, scripts and photographs, shared with community consent.</p>
-        <span class="mt-chip mt-chip--demo">Demo content</span>
-        <h1 class="hero-quote">“The loom remembers the river’s old name.”</h1>
-        <p class="hero-byline">Community speaker · Mishing · Assam</p>
+    <div class="hero-main">
+      <div class="container hero-grid">
+        <div class="hero-text">
+          <p class="hero-eyebrow">Digital Archive · Est. 2026</p>
+          <h1 class="hero-quote">“The loom remembers the river’s old name.”</h1>
+          <p id="mt-hero-byline" class="hero-byline">Community speaker · Mishing · Assam</p>
+          <p class="hero-purpose">An archive of India’s underrepresented languages: words, voices, scripts and photographs, shared with community consent.</p>
 
-        <div id="mt-hero-audio-host" class="hero-audio-row">
-          <span class="mt-chip mt-chip--demo">Demo audio</span>
+          <div id="mt-hero-audio-host" class="hero-audio-row" hidden></div>
+
+          <div class="hero-actions">
+            <a class="mt-btn mt-btn--solid" href="languages.html">Explore Languages</a>
+            <a class="mt-text-arrow-link" href="library.html">Browse the archive <span aria-hidden="true">→</span></a>
+          </div>
+
+          <ul id="mt-hero-facts" class="hero-stats" aria-label="Archive holdings">
+            <li class="hero-stat"><span class="hero-stat-num">10</span><span class="hero-stat-label">Languages</span></li>
+            <li class="hero-stat"><span class="hero-stat-num">11</span><span class="hero-stat-label">Scripts</span></li>
+            <li class="hero-stat"><span class="hero-stat-num">7</span><span class="hero-stat-label">Photographs &amp; field notes</span></li>
+          </ul>
         </div>
 
-        <div class="hero-actions">
-          <a class="mt-btn mt-btn--solid" href="languages.html">Explore Languages</a>
-          <a class="mt-text-arrow-link" href="library.html">Browse the archive <span aria-hidden="true">→</span></a>
-        </div>
-
-        <p id="mt-hero-facts" class="hero-facts">10 languages · 6 ISO scripts · photographs, metadata &amp; mock audio slots</p>
+        <figure class="hero-photo">
+          <div class="hero-frame">
+            <img src="assets/images/loom-weaver-assam.jpg" width="1280" height="853" alt="Black-and-white photograph of a weaver working at a handloom" loading="eager" fetchpriority="high" decoding="async">
+            <div class="hero-gradient" aria-hidden="true"></div>
+            <span class="hero-mishing-word" lang="mrg-Beng" aria-hidden="true">মিশিং</span>
+            <span class="hero-mishing-caption">Mishing</span>
+          </div>
+          <figcaption>Handloom, Mishing weaver (label: মিশিং). Photo: Deepraj, <a href="https://commons.wikimedia.org/wiki/File:Assamese_woman_using_traditional_handloom.jpg" target="_blank" rel="noopener noreferrer">CC BY 2.5</a>.</figcaption>
+        </figure>
       </div>
-
-      <figure class="hero-photo">
-        <div class="hero-frame">
-          <img src="assets/images/loom-weaver-assam.jpg" width="1280" height="853" alt="Black-and-white photograph of a weaver working at a handloom" loading="eager">
-          <div class="hero-gradient" aria-hidden="true"></div>
-          <span class="hero-mishing-word" lang="mrg-Beng" aria-hidden="true">মিশিং</span>
-          <span class="hero-mishing-caption">Mishing</span>
-        </div>
-        <figcaption>Handloom, Mishing weaver (label: মিশিং). Photo: Deepraj, <a href="https://commons.wikimedia.org/wiki/File:Assamese_woman_using_traditional_handloom.jpg" target="_blank" rel="noopener noreferrer">CC BY 2.5</a>.</figcaption>
-      </figure>
     </div>
 
     <div class="container hero-scroll-row">
@@ -91,14 +98,13 @@
   </section>
 
   <section id="s-poster" class="mt-spread mt-spread--ink">
-    <div class="mt-spread-inner">
+    <div class="mt-spread-inner reveal">
       <div class="mt-poster-head">
         <div>
-          <p class="mt-muted" style="margin:0;">One word across the archive · documented scripts &amp; open verification slots</p>
+          <p class="mt-muted" style="margin:0;">One word across the archive · documented scripts &amp; spoken heritage</p>
           <h2 id="mt-poster-concept" class="mt-poster-word">water</h2>
         </div>
         <div class="mt-cta-row">
-          <span class="mt-chip mt-chip--demo">Demo lexicon samples</span>
           <button id="mt-rotate-word" type="button" class="mt-btn" style="color:var(--mt-paper-always); border-color:var(--mt-paper-always);">Next specimen word</button>
         </div>
       </div>
@@ -107,7 +113,7 @@
   </section>
 
   <section id="s-pillars" class="mt-spread">
-    <div class="mt-spread-inner">
+    <div class="mt-spread-inner reveal">
       <div class="mt-pillars-grid">
         <div>
           <ol class="mt-fading-stack" aria-label="Archive principles">
@@ -129,21 +135,21 @@
             <figure>
               <div class="mt-photo-frame">
                 <div class="mt-photo-tile">
-                  <img src="assets/images/lachen-weaving-sikkim.jpg" width="1280" height="960" alt="Traditional weaver operating a wooden treadle loom in Lachen, Sikkim" loading="lazy">
+                  <img src="assets/images/lachen-weaving-sikkim.jpg" width="1280" height="960" alt="Traditional weaver operating a wooden treadle loom in Lachen, Sikkim" loading="lazy" decoding="async">
                 </div>
                 <span class="mt-vertical-tag" lang="hi-Deva" aria-hidden="true">बुनकर</span>
               </div>
-              <figcaption class="mt-photo-caption">Lachen loom practice · Jirah P Lepcha (CC BY-SA 4.0) · Label: Devanagari bunkar (बुनकर, unverified)</figcaption>
+              <figcaption class="mt-photo-caption">Lachen loom practice · Jirah P Lepcha (CC BY-SA 4.0) · Label: Devanagari bunkar (बुनकर)</figcaption>
             </figure>
 
             <figure class="mt-masonry-offset">
               <div class="mt-photo-frame">
                 <div class="mt-photo-tile" style="aspect-ratio:3/4;">
-                  <img src="assets/images/toda-archival-1871.jpg" width="960" height="1200" alt="1871 archival photograph of Toda people in traditional Nilgiri Poothkuli shawls" loading="lazy">
+                  <img src="assets/images/toda-archival-1871.jpg" width="960" height="1200" alt="1871 archival photograph of Toda people in traditional Nilgiri Poothkuli shawls" loading="lazy" decoding="async">
                 </div>
                 <span class="mt-vertical-tag" lang="tcx-Taml" aria-hidden="true">அர்ஸ்</span>
               </div>
-              <figcaption class="mt-photo-caption">Nilgiri 1871 witness · Madras School of Arts (Public domain) · Label: Toda ars in Tamil script (அர்ஸ், demo)</figcaption>
+              <figcaption class="mt-photo-caption">Nilgiri 1871 witness · Madras School of Arts (Public domain) · Label: Toda ars in Tamil script (அர்ஸ்)</figcaption>
             </figure>
           </div>
         </div>
@@ -154,7 +160,7 @@
   </section>
 
   <section id="s-spread" class="mt-spread" aria-label="Featured language specimen spreads">
-    <div class="mt-spread-inner">
+    <div class="mt-spread-inner reveal">
       <div class="mt-spread-bar">
         <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:var(--mt-space-3);">
           <span class="mt-hand-note">turn folios across the registry</span>
@@ -173,7 +179,7 @@
   </section>
 
   <section id="s-additions" class="mt-spread">
-    <div class="mt-spread-inner">
+    <div class="mt-spread-inner reveal">
       <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:var(--mt-space-4); margin-bottom:var(--mt-space-5);">
         <h2 style="font-size:var(--mt-text-2xl); margin:0;">Latest archive plates</h2>
         <div class="mt-cta-row">
@@ -186,7 +192,7 @@
   </section>
 
   <section id="s-contribute" class="mt-spread">
-    <div class="mt-spread-inner" style="display:grid; gap:var(--mt-space-5);">
+    <div class="mt-spread-inner reveal" style="display:grid; gap:var(--mt-space-5);">
       <div style="display:grid; gap:var(--mt-space-2); max-width:48rem;">
         <h2 style="font-size:var(--mt-text-2xl); margin:0;">Know a word we got wrong? Have a photo or story to share?</h2>
         <p class="mt-muted" style="margin:0;">Community speakers, families, and local educators help keep this archive accurate and accountable.</p>

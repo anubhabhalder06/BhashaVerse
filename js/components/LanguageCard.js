@@ -1,6 +1,5 @@
 // @ts-check
 import { el } from "../utils/dom.js";
-import { DemoBadge } from "./DemoBadge.js";
 
 /** Renders a monochrome language specimen card with bookmark button and profile link. */
 export class LanguageCard {
@@ -43,7 +42,7 @@ export class LanguageCard {
     const topMeta = el(
       "div",
       { class: "mt-card-top" },
-      el("div", { class: "mt-badge-row" }, this.rightsBadge.render(lang), lang.isDemo ? DemoBadge.render() : null),
+      el("div", { class: "mt-badge-row" }, this.rightsBadge.render(lang)),
       el("span", { class: "mt-muted", style: "font-size: var(--mt-text-xs)" }, lang.region)
     );
 

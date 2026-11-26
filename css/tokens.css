@@ -44,12 +44,12 @@
   --mt-text-lg: clamp(1.35rem, 2vw, 1.7rem);
   --mt-text-xl: clamp(1.6rem, 2.8vw, 2.25rem);
   --mt-text-2xl: clamp(2rem, 3.8vw, 3rem);
-  --mt-text-hero: clamp(2.25rem, 3.9vw, 3.75rem);
+  --mt-text-hero: clamp(3rem, 6.2vw, 6.5rem);
   --mt-text-stack: clamp(2.25rem, 5vw, 4rem);
   --mt-text-giant: clamp(4rem, 8.8vw, 7.75rem);
 
   /* Line Heights & Weights */
-  --mt-lh-tight: 1.05;
+  --mt-lh-tight: 1.02;
   --mt-lh-heading: 1.12;
   --mt-lh-body: 1.6;
   --mt-weight-regular: 400;
@@ -64,45 +64,49 @@
   --mt-wordmark-lh-Orya: 1.36;
   --mt-wordmark-lh-Olck: 1.25;
 
-  /* 4px-Base Spacing Scale */
-  --mt-space-1: 0.25rem;
-  --mt-space-2: 0.5rem;
-  --mt-space-3: 0.75rem;
-  --mt-space-4: 1rem;
-  --mt-space-5: 1.5rem;
-  --mt-space-6: 2rem;
-  --mt-space-7: 3rem;
-  --mt-space-8: 4rem;
-  --mt-space-9: 5rem;
+  /* Spacing Scale (8, 16, 24, 40, 64, 96px rhythm) */
+  --mt-space-1: 4px;
+  --mt-space-2: 8px;
+  --mt-space-3: 12px;
+  --mt-space-4: 16px;
+  --mt-space-5: 24px;
+  --mt-space-6: 40px;
+  --mt-space-7: 64px;
+  --mt-space-8: 64px;
+  --mt-space-9: 96px;
 
-  /* Layout & Touch Dimensions */
-  --mt-container: 1200px;
+  /* Unified Layout Gutter & Container */
+  --gutter: clamp(20px, 5vw, 96px);
+  --mt-container: 1680px;
   --mt-max-width: 80rem;
   --mt-card-min: 17.5rem;
   --mt-touch-min: 44px;
   --mt-header-h: 68px;
-  --mt-bleed: max(24px, calc((100vw - 1200px) / 2));
 
   /* Shape & Borders */
   --mt-radius-media: 24px;
   --mt-radius-tile: 26px;
-  --mt-radius-hero: 32px;
+  --mt-radius-hero: 24px;
   --mt-radius-control: 0px;
   --mt-border: 1px solid var(--mt-ink);
   --mt-border-rule: 1px solid var(--mt-rule);
   --mt-border-strong: 1px solid var(--mt-rule-strong);
   --mt-border-dark: 1px solid var(--mt-rule-dark);
 
-  /* Motion */
-  --mt-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --mt-dur-fast: 150ms;
-  --mt-dur-exit: 170ms;
-  --mt-dur-base: 200ms;
-  --mt-dur-enter: 300ms;
-  --mt-dur-reveal: 360ms;
-  --mt-dur-slow: 700ms;
+  /* Unified Motion System */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --mt-ease: var(--ease-out);
+  --dur-fast: 180ms;
+  --dur-base: 320ms;
+  --dur-slow: 600ms;
+  --mt-dur-fast: var(--dur-fast);
+  --mt-dur-exit: 220ms;
+  --mt-dur-base: var(--dur-base);
+  --mt-dur-enter: 360ms;
+  --mt-dur-reveal: var(--dur-base);
+  --mt-dur-slow: var(--dur-slow);
   --mt-dur-shimmer: 1100ms;
-  --mt-stagger-step: 28ms;
+  --mt-stagger-step: 60ms;
   --mt-wordmark-hold: 2400ms;
   --mt-wordmark-hold-anchor: 3400ms;
   --mt-wordmark-exit: 220ms;
@@ -110,24 +114,4 @@
   --mt-wordmark-stagger: 32ms;
 
   color-scheme: light;
-}
-
-/* Optional High-Contrast Dark Theme Token Swap (persisted via matrika:theme) */
-[data-theme="dark"] {
-  --mt-paper: #0E0E0E;
-  --mt-paper-elev: #181816;
-  --mt-ink: #EFEDE8;
-  --mt-ink-elev: #181816;
-  --mt-ink-muted: #B8B5AE;
-  --mt-ink-soft: rgba(239, 237, 232, 0.88);
-  --mt-rule: rgba(239, 237, 232, 0.24);
-  --mt-rule-strong: rgba(239, 237, 232, 0.62);
-  --mt-grain-dark: rgba(239, 237, 232, 0.032);
-  --mt-grain-dark-2: rgba(239, 237, 232, 0.018);
-  --mt-step-1: #9D9A93;
-  --mt-step-2: #B2AFA8;
-  --mt-step-3: #C9C6BF;
-  --mt-step-4: #DFDDD7;
-  --mt-step-5: #EFEDE8;
-  color-scheme: dark;
 }

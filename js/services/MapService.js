@@ -19,21 +19,30 @@ export class MapService {
     }
     if (this.loader) return this.loader;
 
-    this.loader = new Promise((resolve, reject) => {
-      if (!document.querySelector(`link[href="${LEAFLET_CSS}"]`)) {
+    this.loader = Promise.all([
+      new Promise((resolve) => {
+        const existing = document.querySelector(`link[href="${LEAFLET_CSS}"]`);
+        if (existing) {
+          resolve();
+          return;
+        }
         const link = document.createElement("link");
         link.rel = "stylesheet";
         link.href = LEAFLET_CSS;
         link.crossOrigin = "";
+        link.onload = () => resolve();
+        link.onerror = () => resolve();
         document.head.appendChild(link);
-      }
-      const script = document.createElement("script");
-      script.src = LEAFLET_JS;
-      script.crossOrigin = "";
-      script.onload = () => resolve(/** @type {any} */ (window).L);
-      script.onerror = () => reject(new Error("Could not load map library"));
-      document.head.appendChild(script);
-    });
+      }),
+      new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = LEAFLET_JS;
+        script.crossOrigin = "";
+        script.onload = () => resolve(/** @type {any} */ (window).L);
+        script.onerror = () => reject(new Error("Could not load map library"));
+        document.head.appendChild(script);
+      }),
+    ]).then(([, L]) => L);
     return this.loader;
   }
 }

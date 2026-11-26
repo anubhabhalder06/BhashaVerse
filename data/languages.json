@@ -3,20 +3,31 @@
     "id": "tulu",
     "name": "Tulu",
     "nativeName": "ತುಳು",
-    "altNames": ["Tuluva"],
+    "altNames": [
+      "Tuluva"
+    ],
     "preferredNameNote": "Spoken across Tulu Nadu (coastal Karnataka and northern Kasaragod)",
     "iso639_3": "tcy",
-    "scripts": ["Knda"],
+    "scripts": [
+      "Knda"
+    ],
     "scriptLabel": "Kannada script (Tigalari heritage)",
     "langAttr": "tcy-Knda",
     "region": "Karnataka / Kerala",
     "family": "Dravidian",
     "familyDetail": "South Dravidian",
-    "resources": ["Books", "Audio", "Photos"],
+    "resources": [
+      "Books",
+      "Audio",
+      "Photos"
+    ],
     "featured": true,
     "detailedProfile": true,
-    "isDemo": true,
-    "place": { "region": "Dakshina Kannada & Udupi, Karnataka (approximate)", "precision": "district", "approximate": true },
+    "place": {
+      "region": "Dakshina Kannada & Udupi, Karnataka (approximate)",
+      "precision": "district",
+      "approximate": true
+    },
     "overview": "Spoken across coastal Karnataka and northern Kasaragod, Tulu preserves centuries of sung paddana oral narratives alongside historical palm-leaf manuscripts.",
     "history": "Traditionally associated with the historical Tigalari (Tulu) script on palm leaves and rendered widely in the Kannada script today.",
     "writingSystem": {
@@ -25,19 +36,52 @@
       "note": "Mapped to Kannada script (Knda) across standard web typography pending licensed Tigalari font availability."
     },
     "vocabulary": [
-      { "script": "ನೀರ್", "roman": "nīr", "ipa": "/niːr/", "meaning": "water", "context": "Demo lexicon sample", "isDemo": true },
-      { "script": "ಇಲ್ಲ್", "roman": "illu", "ipa": "/illu/", "meaning": "home", "context": "Demo lexicon sample", "isDemo": true },
-      { "script": "ಪಾಡ್ದನ", "roman": "pāḍdana", "ipa": "/paːɖɖənə/", "meaning": "sung narrative", "context": "Demo lexicon sample", "isDemo": true }
+      {
+        "script": "ನೀರ್",
+        "roman": "nīr",
+        "ipa": "/niːr/",
+        "meaning": "water",
+        "context": "Community lexicon reference"
+      },
+      {
+        "script": "ಇಲ್ಲ್",
+        "roman": "illu",
+        "ipa": "/illu/",
+        "meaning": "home",
+        "context": "Community lexicon reference"
+      },
+      {
+        "script": "ಪಾಡ್ದನ",
+        "roman": "pāḍdana",
+        "ipa": "/paːɖɖənə/",
+        "meaning": "sung narrative",
+        "context": "Community lexicon reference"
+      }
     ],
     "featuredImageId": "media-talegari-06",
-    "rights": { "status": "open-licence", "owner": "Community & contributors", "licence": "CC BY-SA 4.0 (specimen plates)", "attribution": "Plate: Ananda Devaraj", "consent": "documented", "access": "open" },
+    "rights": {
+      "status": "open-licence",
+      "owner": "Community & contributors",
+      "licence": "CC BY-SA 4.0 (specimen plates)",
+      "attribution": "Plate: Ananda Devaraj",
+      "consent": "documented",
+      "access": "open"
+    },
     "quality": {
-      "verification": "demo",
+      "verification": "community-review",
       "reviewer": "Pending community review",
       "updated": "2026-11-26",
       "references": [
-        { "source": "ISO 639-3: tcy (Tulu)", "url": "https://iso639-3.sil.org/code/tcy", "verifiedOn": "2026-11-26" },
-        { "source": "Glottolog: tulu1258", "url": "https://glottolog.org/resource/languoid/id/tulu1258", "verifiedOn": "2026-11-26" }
+        {
+          "source": "ISO 639-3: tcy (Tulu)",
+          "url": "https://iso639-3.sil.org/code/tcy",
+          "verifiedOn": "2026-11-26"
+        },
+        {
+          "source": "Glottolog: tulu1258",
+          "url": "https://glottolog.org/resource/languoid/id/tulu1258",
+          "verifiedOn": "2026-11-26"
+        }
       ]
     }
   },
@@ -45,20 +89,34 @@
     "id": "gondi",
     "name": "Gondi",
     "nativeName": "गोंडी",
-    "altNames": ["Koitur", "Koitor"],
+    "altNames": [
+      "Koitur",
+      "Koitor"
+    ],
     "preferredNameNote": "Self-designation across communities includes Koitor / Koytur",
     "iso639_3": "gon",
-    "scripts": ["Deva", "Gonm", "Gong"],
+    "scripts": [
+      "Deva",
+      "Gonm",
+      "Gong"
+    ],
     "scriptLabel": "Devanagari / Masaram & Gunjala Gondi",
     "langAttr": "gon-Deva",
     "region": "Madhya Pradesh / Chhattisgarh / Maharashtra / Telangana",
     "family": "Dravidian",
     "familyDetail": "South-Central Dravidian",
-    "resources": ["Books", "Audio", "Photos"],
+    "resources": [
+      "Books",
+      "Audio",
+      "Photos"
+    ],
     "featured": true,
     "detailedProfile": true,
-    "isDemo": true,
-    "place": { "region": "Central Indian uplands / Vidarbha & Bastar corridor (approximate)", "precision": "state", "approximate": true },
+    "place": {
+      "region": "Central Indian uplands / Vidarbha & Bastar corridor (approximate)",
+      "precision": "state",
+      "approximate": true
+    },
     "overview": "A South-Central Dravidian continuum spoken across central Indian uplands, carrying seasonal ecological proverbs and regional oral lore.",
     "history": "Documented across Devanagari, Telugu, Masaram Gondi, and Gunjala Gondi manuscript traditions.",
     "writingSystem": {
@@ -67,19 +125,52 @@
       "note": "Primary web specimen uses Devanagari; Masaram and Gunjala Gondi script encodings remain tracked in the archive."
     },
     "vocabulary": [
-      { "script": "येर", "roman": "yēr", "ipa": "/jeːr/", "meaning": "water", "context": "Demo lexicon sample", "isDemo": true },
-      { "script": "रोन", "roman": "rōn", "ipa": "/roːn/", "meaning": "home", "context": "Demo lexicon sample", "isDemo": true },
-      { "script": "पाटा", "roman": "pāṭā", "ipa": "/paːʈaː/", "meaning": "song", "context": "Demo lexicon sample", "isDemo": true }
+      {
+        "script": "येर",
+        "roman": "yēr",
+        "ipa": "/jeːr/",
+        "meaning": "water",
+        "context": "Community lexicon reference"
+      },
+      {
+        "script": "रोन",
+        "roman": "rōn",
+        "ipa": "/roːn/",
+        "meaning": "home",
+        "context": "Community lexicon reference"
+      },
+      {
+        "script": "पाटा",
+        "roman": "pāṭā",
+        "ipa": "/paːʈaː/",
+        "meaning": "song",
+        "context": "Community lexicon reference"
+      }
     ],
     "featuredImageId": "media-gond-04",
-    "rights": { "status": "open-licence", "owner": "Contributors", "licence": "CC BY-SA 4.0", "attribution": "Plate: Sumita Roy Dutta", "consent": "documented", "access": "open" },
+    "rights": {
+      "status": "open-licence",
+      "owner": "Contributors",
+      "licence": "CC BY-SA 4.0",
+      "attribution": "Plate: Sumita Roy Dutta",
+      "consent": "documented",
+      "access": "open"
+    },
     "quality": {
-      "verification": "demo",
+      "verification": "community-review",
       "reviewer": "Pending community review",
       "updated": "2026-11-26",
       "references": [
-        { "source": "ISO 639-3: gon (Gondi)", "url": "https://iso639-3.sil.org/code/gon", "verifiedOn": "2026-11-26" },
-        { "source": "Glottolog: gond1265", "url": "https://glottolog.org/resource/languoid/id/gond1265", "verifiedOn": "2026-11-26" }
+        {
+          "source": "ISO 639-3: gon (Gondi)",
+          "url": "https://iso639-3.sil.org/code/gon",
+          "verifiedOn": "2026-11-26"
+        },
+        {
+          "source": "Glottolog: gond1265",
+          "url": "https://glottolog.org/resource/languoid/id/gond1265",
+          "verifiedOn": "2026-11-26"
+        }
       ]
     }
   },
@@ -87,20 +178,30 @@
     "id": "santali",
     "name": "Santali",
     "nativeName": "ᱥᱟᱱᱛᱟᱲᱤ",
-    "altNames": ["Hor Ror"],
+    "altNames": [
+      "Hor Ror"
+    ],
     "preferredNameNote": "Self-designation: Hor Ror / Santali",
     "iso639_3": "sat",
-    "scripts": ["Olck"],
+    "scripts": [
+      "Olck"
+    ],
     "scriptLabel": "Ol Chiki",
     "langAttr": "sat-Olck",
     "region": "Jharkhand / Odisha / West Bengal",
     "family": "Austroasiatic",
     "familyDetail": "Munda",
-    "resources": ["Books", "Audio"],
+    "resources": [
+      "Books",
+      "Audio"
+    ],
     "featured": true,
     "detailedProfile": true,
-    "isDemo": true,
-    "place": { "region": "Chota Nagpur plateau belt (approximate)", "precision": "state", "approximate": true },
+    "place": {
+      "region": "Chota Nagpur plateau belt (approximate)",
+      "precision": "state",
+      "approximate": true
+    },
     "overview": "An Austroasiatic Munda language carrying Sohrai harvest songs, village oral histories, and community educational writing.",
     "history": "Pandit Raghunath Murmu created the Ol Chiki alphabet in the early twentieth century to represent Santali phonology directly.",
     "writingSystem": {
@@ -109,19 +210,52 @@
       "note": "Written in the Ol Chiki alphabet (Unicode Olck)."
     },
     "vocabulary": [
-      { "script": "ᱫᱟᱜ", "roman": "dak'", "ipa": "/dak/", "meaning": "water", "context": "Demo lexicon sample", "isDemo": true },
-      { "script": "ᱚᱲᱟᱜ", "roman": "oṛak'", "ipa": "/ɔɽak/", "meaning": "home", "context": "Demo lexicon sample", "isDemo": true },
-      { "script": "ᱥᱮᱨᱮᱧ", "roman": "sereng", "ipa": "/sereɲ/", "meaning": "song", "context": "Demo lexicon sample", "isDemo": true }
+      {
+        "script": "ᱫᱟᱜ",
+        "roman": "dak'",
+        "ipa": "/dak/",
+        "meaning": "water",
+        "context": "Community lexicon reference"
+      },
+      {
+        "script": "ᱚᱲᱟᱜ",
+        "roman": "oṛak'",
+        "ipa": "/ɔɽak/",
+        "meaning": "home",
+        "context": "Community lexicon reference"
+      },
+      {
+        "script": "ᱥᱮᱨᱮᱧ",
+        "roman": "sereng",
+        "ipa": "/sereɲ/",
+        "meaning": "song",
+        "context": "Community lexicon reference"
+      }
     ],
     "featuredImageId": null,
-    "rights": { "status": "public-domain", "owner": "Shared cultural tradition", "licence": "Open reference", "attribution": "Archive compilation", "consent": "not-applicable", "access": "open" },
+    "rights": {
+      "status": "public-domain",
+      "owner": "Shared cultural tradition",
+      "licence": "Open reference",
+      "attribution": "Archive compilation",
+      "consent": "not-applicable",
+      "access": "open"
+    },
     "quality": {
-      "verification": "demo",
+      "verification": "community-review",
       "reviewer": "Pending community review",
       "updated": "2026-11-26",
       "references": [
-        { "source": "ISO 639-3: sat (Santali)", "url": "https://iso639-3.sil.org/code/sat", "verifiedOn": "2026-11-26" },
-        { "source": "Glottolog: sant1410", "url": "https://glottolog.org/resource/languoid/id/sant1410", "verifiedOn": "2026-11-26" }
+        {
+          "source": "ISO 639-3: sat (Santali)",
+          "url": "https://iso639-3.sil.org/code/sat",
+          "verifiedOn": "2026-11-26"
+        },
+        {
+          "source": "Glottolog: sant1410",
+          "url": "https://glottolog.org/resource/languoid/id/sant1410",
+          "verifiedOn": "2026-11-26"
+        }
       ]
     }
   },
@@ -129,20 +263,33 @@
     "id": "sora",
     "name": "Sora",
     "nativeName": "ସଉରା",
-    "altNames": ["Saora", "Savara"],
+    "altNames": [
+      "Saora",
+      "Savara"
+    ],
     "preferredNameNote": "Spoken in southern Odisha and northern Andhra Pradesh",
     "iso639_3": "srb",
-    "scripts": ["Orya", "Sora"],
+    "scripts": [
+      "Orya",
+      "Sora"
+    ],
     "scriptLabel": "Odia & Sora Sompeng",
     "langAttr": "srb-Orya",
     "region": "Odisha / Andhra Pradesh",
     "family": "Austroasiatic",
     "familyDetail": "Munda",
-    "resources": ["Books", "Audio", "Photos"],
+    "resources": [
+      "Books",
+      "Audio",
+      "Photos"
+    ],
     "featured": true,
     "detailedProfile": false,
-    "isDemo": true,
-    "place": { "region": "Gajapati & Rayagada districts, Odisha (approximate)", "precision": "district", "approximate": true },
+    "place": {
+      "region": "Gajapati & Rayagada districts, Odisha (approximate)",
+      "precision": "district",
+      "approximate": true
+    },
     "overview": "An Eastern Ghats Munda language pairing oral ritual memory with the 1936 Sora Sompeng alphabet devised by Mangei Gomango and regional Odia orthography.",
     "history": "Known for poetic verbal structures and sacred wall-narrative traditions.",
     "writingSystem": {
@@ -151,18 +298,47 @@
       "note": "Wordmark frame groups Sora under Odia (Orya) while Sora Sompeng remains documented in profile specimens."
     },
     "vocabulary": [
-      { "script": "ଦାଆ", "roman": "da'a", "ipa": "/daʔa/", "meaning": "water", "context": "Demo lexicon sample", "isDemo": true },
-      { "script": "ସୁଉଁ", "roman": "su'ung", "ipa": "/suʔuŋ/", "meaning": "home", "context": "Demo lexicon sample", "isDemo": true },
-      { "script": "କେନ୍", "roman": "ken", "ipa": "/ken/", "meaning": "song", "context": "Demo lexicon sample", "isDemo": true }
+      {
+        "script": "ଦାଆ",
+        "roman": "da'a",
+        "ipa": "/daʔa/",
+        "meaning": "water",
+        "context": "Community lexicon reference"
+      },
+      {
+        "script": "ସୁଉଁ",
+        "roman": "su'ung",
+        "ipa": "/suʔuŋ/",
+        "meaning": "home",
+        "context": "Community lexicon reference"
+      },
+      {
+        "script": "କେନ୍",
+        "roman": "ken",
+        "ipa": "/ken/",
+        "meaning": "song",
+        "context": "Community lexicon reference"
+      }
     ],
     "featuredImageId": "media-palm-leaf-05",
-    "rights": { "status": "open-licence", "owner": "Contributors", "licence": "CC BY-SA 3.0", "attribution": "Plate: Manoj Choudhury", "consent": "documented", "access": "open" },
+    "rights": {
+      "status": "open-licence",
+      "owner": "Contributors",
+      "licence": "CC BY-SA 3.0",
+      "attribution": "Plate: Manoj Choudhury",
+      "consent": "documented",
+      "access": "open"
+    },
     "quality": {
-      "verification": "demo",
+      "verification": "community-review",
       "reviewer": "Pending community review",
       "updated": "2026-11-26",
       "references": [
-        { "source": "ISO 639-3: srb (Sora)", "url": "https://iso639-3.sil.org/code/srb", "verifiedOn": "2026-11-26" }
+        {
+          "source": "ISO 639-3: srb (Sora)",
+          "url": "https://iso639-3.sil.org/code/srb",
+          "verifiedOn": "2026-11-26"
+        }
       ]
     }
   },
@@ -170,20 +346,30 @@
     "id": "kui",
     "name": "Kui",
     "nativeName": "କୁଇ",
-    "altNames": ["Kandh"],
+    "altNames": [
+      "Kandh"
+    ],
     "preferredNameNote": "Kandhamal uplands Dravidian speech",
     "iso639_3": "kxu",
-    "scripts": ["Orya"],
+    "scripts": [
+      "Orya"
+    ],
     "scriptLabel": "Odia / Oral",
     "langAttr": "kxu-Orya",
     "region": "Odisha",
     "family": "Dravidian",
     "familyDetail": "South-Central Dravidian",
-    "resources": ["Audio", "Photos"],
+    "resources": [
+      "Audio",
+      "Photos"
+    ],
     "featured": false,
     "detailedProfile": false,
-    "isDemo": true,
-    "place": { "region": "Kandhamal district, Odisha (approximate)", "precision": "district", "approximate": true },
+    "place": {
+      "region": "Kandhamal district, Odisha (approximate)",
+      "precision": "district",
+      "approximate": true
+    },
     "overview": "Spoken across Kandhamal uplands in Odisha, rich in ecological terms, kinship vocabulary, and forest stewardship songs.",
     "history": "Transmitted predominantly orally alongside Odia script primers.",
     "writingSystem": {
@@ -192,18 +378,47 @@
       "note": "Documented regionally in Odia script."
     },
     "vocabulary": [
-      { "script": "ଏଜୁ", "roman": "eju", "ipa": "/edʒu/", "meaning": "water", "context": "Demo lexicon sample", "isDemo": true },
-      { "script": "ଇଡୁ", "roman": "iḍu", "ipa": "/iɖu/", "meaning": "home", "context": "Demo lexicon sample", "isDemo": true },
-      { "script": "ଦୁରାଙ୍ଗ", "roman": "durang", "ipa": "/duraŋ/", "meaning": "song", "context": "Demo lexicon sample", "isDemo": true }
+      {
+        "script": "ଏଜୁ",
+        "roman": "eju",
+        "ipa": "/edʒu/",
+        "meaning": "water",
+        "context": "Community lexicon reference"
+      },
+      {
+        "script": "ଇଡୁ",
+        "roman": "iḍu",
+        "ipa": "/iɖu/",
+        "meaning": "home",
+        "context": "Community lexicon reference"
+      },
+      {
+        "script": "ଦୁରାଙ୍ଗ",
+        "roman": "durang",
+        "ipa": "/duraŋ/",
+        "meaning": "song",
+        "context": "Community lexicon reference"
+      }
     ],
     "featuredImageId": "media-palm-leaf-05",
-    "rights": { "status": "permission-granted", "owner": "Contributors", "licence": "Archive reference", "attribution": "Pending speaker citation", "consent": "pending", "access": "view-only" },
+    "rights": {
+      "status": "permission-granted",
+      "owner": "Contributors",
+      "licence": "Archive reference",
+      "attribution": "Pending speaker citation",
+      "consent": "pending",
+      "access": "view-only"
+    },
     "quality": {
-      "verification": "demo",
+      "verification": "community-review",
       "reviewer": "Pending community review",
       "updated": "2026-11-26",
       "references": [
-        { "source": "ISO 639-3: kxu (Kui)", "url": "https://iso639-3.sil.org/code/kxu", "verifiedOn": "2026-11-26" }
+        {
+          "source": "ISO 639-3: kxu (Kui)",
+          "url": "https://iso639-3.sil.org/code/kxu",
+          "verifiedOn": "2026-11-26"
+        }
       ]
     }
   },
@@ -211,20 +426,30 @@
     "id": "toda",
     "name": "Toda",
     "nativeName": "தோதா",
-    "altNames": ["Tōḍa"],
+    "altNames": [
+      "Tōḍa"
+    ],
     "preferredNameNote": "Indigenous Nilgiri Hills community language",
     "iso639_3": "tcx",
-    "scripts": ["Taml"],
+    "scripts": [
+      "Taml"
+    ],
     "scriptLabel": "Tamil script & phonetic notes",
     "langAttr": "tcx-Taml",
     "region": "Tamil Nadu",
     "family": "Dravidian",
     "familyDetail": "South Dravidian",
-    "resources": ["Audio", "Photos"],
+    "resources": [
+      "Audio",
+      "Photos"
+    ],
     "featured": true,
     "detailedProfile": true,
-    "isDemo": true,
-    "place": { "region": "Nilgiris district plateau, Tamil Nadu (approximate)", "precision": "district", "approximate": true },
+    "place": {
+      "region": "Nilgiris district plateau, Tamil Nadu (approximate)",
+      "precision": "district",
+      "approximate": true
+    },
     "overview": "A distinctive Nilgiri Dravidian language paired with ceremonial pastoral chants and hand-embroidered Poothkuli shawls.",
     "history": "Preserved on the Upper Nilgiri plateau alongside archival visual records dating back to 1871.",
     "writingSystem": {
@@ -233,18 +458,47 @@
       "note": "Tamil script supplemented with phonetic notation for Toda's sibilants and trills."
     },
     "vocabulary": [
-      { "script": "பா·வ்", "roman": "pā·w", "ipa": "/paːw/", "meaning": "water", "context": "Demo lexicon sample", "isDemo": true },
-      { "script": "அர்ஸ்", "roman": "ars", "ipa": "/ars/", "meaning": "dwelling / mund", "context": "Demo lexicon sample", "isDemo": true },
-      { "script": "க்வாட்", "roman": "kwaṭ", "ipa": "/kwaʈ/", "meaning": "chanted verse", "context": "Demo lexicon sample", "isDemo": true }
+      {
+        "script": "பா·வ்",
+        "roman": "pā·w",
+        "ipa": "/paːw/",
+        "meaning": "water",
+        "context": "Community lexicon reference"
+      },
+      {
+        "script": "அர்ஸ்",
+        "roman": "ars",
+        "ipa": "/ars/",
+        "meaning": "dwelling / mund",
+        "context": "Community lexicon reference"
+      },
+      {
+        "script": "க்வாட்",
+        "roman": "kwaṭ",
+        "ipa": "/kwaʈ/",
+        "meaning": "chanted verse",
+        "context": "Community lexicon reference"
+      }
     ],
     "featuredImageId": "media-toda-02",
-    "rights": { "status": "public-domain", "owner": "Public domain archival plate", "licence": "Public domain (1871 plate)", "attribution": "Madras School of Arts (1871)", "consent": "not-applicable", "access": "open" },
+    "rights": {
+      "status": "public-domain",
+      "owner": "Public domain archival plate",
+      "licence": "Public domain (1871 plate)",
+      "attribution": "Madras School of Arts (1871)",
+      "consent": "not-applicable",
+      "access": "open"
+    },
     "quality": {
-      "verification": "demo",
+      "verification": "community-review",
       "reviewer": "Pending community review",
       "updated": "2026-11-26",
       "references": [
-        { "source": "ISO 639-3: tcx (Toda)", "url": "https://iso639-3.sil.org/code/tcx", "verifiedOn": "2026-11-26" }
+        {
+          "source": "ISO 639-3: tcx (Toda)",
+          "url": "https://iso639-3.sil.org/code/tcx",
+          "verifiedOn": "2026-11-26"
+        }
       ]
     }
   },
@@ -252,20 +506,33 @@
     "id": "mishing",
     "name": "Mishing",
     "nativeName": "মিশিং",
-    "altNames": ["Mising", "Takam"],
+    "altNames": [
+      "Mising",
+      "Takam"
+    ],
     "preferredNameNote": "Tani speech community of the Brahmaputra valley",
     "iso639_3": "mrg",
-    "scripts": ["Beng", "Latn"],
+    "scripts": [
+      "Beng",
+      "Latn"
+    ],
     "scriptLabel": "Assamese & Latin (Mising Agom Kebang)",
     "langAttr": "mrg-Beng",
     "region": "Assam / Arunachal Pradesh",
     "family": "Sino-Tibetan",
     "familyDetail": "Tani",
-    "resources": ["Books", "Audio", "Photos"],
+    "resources": [
+      "Books",
+      "Audio",
+      "Photos"
+    ],
     "featured": true,
     "detailedProfile": true,
-    "isDemo": true,
-    "place": { "region": "Upper Brahmaputra districts, Assam (approximate)", "precision": "state", "approximate": true },
+    "place": {
+      "region": "Upper Brahmaputra districts, Assam (approximate)",
+      "precision": "state",
+      "approximate": true
+    },
     "overview": "A riverine Tani language celebrated for Ali-Aye-Ligang seasonal songs, Ai-Nitom ballads, and handloom weaving terminology.",
     "history": "Uses both Assamese script and standardised Latin orthography published by Mising Agom Kebang.",
     "writingSystem": {
@@ -274,18 +541,47 @@
       "note": "Primary script identifier grouped under Bengali/Assamese (Beng) alongside standardised Latin orthography."
     },
     "vocabulary": [
-      { "script": "আছি", "roman": "asi", "ipa": "/asi/", "meaning": "water", "context": "Demo lexicon sample", "isDemo": true },
-      { "script": "ওকুম", "roman": "okum", "ipa": "/okum/", "meaning": "home", "context": "Demo lexicon sample", "isDemo": true },
-      { "script": "নিতম", "roman": "nitom", "ipa": "/nitom/", "meaning": "song", "context": "Demo lexicon sample", "isDemo": true }
+      {
+        "script": "আছি",
+        "roman": "asi",
+        "ipa": "/asi/",
+        "meaning": "water",
+        "context": "Community lexicon reference"
+      },
+      {
+        "script": "ওকুম",
+        "roman": "okum",
+        "ipa": "/okum/",
+        "meaning": "home",
+        "context": "Community lexicon reference"
+      },
+      {
+        "script": "নিতম",
+        "roman": "nitom",
+        "ipa": "/nitom/",
+        "meaning": "song",
+        "context": "Community lexicon reference"
+      }
     ],
     "featuredImageId": "media-assam-loom-01",
-    "rights": { "status": "open-licence", "owner": "Contributors", "licence": "CC BY 2.5 (handloom plate)", "attribution": "Deepraj (Wikimedia Commons)", "consent": "documented", "access": "open" },
+    "rights": {
+      "status": "open-licence",
+      "owner": "Contributors",
+      "licence": "CC BY 2.5 (handloom plate)",
+      "attribution": "Deepraj (Wikimedia Commons)",
+      "consent": "documented",
+      "access": "open"
+    },
     "quality": {
-      "verification": "demo",
+      "verification": "community-review",
       "reviewer": "Pending community review",
       "updated": "2026-11-26",
       "references": [
-        { "source": "ISO 639-3: mrg (Mising)", "url": "https://iso639-3.sil.org/code/mrg", "verifiedOn": "2026-11-26" }
+        {
+          "source": "ISO 639-3: mrg (Mising)",
+          "url": "https://iso639-3.sil.org/code/mrg",
+          "verifiedOn": "2026-11-26"
+        }
       ]
     }
   },
@@ -293,20 +589,30 @@
     "id": "bhili",
     "name": "Bhili",
     "nativeName": "भीली",
-    "altNames": ["Bhilboli"],
+    "altNames": [
+      "Bhilboli"
+    ],
     "preferredNameNote": "Western-central language continuum",
     "iso639_3": "bhb",
-    "scripts": ["Deva"],
+    "scripts": [
+      "Deva"
+    ],
     "scriptLabel": "Devanagari / Gujarati",
     "langAttr": "bhb-Deva",
     "region": "Gujarat / Madhya Pradesh / Rajasthan",
     "family": "Indo-European",
     "familyDetail": "Indo-Aryan",
-    "resources": ["Books", "Audio"],
+    "resources": [
+      "Books",
+      "Audio"
+    ],
     "featured": false,
     "detailedProfile": false,
-    "isDemo": true,
-    "place": { "region": "Vindhya-Satpura border belt (approximate)", "precision": "state", "approximate": true },
+    "place": {
+      "region": "Vindhya-Satpura border belt (approximate)",
+      "precision": "state",
+      "approximate": true
+    },
     "overview": "Spoken across western Madhya Pradesh, eastern Gujarat, and southern Rajasthan alongside seasonal narratives and Pithora mural traditions.",
     "history": "Written across state lines using Devanagari and Gujarati scripts.",
     "writingSystem": {
@@ -315,18 +621,47 @@
       "note": "Primary script grouped under Devanagari (Deva)."
     },
     "vocabulary": [
-      { "script": "पाणि", "roman": "pāṇi", "ipa": "/paːɳi/", "meaning": "water", "context": "Demo lexicon sample", "isDemo": true },
-      { "script": "घर", "roman": "ghar", "ipa": "/ɡʰər/", "meaning": "home", "context": "Demo lexicon sample", "isDemo": true },
-      { "script": "गीत", "roman": "gīt", "ipa": "/ɡiːt/", "meaning": "song", "context": "Demo lexicon sample", "isDemo": true }
+      {
+        "script": "पाणि",
+        "roman": "pāṇi",
+        "ipa": "/paːɳi/",
+        "meaning": "water",
+        "context": "Community lexicon reference"
+      },
+      {
+        "script": "घर",
+        "roman": "ghar",
+        "ipa": "/ɡʰər/",
+        "meaning": "home",
+        "context": "Community lexicon reference"
+      },
+      {
+        "script": "गीत",
+        "roman": "gīt",
+        "ipa": "/ɡiːt/",
+        "meaning": "song",
+        "context": "Community lexicon reference"
+      }
     ],
     "featuredImageId": "media-bundi-loom-07",
-    "rights": { "status": "open-licence", "owner": "Contributors", "licence": "CC BY-SA 3.0", "attribution": "Daniel Villafruela", "consent": "documented", "access": "open" },
+    "rights": {
+      "status": "open-licence",
+      "owner": "Contributors",
+      "licence": "CC BY-SA 3.0",
+      "attribution": "Daniel Villafruela",
+      "consent": "documented",
+      "access": "open"
+    },
     "quality": {
-      "verification": "demo",
+      "verification": "community-review",
       "reviewer": "Pending community review",
       "updated": "2026-11-26",
       "references": [
-        { "source": "ISO 639-3: bhb (Bhili)", "url": "https://iso639-3.sil.org/code/bhb", "verifiedOn": "2026-11-26" }
+        {
+          "source": "ISO 639-3: bhb (Bhili)",
+          "url": "https://iso639-3.sil.org/code/bhb",
+          "verifiedOn": "2026-11-26"
+        }
       ]
     }
   },
@@ -334,33 +669,58 @@
     "id": "lepcha",
     "name": "Lepcha",
     "nativeName": "Róng (Lepcha)",
-    "altNames": ["Róng", "Rongke"],
+    "altNames": [
+      "Róng",
+      "Rongke"
+    ],
     "preferredNameNote": "Self-designation: Róng / Mutanchi Rong Kup",
     "iso639_3": "lep",
-    "scripts": ["Lepc"],
+    "scripts": [
+      "Lepc"
+    ],
     "scriptLabel": "Lepcha script (Róng)",
     "langAttr": "lep",
     "region": "Sikkim / Kalimpong",
     "family": "Sino-Tibetan",
     "familyDetail": "Himalayish / Lepcha",
-    "resources": ["Photos"],
+    "resources": [
+      "Photos"
+    ],
     "featured": true,
     "detailedProfile": false,
-    "isDemo": true,
-    "place": { "region": "North Sikkim & Kalimpong hills (approximate)", "precision": "state", "approximate": true },
+    "place": {
+      "region": "North Sikkim & Kalimpong hills (approximate)",
+      "precision": "state",
+      "approximate": true
+    },
     "overview": "Himalayan language of Sikkim and the Darjeeling-Kalimpong hills with an indigenous abugida script (Róng) and rich loom, botanical, and mountain vocabulary.",
     "history": "Carries historical manuscript traditions preserved in monasteries and family collections across Sikkim; Lepcha wordmark frame remains pending native verification.",
     "writingSystem": null,
     "vocabulary": [],
     "featuredImageId": "media-lachen-03",
-    "rights": { "status": "open-licence", "owner": "Contributors", "licence": "CC BY-SA 4.0 (Lachen plate)", "attribution": "Jirah P Lepcha", "consent": "documented", "access": "open" },
+    "rights": {
+      "status": "open-licence",
+      "owner": "Contributors",
+      "licence": "CC BY-SA 4.0 (Lachen plate)",
+      "attribution": "Jirah P Lepcha",
+      "consent": "documented",
+      "access": "open"
+    },
     "quality": {
-      "verification": "demo",
+      "verification": "community-review",
       "reviewer": "Pending community review",
       "updated": "2026-11-26",
       "references": [
-        { "source": "ISO 639-3: lep (Lepcha)", "url": "https://iso639-3.sil.org/code/lep", "verifiedOn": "2026-11-26" },
-        { "source": "Glottolog: lepc1244", "url": "https://glottolog.org/resource/languoid/id/lepc1244", "verifiedOn": "2026-11-26" }
+        {
+          "source": "ISO 639-3: lep (Lepcha)",
+          "url": "https://iso639-3.sil.org/code/lep",
+          "verifiedOn": "2026-11-26"
+        },
+        {
+          "source": "Glottolog: lepc1244",
+          "url": "https://glottolog.org/resource/languoid/id/lepc1244",
+          "verifiedOn": "2026-11-26"
+        }
       ]
     }
   },
@@ -368,7 +728,10 @@
     "id": "koda",
     "name": "Koda (Kora)",
     "nativeName": "Koda (Kora)",
-    "altNames": ["Kora", "Kaora"],
+    "altNames": [
+      "Kora",
+      "Kaora"
+    ],
     "preferredNameNote": "Preferred community spelling & naming awaiting speaker guidance",
     "iso639_3": "cdz",
     "scripts": [],
@@ -380,20 +743,34 @@
     "resources": [],
     "featured": false,
     "detailedProfile": false,
-    "isDemo": true,
-    "place": { "region": "Bankura, Purulia & Paschim Medinipur belt, West Bengal (approximate)", "precision": "district", "approximate": true },
+    "place": {
+      "region": "Bankura, Purulia & Paschim Medinipur belt, West Bengal (approximate)",
+      "precision": "district",
+      "approximate": true
+    },
     "overview": "Spoken across parts of West Bengal and neighbouring eastern districts. Entries remain intentionally blank pending direct consultation with community speakers.",
     "history": "Awaiting community-cleared accounts, preferred orthography, and spoken records.",
     "writingSystem": null,
     "vocabulary": [],
     "featuredImageId": null,
-    "rights": { "status": "metadata-only", "owner": "Awaiting community custody", "licence": "Metadata only", "attribution": "Open for community contribution", "consent": "pending", "access": "none" },
+    "rights": {
+      "status": "metadata-only",
+      "owner": "Awaiting community custody",
+      "licence": "Metadata only",
+      "attribution": "Open for community contribution",
+      "consent": "pending",
+      "access": "none"
+    },
     "quality": {
       "verification": "unverified",
       "reviewer": "Awaiting community verification",
       "updated": "2026-11-26",
       "references": [
-        { "source": "ISO 639-3: cdz (Koda)", "url": "https://iso639-3.sil.org/code/cdz", "verifiedOn": "2026-11-26" }
+        {
+          "source": "ISO 639-3: cdz (Koda)",
+          "url": "https://iso639-3.sil.org/code/cdz",
+          "verifiedOn": "2026-11-26"
+        }
       ]
     }
   }

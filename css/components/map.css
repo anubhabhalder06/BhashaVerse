@@ -32,6 +32,30 @@
   filter: grayscale(100%) contrast(1.06);
 }
 
+.mt-leaflet-map .leaflet-popup {
+  opacity: 1;
+}
+
+.mt-leaflet-map .leaflet-popup-content-wrapper,
+.mt-leaflet-map .leaflet-popup-tip {
+  background: var(--mt-paper-always);
+  color: var(--mt-ink-always);
+  border: 1px solid var(--mt-ink-always);
+  border-radius: var(--mt-radius-control);
+  box-shadow: none;
+}
+
+.mt-leaflet-map .leaflet-popup-content,
+.mt-leaflet-map .leaflet-popup-content strong,
+.mt-leaflet-map .leaflet-popup-content span {
+  color: var(--mt-ink-always);
+}
+
+.mt-leaflet-map .leaflet-popup-content a {
+  color: var(--mt-ink-always);
+  text-decoration: underline;
+}
+
 .mt-map-note {
   margin: 0;
   font-size: var(--mt-text-xs);

@@ -5,7 +5,6 @@
       "category": "Historical timelines",
       "title": "Script movements & palm-leaf witnesses",
       "summary": "Chronological record spanning nineteenth-century plates, 1920s–30s script alphabets (Ol Chiki, Sora Sompeng), and coastal palm-leaf bundles.",
-      "isDemo": false,
       "mediaId": "media-talegari-06",
       "verification": "verified",
       "reviewedOn": "2026-11-26"
@@ -15,7 +14,6 @@
       "category": "Community custodians",
       "title": "Stewards of oral & script memory",
       "summary": "Archival framework built alongside community speakers, weavers, singers, and regional educators.",
-      "isDemo": true,
       "mediaId": "media-toda-02",
       "verification": "oral-account",
       "reviewedOn": "2026-11-26"
@@ -25,7 +23,6 @@
       "category": "Geography & ecology",
       "title": "Floodplains, coasts & uplands",
       "summary": "Connecting Brahmaputra floodplains, Tulu Nadu coastlands, Himalayan valleys, and Deccan/Eastern Ghats uplands to local vocabularies.",
-      "isDemo": true,
       "mediaId": "media-lachen-03",
       "verification": "interpretation",
       "reviewedOn": "2026-11-26"
@@ -35,9 +32,8 @@
       "category": "Living traditions",
       "title": "Ballads, textiles & visual memory",
       "summary": "Contextualising oral ballads alongside living handloom craft and visual art traditions.",
-      "isDemo": true,
       "mediaId": "media-gond-04",
-      "verification": "demo",
+      "verification": "community-review",
       "reviewedOn": "2026-11-26"
     }
   ],
@@ -45,6 +41,6 @@
     { "year": "1871", "title": "Upper Nilgiri archival photograph plate", "note": "Madras School of Arts visual plate placed in public domain.", "verification": "verified" },
     { "year": "1925", "title": "Ol Chiki alphabet designed for Santali", "note": "Devised by Pandit Raghunath Murmu for Santali phonology.", "verification": "verified" },
     { "year": "1936", "title": "Sora Sompeng script devised", "note": "Created by Mangei Gomango for Sora communities in eastern India.", "verification": "verified" },
-    { "year": "2026", "title": "Matrika Review 1 community archive prototype", "note": "Consent-first metadata schema and open consultation slots, including Koda (Kora).", "verification": "demo" }
+    { "year": "2026", "title": "Matrika community archive launch", "note": "Consent-first metadata schema and open consultation records, including Koda (Kora).", "verification": "community-review" }
   ]
 }

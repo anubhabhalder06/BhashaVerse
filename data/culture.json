@@ -4,7 +4,6 @@
     "category": "Ceremonial calendars",
     "title": "Festivals and seasonal observances",
     "summary": "Ali-Aye-Ligang, Sohrai, and coastal shrine observances documented solely with community permission.",
-    "isDemo": true,
     "mediaId": "media-toda-02",
     "verification": "interpretation",
     "reviewedOn": "2026-11-26"
@@ -14,7 +13,6 @@
     "category": "Oral performance",
     "title": "Music, ballads and storytelling",
     "summary": "Sung Paddana narratives, Ai-Nitom ballads, and Kandhamal forest stewardship songs.",
-    "isDemo": true,
     "mediaId": "media-assam-loom-01",
     "verification": "oral-account",
     "reviewedOn": "2026-11-26"
@@ -24,7 +22,6 @@
     "category": "Material culture",
     "title": "Art, textiles and handloom weaving",
     "summary": "Gond line-and-dot visual storytelling, Poothkuli weaving traditions, and palm-leaf etching.",
-    "isDemo": false,
     "mediaId": "media-gond-04",
     "verification": "verified",
     "reviewedOn": "2026-11-26"
@@ -34,9 +31,8 @@
     "category": "Authorised knowledge only",
     "title": "Botanical, architectural & sacred protocols",
     "summary": "Botanical memory, ecological terms, and restricted traditional knowledge included only upon explicit community authorisation.",
-    "isDemo": true,
     "mediaId": "media-palm-leaf-05",
-    "verification": "demo",
+    "verification": "community-review",
     "reviewedOn": "2026-11-26"
   }
 ]

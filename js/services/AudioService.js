@@ -1,7 +1,7 @@
 // @ts-check
 
 /**
- * Playback controller supporting real cleared audio files and silent labelled mock mode.
+ * Playback controller bound strictly to real permission-cleared audio files.
  * Never autoplays and never synthesises speech or pronunciations.
  */
 export class AudioService {
@@ -11,13 +11,12 @@ export class AudioService {
   }
 
   /**
-   * Create a track controller bound to optional media URL or silent mock duration.
-   * @param {{ src: string | null, durationSec: number, onUpdate: (state: { playing: boolean, current: number, duration: number }) => void }} opts
+   * Create a track controller bound to a real media URL.
+   * @param {{ src: string, durationSec?: number, onUpdate: (state: { playing: boolean, current: number, duration: number }) => void }} opts
    * @returns {AudioController}
    */
   createTrack(opts) {
-    const ctrl = new AudioController(opts, this);
-    return ctrl;
+    return new AudioController(opts, this);
   }
 
   /** @param {AudioController} except */
@@ -31,7 +30,7 @@ export class AudioService {
 
 export class AudioController {
   /**
-   * @param {{ src: string | null, durationSec: number, onUpdate: (state: { playing: boolean, current: number, duration: number }) => void }} opts
+   * @param {{ src: string, durationSec?: number, onUpdate: (state: { playing: boolean, current: number, duration: number }) => void }} opts
    * @param {AudioService} host
    */
   constructor(opts, host) {
@@ -42,17 +41,24 @@ export class AudioController {
     this.playing = false;
     this.current = 0;
     this.volume = 0.8;
-    /** @type {ReturnType<typeof setInterval> | null} */
-    this.timer = null;
     /** @type {HTMLAudioElement | null} */
     this.audio = this.src && typeof Audio !== "undefined" ? new Audio(this.src) : null;
+
     if (this.audio) {
       this.audio.preload = "metadata";
       this.audio.volume = this.volume;
+      this.audio.addEventListener("loadedmetadata", () => {
+        if (this.audio && Number.isFinite(this.audio.duration) && this.audio.duration > 0) {
+          this.duration = this.audio.duration;
+          this.emit();
+        }
+      });
       this.audio.addEventListener("timeupdate", () => {
         if (!this.audio) return;
         this.current = this.audio.currentTime;
-        this.duration = Number.isFinite(this.audio.duration) ? this.audio.duration : this.duration;
+        if (Number.isFinite(this.audio.duration) && this.audio.duration > 0) {
+          this.duration = this.audio.duration;
+        }
         this.emit();
       });
       this.audio.addEventListener("ended", () => this.pause());
@@ -65,29 +71,19 @@ export class AudioController {
   }
 
   play() {
+    if (!this.audio) return;
     this.host.pauseOthers(this);
     this.playing = true;
-    if (this.audio) {
-      this.audio.play().catch(() => { this.playing = false; this.emit(); });
-    } else {
-      if (this.current >= this.duration) this.current = 0;
-      clearInterval(this.timer);
-      this.timer = setInterval(() => {
-        this.current = Math.min(this.duration, this.current + 0.25);
-        this.emit();
-        if (this.current >= this.duration) this.pause();
-      }, 250);
-    }
+    this.audio.play().catch(() => {
+      this.playing = false;
+      this.emit();
+    });
     this.emit();
   }
 
   pause() {
     this.playing = false;
     if (this.audio) this.audio.pause();
-    if (this.timer) {
-      clearInterval(this.timer);
-      this.timer = null;
-    }
     this.emit();
   }
 

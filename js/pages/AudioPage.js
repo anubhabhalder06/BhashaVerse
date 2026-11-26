@@ -2,12 +2,11 @@
 import { Page } from "../core/Page.js";
 import { UrlHelper } from "../core/Url.js";
 import { clear, el } from "../utils/dom.js";
-import { DemoBadge } from "../components/DemoBadge.js";
 import { StatusChip } from "../components/StatusChip.js";
 import { FilterBar } from "../components/FilterBar.js";
 import { StateView } from "../components/StateView.js";
 
-/** Audio Archive page: mock-mode non-synthesised playback, transcript toggles, and consent metadata. */
+/** Audio Archive page: renders real player controls when audio files exist and clear speaker attribution otherwise. */
 export class AudioPage extends Page {
   async mount() {
     this.setTitle("Audio Archive");
@@ -53,27 +52,34 @@ export class AudioPage extends Page {
 
         for (const item of filtered) {
           const lang = item.languages[0];
+          const attributionText = `${item.creators.map((c) => c.name).join(", ")} · ${lang ? lang.communityName : "Archive"} · ${item.place.region}`;
           const card = el(
             "article",
             { id: item.id, class: "mt-tile-editorial" },
             el(
               "div",
               { style: "display:grid; gap:var(--mt-space-3);" },
-              el("div", { class: "mt-badge-row" }, rightsBadge.render(item), StatusChip.render(item.quality.verification), item.isDemo ? DemoBadge.render() : null),
+              el("div", { class: "mt-badge-row" }, rightsBadge.render(item), StatusChip.render(item.quality.verification)),
               el("h2", { style: "font-size:var(--mt-text-md); margin:0;" }, lang ? el("a", { href: `language-profile.html?id=${encodeURIComponent(lang.id)}`, style: "text-decoration:none" }, item.title) : item.title),
               el("p", { class: "mt-muted", style: "margin:0; font-size:var(--mt-text-xs);" }, `${item.collection} · ${item.place.region} · ${item.time.date || ""}`),
               el("p", { style: "margin:0; font-size:var(--mt-text-sm);" }, item.summary),
-              item.technical.durationSec > 0
+              item.technical.file
                 ? audioPlayer.render({
                     id: item.id,
                     title: item.title,
                     src: item.technical.file,
                     durationSec: item.technical.durationSec,
-                    isMock: item.technical.format === "mock-silent",
+                    attribution: attributionText,
                     transcript: item.description.transcript,
                     translation: item.description.translation,
                   })
-                : el("div", { class: "mt-state-box mt-state-box--empty" }, "Audio awaiting community speaker deposit. ", el("a", { href: `contribute.html?lang=${encodeURIComponent(lang ? lang.id : "")}` }, "Submit recording →"))
+                : el(
+                    "div",
+                    { class: "mt-state-box mt-state-box--empty" },
+                    el("p", { style: "margin:0; font-size:var(--mt-text-sm);" }, attributionText),
+                    item.description.caption ? el("p", { class: "mt-muted", style: "margin:0; font-size:var(--mt-text-xs);" }, item.description.caption) : null,
+                    el("a", { href: `contribute.html?lang=${encodeURIComponent(lang ? lang.id : "")}` }, "Contribute speaker recording →")
+                  )
             ),
             el(
               "div",

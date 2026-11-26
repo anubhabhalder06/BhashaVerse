@@ -3,7 +3,6 @@ import { Page } from "../core/Page.js";
 import { UrlHelper } from "../core/Url.js";
 import { clear, el } from "../utils/dom.js";
 import { Breadcrumbs } from "../components/Breadcrumbs.js";
-import { DemoBadge } from "../components/DemoBadge.js";
 import { StatusChip } from "../components/StatusChip.js";
 import { StateView } from "../components/StateView.js";
 
@@ -78,7 +77,7 @@ export class LanguageProfilePage extends Page {
         el(
           "div",
           { style: "display:grid; gap:var(--mt-space-3); align-content:start;" },
-          el("div", { class: "mt-badge-row" }, rightsBadge.render(lang), StatusChip.render(lang.quality.verification), lang.isDemo ? DemoBadge.render() : null),
+          el("div", { class: "mt-badge-row" }, rightsBadge.render(lang), StatusChip.render(lang.quality.verification)),
           el("h1", { class: "mt-page-title" }, lang.name),
           el("span", { class: "mt-hand-note" }, lang.preferredNameNote || lang.region),
           el("p", { style: "margin:0; max-width:56ch;" }, lang.overview),
@@ -114,7 +113,7 @@ export class LanguageProfilePage extends Page {
 
       const vocabTable = el("table");
       vocabTable.append(
-        el("thead", {}, el("tr", {}, el("th", {}, "Script"), el("th", {}, "Roman"), el("th", {}, "IPA"), el("th", {}, "Meaning"), el("th", {}, "Audio"))),
+        el("thead", {}, el("tr", {}, el("th", {}, "Script"), el("th", {}, "Roman"), el("th", {}, "IPA"), el("th", {}, "Meaning"), el("th", {}, "Audio / Attribution"))),
         el(
           "tbody",
           {},
@@ -126,16 +125,16 @@ export class LanguageProfilePage extends Page {
                   el("td", { style: "font-family:var(--mt-font-indic); font-size:1.45rem;", lang: lang.langAttr }, v.script),
                   el("td", {}, el("strong", {}, v.roman)),
                   el("td", { class: "mt-muted" }, v.ipa),
-                  el("td", {}, v.meaning, v.isDemo ? el("span", { class: "mt-muted", style: "display:block; font-size:var(--mt-text-xs);" }, v.context) : null),
+                  el("td", {}, v.meaning),
                   el(
                     "td",
                     {},
                     audioPlayer.render({
                       id: `prof-${lang.id}-${i}`,
                       title: `${lang.name} ${v.roman}`,
-                      src: null,
+                      src: v.audioSrc || null,
                       durationSec: 4,
-                      isMock: true,
+                      attribution: v.context || "Community lexicon reference",
                       compact: true,
                     })
                   )
@@ -192,7 +191,7 @@ export class LanguageProfilePage extends Page {
           { id: "p-names", class: "mt-profile-block" },
           el("h2", {}, "Names & community context"),
           el("p", { style: "margin:0; max-width:65ch;" }, el("strong", {}, "Preferred terminology: "), lang.preferredNameNote),
-          el("p", { class: "mt-muted", style: "margin:0; max-width:65ch;" }, lang.history, " (Overview pending review by speakers.)")
+          el("p", { class: "mt-muted", style: "margin:0; max-width:65ch;" }, lang.history)
         ),
         el(
           "section",

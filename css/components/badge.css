@@ -1,4 +1,4 @@
-/* COMPONENT: Monochrome RightsBadge, DemoBadge, StatusChip, and StateView */
+/* COMPONENT: Monochrome RightsBadge, StatusChip, and StateView */
 .mt-badge-row {
   display: flex;
   flex-wrap: wrap;
@@ -19,11 +19,6 @@
   background: transparent;
 }
 
-.mt-chip--demo {
-  border-style: dashed;
-  color: var(--mt-ink-muted);
-}
-
 .mt-chip--status {
   background: var(--mt-paper-elev);
 }
@@ -31,10 +26,6 @@
 .mt-spread--ink .mt-chip {
   border-color: var(--mt-paper-muted-always);
   color: var(--mt-paper-always);
-}
-
-.mt-spread--ink .mt-chip--demo {
-  color: var(--mt-paper-muted-always);
 }
 
 .mt-rights-explain {

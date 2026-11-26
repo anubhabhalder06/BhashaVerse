@@ -3,8 +3,9 @@
 const PREFETCH_LIMIT = 12;
 
 /**
- * Coordinates smooth anchor scrolling, View Transition readiness, link prefetching,
- * hairline top loading progress bar, and scroll/grid staggered entrance reveals.
+ * Coordinates View Transitions & browser-fallback cross-page navigation fades,
+ * hairline top loading bar, internal link prefetching, smooth anchor scrolling,
+ * and one shared IntersectionObserver for staggered scroll reveals.
  */
 export class MotionController {
   /** @param {import('./MotionPreferences.js').MotionPreferences} motionPrefs */
@@ -21,31 +22,26 @@ export class MotionController {
     /** @type {ReturnType<typeof setTimeout> | null} */
     this.finishTimer = null;
     this.progressValue = 0;
+    this.scrollRaf = false;
   }
 
-  /** Initialize top loading rule, link prefetching, smooth anchor jumps, and bfcache reset. */
+  /** Initialize top loading rule, fallback navigation fade, link prefetching, and single observer. */
   init() {
     if (typeof document === "undefined") return;
 
     this.ensureProgressBar();
     this.startLoading(0.38);
-
-    if (!this.motionPrefs.isReducedMotion()) {
-      document.documentElement.classList.add("mt-motion-ok");
-    }
-    this.motionPrefs.onChange(() => {
-      document.documentElement.classList.toggle("mt-motion-ok", !this.motionPrefs.isReducedMotion());
-    });
-
     this.bindNavigation();
     this.bindSmoothAnchors();
     this.initObserver();
 
     window.addEventListener("pageshow", (event) => {
-      document.documentElement.classList.remove("mt-nav-leaving");
+      document.documentElement.classList.remove("mt-nav-leaving", "mt-fallback-entering");
+      document.documentElement.classList.add("mt-fallback-entered");
       if (event.persisted) {
         this.finishLoading(true);
       }
+      this.revealAboveFold();
     });
   }
 
@@ -62,10 +58,7 @@ export class MotionController {
     this.progressEl = bar;
   }
 
-  /**
-   * Advance the hairline top progress bar smoothly without stalling main thread.
-   * @param {number} [target=0.45]
-   */
+  /** @param {number} [target=0.45] */
   startLoading(target = 0.45) {
     if (!this.progressEl) this.ensureProgressBar();
     if (!this.progressEl) return;
@@ -103,16 +96,16 @@ export class MotionController {
         this.progressValue = 0;
         this.progressEl.classList.remove("is-active", "is-done");
         this.progressEl.style.setProperty("--mt-progress", "0");
-      }, 200);
-    }, 120);
+      }, 180);
+    }, 100);
   }
 
   /**
-   * Prefetch same-origin .html documents on hover/focus and drive nav feedback on click.
+   * Prefetch same-origin .html documents and provide smooth exit fade fallback when needed.
    * @private
    */
   bindNavigation() {
-    const isInternalHtmlLink = (target) => {
+    const isInternalDoc = (target) => {
       const link = target instanceof Element ? target.closest("a[href]") : null;
       if (!(link instanceof HTMLAnchorElement)) return null;
       if (link.target && link.target !== "_self") return null;
@@ -142,24 +135,28 @@ export class MotionController {
       document.head.appendChild(hint);
     };
 
-    document.addEventListener("pointerenter", (e) => queuePrefetch(isInternalHtmlLink(e.target)), { capture: true, passive: true });
-    document.addEventListener("focusin", (e) => queuePrefetch(isInternalHtmlLink(e.target)), { passive: true });
+    document.addEventListener("pointerenter", (e) => queuePrefetch(isInternalDoc(e.target)), { capture: true, passive: true });
+    document.addEventListener("focusin", (e) => queuePrefetch(isInternalDoc(e.target)), { passive: true });
 
     document.addEventListener("click", (e) => {
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      const info = isInternalHtmlLink(e.target);
+      const info = isInternalDoc(e.target);
       if (!info) return;
+
       this.startLoading(0.76);
+
+      // Fallback exit fade only when cross-document View Transitions are unsupported
       if (!("onpagereveal" in window) && !this.motionPrefs.isReducedMotion()) {
+        e.preventDefault();
         document.documentElement.classList.add("mt-nav-leaving");
+        setTimeout(() => {
+          window.location.assign(info.url.href);
+        }, 150);
       }
     });
   }
 
-  /**
-   * Smooth same-page hash scrolling with post-scroll accessible focus handoff.
-   * @private
-   */
+  /** @private */
   bindSmoothAnchors() {
     document.addEventListener("click", (e) => {
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -185,9 +182,7 @@ export class MotionController {
       targetEl.scrollIntoView({ behavior, block: "start" });
       try {
         history.pushState(null, "", url.hash);
-      } catch {
-        // Ignore history restrictions on non-HTTP contexts.
-      }
+      } catch { }
 
       const focusTarget = () => {
         if (!targetEl.hasAttribute("tabindex")) targetEl.setAttribute("tabindex", "-1");
@@ -212,14 +207,13 @@ export class MotionController {
   /** @private */
   initObserver() {
     if (typeof window === "undefined") return;
-    let rafPending = false;
     window.addEventListener(
       "scroll",
       () => {
-        if (rafPending) return;
-        rafPending = true;
+        if (this.scrollRaf) return;
+        this.scrollRaf = true;
         requestAnimationFrame(() => {
-          rafPending = false;
+          this.scrollRaf = false;
           this.revealAboveFold();
         });
       },
@@ -236,23 +230,19 @@ export class MotionController {
           el.style.setProperty("--mt-stagger-i", String(Math.min(batchIdx, 5)));
           batchIdx += 1;
           el.classList.add("is-inview");
-          el.classList.remove("mt-reveal-pending");
           this.observer?.unobserve(el);
         }
         this.revealAboveFold();
       },
-      { threshold: 0.04, rootMargin: "0px 0px -16px 0px" }
+      { threshold: 0.15 }
     );
   }
 
-  /**
-   * Ensure elements at or above the current viewport (e.g. skipped via anchor/End jump) never stay hidden.
-   * @private
-   */
+  /** Ensure elements already visible or scrolled above fold settle cleanly without staying hidden. */
   revealAboveFold() {
     if (typeof document === "undefined" || typeof window === "undefined") return;
-    const thresholdY = window.innerHeight * 0.98;
-    const pending = document.querySelectorAll(".mt-reveal-pending");
+    const thresholdY = window.innerHeight * 1.02;
+    const pending = document.querySelectorAll(".reveal:not(.is-inview)");
     let batchIdx = 0;
     for (const el of pending) {
       if (!(el instanceof HTMLElement)) continue;
@@ -261,16 +251,12 @@ export class MotionController {
         el.style.setProperty("--mt-stagger-i", String(Math.min(batchIdx, 5)));
         batchIdx += 1;
         el.classList.add("is-inview");
-        el.classList.remove("mt-reveal-pending");
         this.observer?.unobserve(el);
       }
     }
   }
 
-  /**
-   * Scan page spreads, cards, and timelines for crisp progressive scroll/stagger entry.
-   * Also observes dynamically filtered grids inside #main after hydration.
-   */
+  /** Register static and dynamic sections/cards inside #main with one shared observer. */
   observeMain() {
     const main = document.getElementById("main");
     if (!main) return;
@@ -295,9 +281,9 @@ export class MotionController {
    * @private
    */
   scanTargets(root) {
-    if (this.motionPrefs.isReducedMotion()) return;
     const vh = typeof window !== "undefined" ? window.innerHeight : 900;
     const selector = [
+      ".reveal",
       ".mt-spread-inner",
       ".mt-tile-editorial",
       ".mt-lang-card",
@@ -315,18 +301,25 @@ export class MotionController {
     for (const node of nodes) {
       if (!(node instanceof HTMLElement)) continue;
       if (node.dataset.mtRevealBound === "1") continue;
+      // Avoid double-animating children nested inside an already-revealed container
+      if (node.parentElement && node.parentElement.closest(".reveal")) continue;
       node.dataset.mtRevealBound = "1";
+      node.classList.add("reveal");
+
+      if (this.motionPrefs.isReducedMotion()) {
+        node.classList.add("is-inview");
+        continue;
+      }
 
       const rect = node.getBoundingClientRect();
       if (rect.top <= vh * 0.96) {
-        node.style.setProperty("--mt-stagger-i", String(Math.min(aboveIdx, 6)));
+        node.style.setProperty("--mt-stagger-i", String(Math.min(aboveIdx, 5)));
         aboveIdx += 1;
-        node.classList.add("mt-reveal-item", "is-inview");
+        node.classList.add("is-inview");
       } else if (this.observer) {
-        node.classList.add("mt-reveal-item", "mt-reveal-pending");
         this.observer.observe(node);
       } else {
-        node.classList.add("mt-reveal-item", "is-inview");
+        node.classList.add("is-inview");
       }
     }
   }

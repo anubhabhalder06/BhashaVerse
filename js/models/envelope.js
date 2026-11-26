@@ -11,7 +11,7 @@ export function freezeRecordEnvelope(raw) {
     title: String(raw.title || ""),
     altTitles: Object.freeze([...(raw.altTitles || [])]),
     summary: String(raw.summary || ""),
-    isDemo: Boolean(raw.isDemo),
+    isFeatured: Boolean(raw.isFeatured),
     languages: Object.freeze((raw.languages || []).map((l) => Object.freeze({ ...l, scripts: Object.freeze([...(l.scripts || [])]) }))),
     place: Object.freeze({ ...(raw.place || { region: "", precision: "state", approximate: true }) }),
     time: Object.freeze({ ...(raw.time || {}) }),

@@ -1,10 +1,8 @@
 // @ts-check
 import { el } from "../utils/dom.js";
-import { DemoBadge } from "./DemoBadge.js";
 
 /**
- * Renders monochrome rounded photograph with optional vertical native-script label
- * matching Section 5.5 & Section 14 accessibility rules.
+ * Renders monochrome rounded photograph with optional vertical native-script label.
  */
 export class MediaFigure {
   /**
@@ -32,6 +30,7 @@ export class MediaFigure {
             src: item.technical.file,
             alt: item.technical.altText,
             loading: "lazy",
+            decoding: "async",
           })
         )
       );
@@ -73,8 +72,7 @@ export class MediaFigure {
         el(
           "div",
           { class: "mt-badge-row" },
-          this.rightsBadge.render(item),
-          item.isDemo ? DemoBadge.render() : null
+          this.rightsBadge.render(item)
         )
       );
       fig.appendChild(el("h2", { style: "font-size: var(--mt-text-md); margin:0;" }, item.title));

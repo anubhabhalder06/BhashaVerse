@@ -2,9 +2,8 @@
 import { Page } from "../core/Page.js";
 import { clear, el, iconCategory } from "../utils/dom.js";
 import { pad2 } from "../utils/format.js";
-import { DemoBadge } from "../components/DemoBadge.js";
 
-/** Home broadsheet controller hydrating dynamic facts, hero audio/demo badges, 8-script poster, 9-language spread switcher, and latest plates. */
+/** Home broadsheet controller hydrating archive stats, hero attribution, 8-script poster, 10-language folio spread, and latest plates. */
 export class HomePage extends Page {
   async mount() {
     this.setTitle("Home");
@@ -20,7 +19,7 @@ export class HomePage extends Page {
       mediaRepo.listMedia(),
     ]);
 
-    this.mountHeroControls(taxonomy, languages, audioPlayer);
+    this.mountHeroControls(taxonomy, languages, mediaItems, audioPlayer);
     this.mountPoster(languages, audioPlayer);
     this.mountCategoryChart(taxonomy.categories || []);
     this.mountSpecimenSpread(languages, mediaItems);
@@ -30,33 +29,50 @@ export class HomePage extends Page {
   /**
    * @param {Record<string, any>} taxonomy
    * @param {import('../models/Language.js').Language[]} languages
+   * @param {import('../models/MediaItem.js').MediaItem[]} mediaItems
    * @param {import('../components/AudioPlayer.js').AudioPlayer} audioPlayer
    */
-  mountHeroControls(taxonomy, languages, audioPlayer) {
+  mountHeroControls(taxonomy, languages, mediaItems, audioPlayer) {
     const heroAudioHost = document.getElementById("mt-hero-audio-host");
+    const bylineEl = document.getElementById("mt-hero-byline");
     const factsEl = document.getElementById("mt-hero-facts");
     const cueEl = document.getElementById("mt-scroll-cue-text");
     const hq = taxonomy.heroQuote || {};
 
+    if (bylineEl && hq.attribution) {
+      bylineEl.textContent = hq.attribution;
+    }
+
     if (heroAudioHost) {
       clear(heroAudioHost);
-      const player = audioPlayer.render({
-        id: "hero-mishing",
-        title: "Mishing hero sample quote",
-        src: null,
-        durationSec: hq.durationSec || 12,
-        isMock: true,
-        compact: true,
-        transcript: hq.transcriptNative || "Mishing transcript awaiting verification from community speakers.",
-        translation: hq.transcriptTranslation || "“The loom remembers the river’s old name.”",
-      });
-      heroAudioHost.append(DemoBadge.render("Demo content"), player);
+      if (hq.src) {
+        heroAudioHost.hidden = false;
+        heroAudioHost.append(
+          audioPlayer.render({
+            id: "hero-mishing",
+            title: "Mishing oral history quote",
+            src: hq.src,
+            durationSec: hq.durationSec || 12,
+            compact: true,
+            transcript: hq.transcriptNative || undefined,
+            translation: hq.transcriptTranslation || undefined,
+          })
+        );
+      } else {
+        heroAudioHost.hidden = true;
+      }
     }
 
     if (factsEl) {
       const scripts = new Set();
       languages.forEach((l) => l.scripts.forEach((s) => scripts.add(s)));
-      factsEl.textContent = `${languages.length} languages · ${scripts.size} ISO scripts · photographs, metadata & mock audio slots`;
+      const plateCount = mediaItems.filter((m) => Boolean(m.technical.file)).length;
+      clear(factsEl);
+      factsEl.append(
+        el("li", { class: "hero-stat" }, el("span", { class: "hero-stat-num" }, String(languages.length)), el("span", { class: "hero-stat-label" }, "Languages")),
+        el("li", { class: "hero-stat" }, el("span", { class: "hero-stat-num" }, String(scripts.size)), el("span", { class: "hero-stat-label" }, "Scripts")),
+        el("li", { class: "hero-stat" }, el("span", { class: "hero-stat-num" }, String(plateCount)), el("span", { class: "hero-stat-label" }, "Photographs & field notes"))
+      );
     }
 
     if (cueEl) {
@@ -67,9 +83,9 @@ export class HomePage extends Page {
 
   /**
    * @param {import('../models/Language.js').Language[]} languages
-   * @param {import('../components/AudioPlayer.js').AudioPlayer} audioPlayer
+   * @param {import('../components/AudioPlayer.js').AudioPlayer} _audioPlayer
    */
-  mountPoster(languages, audioPlayer) {
+  mountPoster(languages, _audioPlayer) {
     const rowsEl = document.getElementById("mt-poster-rows");
     const conceptEl = document.getElementById("mt-poster-concept");
     const rotateBtn = document.getElementById("mt-rotate-word");
@@ -87,6 +103,7 @@ export class HomePage extends Page {
 
       posterLangs.forEach((lang) => {
         const entry = lang.vocabulary.find((v) => v.meaning.toLowerCase().includes(conceptKey)) || lang.vocabulary[0];
+        const profileHref = `language-profile.html?id=${encodeURIComponent(lang.id)}`;
         const li = el(
           "li",
           { class: "mt-poster-row" },
@@ -95,7 +112,7 @@ export class HomePage extends Page {
             {},
             el(
               "a",
-              { class: "mt-poster-script-link", href: `language-profile.html?id=${encodeURIComponent(lang.id)}` },
+              { class: "mt-poster-script-link", href: profileHref },
               el("span", { lang: lang.langAttr }, entry.script)
             )
           ),
@@ -104,17 +121,9 @@ export class HomePage extends Page {
             { class: "mt-poster-meta" },
             el("span", { class: "mt-poster-lang" }, lang.name),
             el("span", { class: "mt-muted", style: "font-style:italic" }, entry.roman),
-            el("span", { class: "mt-muted" }, entry.ipa),
-            entry.isDemo ? DemoBadge.render("Demo") : null
+            el("span", { class: "mt-muted" }, entry.ipa)
           ),
-          audioPlayer.render({
-            id: `poster-${lang.id}-${conceptKey}`,
-            title: `${lang.name} — ${entry.roman}`,
-            src: null,
-            durationSec: 4,
-            isMock: true,
-            compact: true,
-          })
+          el("a", { class: "mt-text-arrow-link", href: profileHref }, "Inspect folio ", el("span", { "aria-hidden": "true" }, "→"))
         );
         rowsEl.appendChild(li);
       });
@@ -126,13 +135,13 @@ export class HomePage extends Page {
           el(
             "div",
             {},
-            el("a", { href: `language-profile.html?id=${encodeURIComponent(lang.id)}` }, lang.scripts.length ? lang.scriptLabel : "Script to be verified")
+            el("a", { href: `language-profile.html?id=${encodeURIComponent(lang.id)}` }, lang.scripts.length ? lang.scriptLabel : "Script under community review")
           ),
           el(
             "div",
             { class: "mt-poster-meta" },
             el("span", { class: "mt-poster-lang" }, lang.name),
-            el("span", { class: "mt-muted" }, lang.quality.reviewer || "Awaiting contribution")
+            el("span", { class: "mt-muted" }, lang.quality.reviewer || "Awaiting community contribution")
           ),
           el("a", { class: "mt-text-arrow-link", href: `contribute.html?lang=${encodeURIComponent(lang.id)}` }, "Contribute ", el("span", { "aria-hidden": "true" }, "→"))
         );
@@ -162,7 +171,7 @@ export class HomePage extends Page {
   }
 
   /**
-   * Switchable two-page folio specimen spread across all registry languages (clean <=200ms update).
+   * Switchable two-page folio specimen spread across all registry languages.
    * @param {import('../models/Language.js').Language[]} languages
    * @param {import('../models/MediaItem.js').MediaItem[]} mediaItems
    */
@@ -208,7 +217,7 @@ export class HomePage extends Page {
           : el(
               "div",
               { class: "mt-specimen-tiers" },
-              el("div", { class: "mt-tier-display" }, "Script specimen pending verification"),
+              el("div", { class: "mt-tier-display" }, "Script specimen under community review"),
               el("div", { style: "font-size:var(--mt-text-xs); color:var(--mt-paper-muted-always);" }, "Awaiting speaker-cleared script tables and community naming confirmation.")
             )
       );
@@ -216,7 +225,7 @@ export class HomePage extends Page {
       const rectoTop = el(
         "div",
         { style: "display:grid; gap:var(--mt-space-3);" },
-        el("div", { class: "mt-badge-row" }, el("span", { class: "mt-hand-note" }, lang.preferredNameNote || lang.scriptLabel), lang.isDemo ? DemoBadge.render("Demo overview") : null),
+        el("div", { class: "mt-badge-row" }, el("span", { class: "mt-hand-note" }, lang.preferredNameNote || lang.scriptLabel)),
         el("h2", { style: "font-size:var(--mt-text-xl); margin:0;" }, lang.id === "tulu" ? "Tulu and the Tigalari folio tradition" : `${lang.name} — ${lang.scriptLabel}`),
         el("p", { style: "margin:0;" }, lang.overview),
         el("p", { class: "mt-muted", style: "margin:0; font-size:var(--mt-text-sm);" }, lang.history)
@@ -224,7 +233,7 @@ export class HomePage extends Page {
 
       if (plate && plate.technical.file) {
         rectoTop.append(
-          el("div", { class: "mt-photo-tile", style: "aspect-ratio:16/5;" }, el("img", { src: plate.technical.file, alt: plate.technical.altText, loading: "lazy" })),
+          el("div", { class: "mt-photo-tile", style: "aspect-ratio:16/5;" }, el("img", { src: plate.technical.file, alt: plate.technical.altText, loading: "lazy", decoding: "async" })),
           el("p", { class: "mt-muted", style: "margin:0; font-size:var(--mt-text-xs);" }, `${plate.title} · ${plate.rights.attribution}`)
         );
       }
@@ -246,7 +255,7 @@ export class HomePage extends Page {
         { class: "mt-folio-footer", "aria-label": `${lang.name} folio metadata` },
         el("span", {}, `Catalogue MT-S${pad2(current + 1)}`),
         el("span", {}, `Collection: ${lang.family} — ${lang.region}`),
-        el("span", {}, `Verification: ${lang.quality.reviewer || "Pending"}`),
+        el("span", {}, `Verification: ${lang.quality.reviewer || "Community review"}`),
         el("span", {}, `Page ${pad2(current + 1)} of ${pad2(languages.length)}`)
       );
 
@@ -313,7 +322,7 @@ export class HomePage extends Page {
         el(
           "div",
           { style: "display:grid; gap:var(--mt-space-3);" },
-          el("div", { class: "mt-photo-tile" }, el("img", { src: item.technical.file, alt: item.technical.altText, loading: "lazy" })),
+          el("div", { class: "mt-photo-tile" }, el("img", { src: item.technical.file, alt: item.technical.altText, loading: "lazy", decoding: "async" })),
           rightsBadge.render(item),
           el("h3", { style: "font-size:var(--mt-text-md); margin:0;" }, el("a", { href: `gallery.html#${encodeURIComponent(item.id)}`, style: "text-decoration:none;" }, item.title)),
           el("p", { class: "mt-muted", style: "margin:0; font-size:var(--mt-text-xs);" }, `${item.collection} · ${item.place.region}`)

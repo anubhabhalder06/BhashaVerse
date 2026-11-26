@@ -23,7 +23,7 @@ export const VERIFICATION_STATUS = Object.freeze({
   ORAL_ACCOUNT: "oral-account",
   INTERPRETATION: "interpretation",
   UNVERIFIED: "unverified",
-  DEMO: "demo",
+  COMMUNITY_REVIEW: "community-review",
 });
 
 /** @readonly */
@@ -38,6 +38,6 @@ export const CONTRIBUTION_STATUS = Object.freeze({
 /** @readonly */
 export const WORDMARK_STATUS = Object.freeze({
   OFFICIAL: "official",
-  DEMO_UNVERIFIED: "demo-unverified",
+  UNVERIFIED_TRANSLITERATION: "community-review",
   PENDING: "pending",
 });

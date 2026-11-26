@@ -19,7 +19,6 @@ export class Language {
     this.resources = Object.freeze([...(raw.resources || [])]);
     this.featured = Boolean(raw.featured);
     this.detailedProfile = Boolean(raw.detailedProfile);
-    this.isDemo = Boolean(raw.isDemo);
     this.place = Object.freeze({ ...(raw.place || { region: "", precision: "state", approximate: true }) });
     this.overview = String(raw.overview || "");
     this.history = String(raw.history || "");

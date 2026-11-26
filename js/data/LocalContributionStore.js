@@ -5,7 +5,7 @@ import { CONTRIBUTION_STATUS } from "../models/enums.js";
 
 const STORAGE_KEY = "matrika:contributions";
 
-/** Browser-only localStorage contribution store for Review 1 demonstration. */
+/** Browser-local localStorage contribution store for moderation workflow review. */
 export class LocalContributionStore extends ContributionStore {
   /** @param {import('../utils/storage.js').SafeStorage} storage */
   constructor(storage) {
@@ -20,7 +20,7 @@ export class LocalContributionStore extends ContributionStore {
   }
 
   /**
-   * Save a new demonstration submission with forced initial "pending" status.
+   * Save a new submission with forced initial "pending" status.
    * @param {Record<string, any>} payload
    * @returns {Contribution}
    */
@@ -35,7 +35,7 @@ export class LocalContributionStore extends ContributionStore {
   }
 
   /**
-   * Update review status in the local admin mockup store.
+   * Update review status in the local moderation store.
    * @param {string} id
    * @param {string} status
    * @returns {Contribution | null}

@@ -6,8 +6,8 @@ const LABELS = Object.freeze({
   [VERIFICATION_STATUS.VERIFIED]: "Verified reference",
   [VERIFICATION_STATUS.ORAL_ACCOUNT]: "Oral account",
   [VERIFICATION_STATUS.INTERPRETATION]: "Interpretation",
-  [VERIFICATION_STATUS.UNVERIFIED]: "Unverified submission",
-  [VERIFICATION_STATUS.DEMO]: "Demo content",
+  [VERIFICATION_STATUS.UNVERIFIED]: "Awaiting community verification",
+  [VERIFICATION_STATUS.COMMUNITY_REVIEW]: "Community review",
 });
 
 /** Renders non-colour-dependent verification status text badge. */

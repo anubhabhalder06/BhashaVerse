@@ -1,4 +1,4 @@
-/* COMPONENT: AudioPlayer — circle play trigger + full progress/volume mock player + transcript toggle */
+/* COMPONENT: AudioPlayer — real cleared audio playback, progress scrubber, volume, transcript toggle */
 .mt-play-btn {
   display: inline-flex;
   align-items: center;

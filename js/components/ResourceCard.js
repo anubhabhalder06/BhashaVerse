@@ -1,6 +1,5 @@
 // @ts-check
 import { el } from "../utils/dom.js";
-import { DemoBadge } from "./DemoBadge.js";
 import { StatusChip } from "./StatusChip.js";
 
 /** Renders a Digital Library record tile using RightsBadge and BookmarkService. */
@@ -41,7 +40,7 @@ export class ResourceCard {
     }, isSaved ? "Saved" : "Save");
 
     const media = item.technical.file
-      ? el("div", { class: "mt-photo-tile" }, el("img", { src: item.technical.file, alt: item.technical.altText, loading: "lazy" }))
+      ? el("div", { class: "mt-photo-tile" }, el("img", { src: item.technical.file, alt: item.technical.altText, loading: "lazy", decoding: "async" }))
       : el("div", { class: "mt-tile-stub" }, `${item.technical.format || "Record"} · ${item.rights.licence || "Metadata only"}`);
 
     const langNames = item.languages.map((l) => l.communityName).join(", ");
@@ -49,8 +48,7 @@ export class ResourceCard {
       "div",
       { class: "mt-badge-row" },
       this.rightsBadge.render(item),
-      StatusChip.render(item.quality.verification),
-      item.isDemo ? DemoBadge.render() : null
+      StatusChip.render(item.quality.verification)
     );
 
     return el(

@@ -5,13 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com; connect-src 'self'; base-uri 'self'; form-action 'self';">
 <title>Privacy · Matrika</title>
-<meta name="description" content="Plain-language privacy notice for Matrika Review 1 static prototype.">
+<meta name="description" content="Plain-language privacy notice for Matrika digital language archive.">
 <meta property="og:site_name" content="Matrika">
 <meta property="og:title" content="Privacy · Matrika">
 <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600&family=Caveat:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&display=swap">
+<link rel="preload" as="style" href="css/base.css">
+<script blocking="render" src="js/boot.js"></script>
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/layout.css">
@@ -39,19 +41,18 @@
         <h1 class="mt-page-title">Privacy</h1>
       </header>
       <div class="mt-prose">
-        <h2>Prototype browser-only storage</h2>
-        <p>This Review 1 prototype of <strong>Matrika</strong> has no server database, no analytics, and no tracking scripts. Nothing you type—including contribution previews, bookmarks, theme preferences, wordmark pause state, or Matrika Assistant messages—is sent outside your own browser.</p>
+        <h2>Browser-local storage</h2>
+        <p>This static edition of <strong>Matrika</strong> uses no server database, analytics, or tracking scripts. Bookmarks, theme selection, and contribution queue entries remain inside your browser.</p>
 
         <h2>Local browser keys used</h2>
         <ul>
-          <li><code>matrika:theme</code> — light paper or dark ink preference.</li>
-          <li><code>matrika:wordmark-paused</code> — saved wordmark animation pause state.</li>
+          <li><code>matrika:theme</code> — surface palette setting.</li>
           <li><code>matrika:bookmarks</code> — record IDs saved via Bookmark buttons.</li>
-          <li><code>matrika:contributions</code> — demonstration form metadata stored locally (file contents are never read or saved).</li>
+          <li><code>matrika:contributions</code> — contribution form metadata stored locally (file contents are never read or saved).</li>
         </ul>
 
-        <h2>Intended Review 2 collection &amp; withdrawal</h2>
-        <p>When a moderated backend launches in future reviews, contributor contact details will be collected solely for verification and consent follow-up, never published without consent, and removable upon takedown or withdrawal request via <a href="contact.html">Contact / Report</a>.</p>
+        <h2>Custodial submission privacy &amp; withdrawal</h2>
+        <p>Where contributor contact details are recorded for moderation review and consent follow-up, they remain private and may be withdrawn at any time via <a href="contact.html">Contact / Report</a>.</p>
       </div>
     </div>
   </section>

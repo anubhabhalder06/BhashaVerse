@@ -41,7 +41,7 @@ export class MapView {
 
       clear(inspectorEl);
       inspectorEl.append(
-        el("div", { class: "mt-badge-row" }, el("span", { class: "mt-chip" }, lang.region), el("span", { class: "mt-chip mt-chip--demo" }, "Approximate region")),
+        el("div", { class: "mt-badge-row" }, el("span", { class: "mt-chip" }, lang.region), el("span", { class: "mt-chip mt-chip--status" }, "Approximate region")),
         lang.nativeName && lang.nativeName !== lang.name
           ? el("div", { lang: lang.langAttr, style: "font-family:var(--mt-font-indic); font-size:2.4rem; line-height:1.2;" }, lang.nativeName)
           : el("div", { class: "mt-script-stub-box" }, lang.scripts.length ? lang.scriptLabel : "Script to be verified"),

@@ -1,4 +1,4 @@
-/* BASE: Resets, typography, accessibility, skip link, selection */
+/* BASE: Resets, typography, accessibility, skip link, View Transitions, scroll reveals, skeleton loaders */
 *,
 *::before,
 *::after {
@@ -7,10 +7,20 @@
 }
 
 html {
-  scroll-behavior: smooth;
   scrollbar-width: none;
   accent-color: var(--mt-ink);
   overflow-x: clip;
+  scroll-padding-top: var(--mt-header-h);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @view-transition {
+    navigation: auto;
+  }
 }
 
 @supports not (scrollbar-width: none) {
@@ -25,24 +35,8 @@ html {
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  @view-transition {
-    navigation: auto;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  @view-transition {
-    navigation: none;
-  }
-
-  html {
-    scroll-behavior: auto;
-  }
-}
-
 [id] {
-  scroll-margin-top: var(--mt-space-7);
+  scroll-margin-top: var(--mt-header-h);
 }
 
 ::selection {
@@ -166,68 +160,61 @@ th {
   display: none !important;
 }
 
-/* CROSS-DOCUMENT VIEW TRANSITIONS & NAVIGATION LOADING */
-@media (prefers-reduced-motion: no-preference) {
-  .mt-header-wrap {
-    view-transition-name: mt-header;
-  }
-
-  #main {
-    view-transition-name: mt-main;
-  }
-
-  .mt-nav-progress {
-    view-transition-name: mt-nav-progress;
-  }
+/* CROSS-DOCUMENT VIEW TRANSITIONS & PERSISTENT HEADER SHELL */
+.mt-header-wrap {
+  view-transition-name: site-header;
 }
 
-::view-transition-old(mt-header),
-::view-transition-new(mt-header),
+.mt-nav-progress {
+  view-transition-name: mt-nav-progress;
+}
+
+/* Shared photographic bridge between Home hero and Photo & Video gallery */
+#media-assam-loom-01 .mt-photo-tile {
+  view-transition-name: hero-loom-plate;
+}
+
+::view-transition-old(site-header),
+::view-transition-new(site-header),
 ::view-transition-old(mt-nav-progress),
 ::view-transition-new(mt-nav-progress) {
   animation: none;
 }
 
-::view-transition-old(mt-main) {
-  animation: mt-page-out var(--mt-dur-exit) var(--mt-ease) both;
+::view-transition-old(root) {
+  animation: 220ms ease-out both mt-fade-out;
 }
 
-::view-transition-new(mt-main) {
-  animation: mt-page-in var(--mt-dur-enter) var(--mt-ease) both;
+::view-transition-new(root) {
+  animation: 360ms var(--ease-out) both mt-fade-in;
 }
 
-@keyframes mt-page-out {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
+@keyframes mt-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
-@keyframes mt-page-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes mt-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* Fallback subtle leave transition for browsers without Cross-Document View Transitions */
-html.mt-motion-ok.mt-nav-leaving #main {
-  opacity: 0.4;
-  transform: translateY(-4px);
-  transition:
-    opacity var(--mt-dur-fast) var(--mt-ease),
-    transform var(--mt-dur-fast) var(--mt-ease);
+/* Fallback navigation transitions when View Transitions are unavailable */
+html.mt-fallback-entering body {
+  opacity: 0;
 }
 
-/* Hairline Top Navigation & Data Hydration Progress Rule */
+html.mt-fallback-entered body {
+  opacity: 1;
+  transition: opacity 300ms var(--ease-out);
+}
+
+html.mt-nav-leaving body {
+  opacity: 0;
+  transition: opacity 150ms ease-out;
+}
+
+/* Hairline Top Navigation & Hydration Progress Rule */
 .mt-nav-progress {
   position: fixed;
   top: 0;
@@ -241,8 +228,8 @@ html.mt-motion-ok.mt-nav-leaving #main {
   opacity: 0;
   pointer-events: none;
   transition:
-    transform var(--mt-dur-enter) var(--mt-ease),
-    opacity var(--mt-dur-fast) var(--mt-ease);
+    transform var(--dur-base) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
 }
 
 .mt-nav-progress.is-active {
@@ -253,28 +240,19 @@ html.mt-motion-ok.mt-nav-leaving #main {
   opacity: 0;
 }
 
-/* Scroll & Staggered Grid Reveals (progressive enhancement under prefers-reduced-motion: no-preference) */
-@media (prefers-reduced-motion: no-preference) {
-  html.mt-motion-ok .mt-reveal-item.mt-reveal-pending {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-
-  html.mt-motion-ok .mt-reveal-item.is-inview {
-    animation: mt-stagger-in var(--mt-dur-reveal) var(--mt-ease) backwards;
-    animation-delay: calc(var(--mt-stagger-i, 0) * var(--mt-stagger-step));
-  }
+/* Scroll Reveals: elements marked .reveal start hidden under .js before first paint */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(16px);
 }
 
-@keyframes mt-stagger-in {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.js .reveal.is-inview {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+  transition-delay: calc(var(--mt-stagger-i, 0) * var(--mt-stagger-step));
 }
 
 /* Custom Archival Skeleton Loaders */
@@ -363,7 +341,7 @@ html.mt-motion-ok.mt-nav-leaving #main {
 
 @media (prefers-reduced-motion: no-preference) {
   .mt-skeleton-dot {
-    animation: mt-dot-breathe var(--mt-dur-shimmer) var(--mt-ease) infinite;
+    animation: mt-dot-breathe var(--mt-dur-shimmer) var(--ease-out) infinite;
   }
 
   .mt-skeleton-block::after,
@@ -373,7 +351,7 @@ html.mt-motion-ok.mt-nav-leaving #main {
     inset: 0;
     background: linear-gradient(90deg, transparent, var(--mt-paper-sheen), transparent);
     transform: translateX(-100%);
-    animation: mt-shimmer var(--mt-dur-shimmer) var(--mt-ease) infinite;
+    animation: mt-shimmer var(--mt-dur-shimmer) var(--ease-out) infinite;
   }
 }
 
@@ -384,4 +362,34 @@ html.mt-motion-ok.mt-nav-leaving #main {
 
 @keyframes mt-shimmer {
   to { transform: translateX(100%); }
+}
+
+/* Global Reduced Motion Override: disable transforms, keep short opacity fades only */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 150ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+
+  .js .reveal,
+  .js .reveal.is-inview,
+  .mt-hand-note,
+  .mt-text-arrow-link:hover,
+  .mt-text-arrow-link:focus-visible {
+    transform: none !important;
+    transition: opacity 150ms ease-out !important;
+    transition-delay: 0ms !important;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 150ms !important;
+  }
 }

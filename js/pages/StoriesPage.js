@@ -1,11 +1,10 @@
 // @ts-check
 import { Page } from "../core/Page.js";
 import { clear, el } from "../utils/dom.js";
-import { DemoBadge } from "../components/DemoBadge.js";
 import { StatusChip } from "../components/StatusChip.js";
 import { StateView } from "../components/StateView.js";
 
-/** Community Stories page marking oral accounts, interpretations, and demo slots transparently. */
+/** Community Stories page displaying oral accounts, interpretations, and community story records. */
 export class StoriesPage extends Page {
   async mount() {
     this.setTitle("Community Stories");
@@ -33,9 +32,9 @@ export class StoriesPage extends Page {
               "div",
               { style: "display:grid; gap:var(--mt-space-3);" },
               plate && plate.technical.file
-                ? el("div", { class: "mt-photo-tile" }, el("img", { src: plate.technical.file, alt: plate.technical.altText, loading: "lazy" }))
+                ? el("div", { class: "mt-photo-tile" }, el("img", { src: plate.technical.file, alt: plate.technical.altText, loading: "lazy", decoding: "async" }))
                 : el("div", { class: "mt-tile-stub" }, "Awaiting community story deposit"),
-              el("div", { class: "mt-badge-row" }, rightsBadge.render(st), StatusChip.render(st.quality.verification), st.isDemo ? DemoBadge.render() : null),
+              el("div", { class: "mt-badge-row" }, rightsBadge.render(st), StatusChip.render(st.quality.verification)),
               el("h2", { style: "font-size:var(--mt-text-md); margin:0;" }, st.title),
               el("p", { class: "mt-muted", style: "margin:0; font-size:var(--mt-text-xs);" }, `${st.languages.map((l) => l.communityName).join(", ")} · ${st.place.region}`),
               el("p", { style: "margin:0; font-size:var(--mt-text-sm);" }, st.summary)

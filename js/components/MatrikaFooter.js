@@ -12,7 +12,7 @@ export class MatrikaFooter extends HTMLElement {
     const notice = el(
       "p",
       { class: "mt-quiet-notice", role: "note" },
-      "Sample records, quotes and audio on this site are placeholders pending community verification."
+      "Materials in this archive remain subject to ongoing community consultation, speaker attribution, and documented rights tiers."
     );
 
     const navCols = el("nav", { class: "mt-footer-cols", "aria-label": "Footer navigation" });

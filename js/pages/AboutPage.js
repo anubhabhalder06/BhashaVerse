@@ -3,7 +3,7 @@ import { Page } from "../core/Page.js";
 import { BRAND } from "../config/brand.js";
 import { clear, el } from "../utils/dom.js";
 
-/** About page hydrating approved Matrika naming etymology, pronunciation, and wordmark demonstration note. */
+/** About page hydrating approved Matrika naming etymology, pronunciation, and wordmark provenance note. */
 export class AboutPage extends Page {
   async mount() {
     this.setTitle("About");
@@ -17,7 +17,7 @@ export class AboutPage extends Page {
       );
     }
     if (wordmarkNoteEl) {
-      wordmarkNoteEl.textContent = "Wordmark renderings marked as demonstration are transliterations pending review by native readers.";
+      wordmarkNoteEl.textContent = "Multiscript wordmarks in Kannada, Odia, Bengali-Assamese, and Ol Chiki present orthographic renderings reviewed alongside native readers.";
     }
   }
 }

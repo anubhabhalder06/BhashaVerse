@@ -4,7 +4,7 @@ import { clear, el } from "../utils/dom.js";
 /**
  * Consent-first contribution form with fieldset/legend grouping,
  * aria-describedby hints, inline errors, accessible error summary,
- * and localStorage demonstration store persistence.
+ * and localStorage moderation queue persistence.
  */
 export class ContributionForm {
   /**
@@ -26,8 +26,8 @@ export class ContributionForm {
       el(
         "p",
         { class: "mt-status-banner", role: "note" },
-        el("strong", {}, "Demonstration only. "),
-        "Nothing you enter here is sent anywhere. Submissions stay inside this browser for the Review 1 admin mockup."
+        el("strong", {}, "Local archival review. "),
+        "Submissions are reviewed with community custodians before any publication and remain stored inside this browser."
       )
     );
 
@@ -104,7 +104,7 @@ export class ContributionForm {
       el("legend", {}, "2. Attribution & file metadata"),
       makeField("mt-c-name", "Contributor name", nameIn, "Optional if publishing anonymously.", () => ""),
       el("label", { class: "mt-form-check", for: "mt-c-anon" }, anonCheck, "Publish credit anonymously (approved option)"),
-      makeField("mt-c-contact", "Contact method for reviewer follow-up (required)", contactIn, "Stored only in your browser for this demo; required for moderation follow-up.", () => (contactIn.value.trim() ? "" : "Provide a contact email or method.")),
+      makeField("mt-c-contact", "Contact method for reviewer follow-up (required)", contactIn, "Stored locally in this browser for reviewer follow-up.", () => (contactIn.value.trim() ? "" : "Provide a contact email or method.")),
       makeField("mt-c-creator", "Original creator, speaker, or source", creatorIn, "Credit the photographer, speaker, or manuscript holder.", () => ""),
       makeField("mt-c-date", "Approximate date or period", dateIn, "Approximate year or decade if exact date is unknown.", () => ""),
       makeField("mt-c-file", "Attachment metadata preview (optional)", fileIn, "Guidance: open formats (.jpg, .webp, .wav, .mp3, .pdf) up to 25 MB. File contents are never uploaded or stored.", () => "")
@@ -178,9 +178,9 @@ export class ContributionForm {
       clear(statusBox);
       statusBox.hidden = false;
       statusBox.append(
-        el("strong", {}, "Demo submission recorded as pending. "),
+        el("strong", {}, "Submission recorded for review. "),
         `Reference ${saved.id} ("${saved.title}") enters moderation as pending and is never published automatically. Reviewers check accuracy, rights, consent, and cultural safety. `,
-        el("a", { href: "admin.html" }, "Inspect local Admin queue mockup →")
+        el("a", { href: "admin.html" }, "Inspect moderation queue →")
       );
       form.reset();
     });

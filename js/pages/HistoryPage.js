@@ -1,7 +1,6 @@
 // @ts-check
 import { Page } from "../core/Page.js";
 import { clear, el } from "../utils/dom.js";
-import { DemoBadge } from "../components/DemoBadge.js";
 import { StatusChip } from "../components/StatusChip.js";
 import { StateView } from "../components/StateView.js";
 
@@ -32,9 +31,9 @@ export class HistoryPage extends Page {
               "div",
               { style: "display:grid; gap:var(--mt-space-3);" },
               plate && plate.technical.file
-                ? el("div", { class: "mt-photo-tile" }, el("img", { src: plate.technical.file, alt: plate.technical.altText, loading: "lazy" }))
+                ? el("div", { class: "mt-photo-tile" }, el("img", { src: plate.technical.file, alt: plate.technical.altText, loading: "lazy", decoding: "async" }))
                 : null,
-              el("div", { class: "mt-badge-row" }, StatusChip.render(entry.verification), entry.isDemo ? DemoBadge.render() : null),
+              el("div", { class: "mt-badge-row" }, StatusChip.render(entry.verification)),
               el("span", { class: "mt-muted", style: "font-size:var(--mt-text-xs)" }, entry.category),
               el("h2", { style: "font-size:var(--mt-text-md); margin:0;" }, entry.title),
               el("p", { class: "mt-muted", style: "margin:0; font-size:var(--mt-text-sm);" }, entry.summary)

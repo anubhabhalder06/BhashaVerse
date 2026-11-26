@@ -3,8 +3,9 @@ import { clear, el, iconPauseCircle, iconPlayCircle } from "../utils/dom.js";
 import { formatDuration } from "../utils/format.js";
 
 /**
- * Accessible audio player component supporting play/pause, progress scrubber,
- * duration readout, volume slider, transcript toggle, and explicit mock-mode labelling.
+ * Accessible audio player component. Renders real play/pause, progress scrubber,
+ * volume control, and transcript toggle ONLY when a verified audio file exists.
+ * Otherwise renders a clean archival speaker/deposit attribution note without playback UI.
  */
 export class AudioPlayer {
   /** @param {import('../services/AudioService.js').AudioService} audioService */
@@ -18,7 +19,7 @@ export class AudioPlayer {
    *   title: string,
    *   src?: string | null,
    *   durationSec?: number,
-   *   isMock?: boolean,
+   *   attribution?: string,
    *   transcript?: string | null,
    *   translation?: string | null,
    *   compact?: boolean,
@@ -26,7 +27,14 @@ export class AudioPlayer {
    * @returns {HTMLElement}
    */
   render(opts) {
-    const isMock = opts.isMock !== false && !opts.src;
+    if (!opts.src) {
+      return el(
+        "p",
+        { class: "mt-muted", style: "margin:0; font-size:var(--mt-text-xs);" },
+        opts.attribution || "Field recording pending community speaker clearance."
+      );
+    }
+
     const durationSec = Number(opts.durationSec) || 8;
     const trId = `mt-tr-${opts.id}`;
 
@@ -38,7 +46,7 @@ export class AudioPlayer {
         "aria-pressed": "false",
       })
     );
-    const playLabel = el("span", {}, opts.compact ? `Hear it · ${formatDuration(durationSec)}` : "Play");
+    const playLabel = el("span", {}, opts.compact ? `Listen · ${formatDuration(durationSec)}` : "Play");
     playBtn.append(iconPlayCircle(), playLabel);
 
     const timeReadout = el("span", { class: "mt-player-time" }, `0:00 / ${formatDuration(durationSec)}`);
@@ -68,21 +76,18 @@ export class AudioPlayer {
     const statusLive = el("span", { class: "sr-only", "aria-live": "polite" });
 
     const ctrl = this.audioService.createTrack({
-      src: opts.src || null,
+      src: opts.src,
       durationSec,
       onUpdate: (st) => {
         playBtn.setAttribute("aria-pressed", st.playing ? "true" : "false");
         clear(playBtn);
         playBtn.append(
           st.playing ? iconPauseCircle() : iconPlayCircle(),
-          el("span", {}, st.playing ? "Pause" : (opts.compact ? `Hear it · ${formatDuration(durationSec)}` : "Play"))
+          el("span", {}, st.playing ? "Pause" : (opts.compact ? `Listen · ${formatDuration(st.duration)}` : "Play"))
         );
         progress.max = String(Math.max(1, st.duration));
         progress.value = String(st.current);
         timeReadout.textContent = `${formatDuration(st.current)} / ${formatDuration(st.duration)}`;
-        if (st.playing && isMock) {
-          statusLive.textContent = `Mock player active for ${opts.title} — no audio file attached.`;
-        }
       },
     });
 
@@ -91,16 +96,8 @@ export class AudioPlayer {
     volume.addEventListener("input", () => ctrl.setVolume(Number(volume.value)));
 
     const controlsRow = opts.compact
-      ? el("div", { class: "mt-badge-row" }, playBtn, isMock ? el("span", { class: "mt-chip mt-chip--demo" }, "Mock player — no recording") : null)
-      : el(
-          "div",
-          { class: "mt-player-controls" },
-          playBtn,
-          progress,
-          timeReadout,
-          volume,
-          isMock ? el("span", { class: "mt-chip mt-chip--demo" }, "Mock player — no recording") : null
-        );
+      ? el("div", { class: "mt-player-controls" }, playBtn, progress, timeReadout)
+      : el("div", { class: "mt-player-controls" }, playBtn, progress, timeReadout, volume);
 
     const shell = el("div", { class: opts.compact ? "" : "mt-player-shell" }, controlsRow, statusLive);
 
@@ -108,7 +105,7 @@ export class AudioPlayer {
       const panel = el(
         "div",
         { id: trId, class: "mt-transcript-panel", hidden: true },
-        el("p", { style: "margin:0" }, opts.transcript || "Transcript not yet available."),
+        el("p", { style: "margin:0" }, opts.transcript || "Transcript unavailable."),
         opts.translation ? el("p", { class: "mt-muted", style: "margin:0" }, `Translation: ${opts.translation}`) : null
       );
       const trBtn = el("button", {

@@ -10,18 +10,12 @@
   max-width: var(--mt-container);
   width: 100%;
   margin-inline: auto;
-  padding: var(--mt-space-3) 0;
+  padding: var(--mt-space-3) var(--gutter);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--mt-space-3) var(--mt-space-4);
   flex-wrap: wrap;
-}
-
-@media (max-width: 1247.98px) {
-  .site-header {
-    padding-inline: var(--mt-space-5);
-  }
 }
 
 @media (min-width: 78rem) {

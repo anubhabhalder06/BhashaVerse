@@ -3,7 +3,6 @@ import { Page } from "../core/Page.js";
 import { UrlHelper } from "../core/Url.js";
 import { clear, el } from "../utils/dom.js";
 import { Breadcrumbs } from "../components/Breadcrumbs.js";
-import { DemoBadge } from "../components/DemoBadge.js";
 import { StatusChip } from "../components/StatusChip.js";
 import { StateView } from "../components/StateView.js";
 
@@ -43,7 +42,7 @@ export class LibraryItemPage extends Page {
 
       const policy = rightsPolicy.evaluate(item);
       const previewEl = policy.canPreview && item.technical.file
-        ? el("div", { class: "mt-photo-tile", style: "aspect-ratio:16/10;" }, el("img", { src: item.technical.file, alt: item.technical.altText }))
+        ? el("div", { class: "mt-photo-tile", style: "aspect-ratio:16/10;" }, el("img", { src: item.technical.file, alt: item.technical.altText, decoding: "async" }))
         : el(
             "div",
             { class: "mt-state-box mt-state-box--empty", style: "min-height:18rem; align-content:center;" },
@@ -102,7 +101,7 @@ export class LibraryItemPage extends Page {
           el(
             "div",
             { style: "display:grid; gap:var(--mt-space-4);" },
-            el("div", { class: "mt-badge-row" }, StatusChip.render(item.quality.verification), item.isDemo ? DemoBadge.render() : null),
+            el("div", { class: "mt-badge-row" }, StatusChip.render(item.quality.verification)),
             rightsBadge.render(item, true),
             el("h1", { class: "mt-page-title", style: "font-size:var(--mt-text-xl);" }, item.title),
             el("p", { style: "margin:0;" }, item.summary),

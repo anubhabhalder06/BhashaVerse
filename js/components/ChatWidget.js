@@ -110,7 +110,7 @@ export class ChatWidget {
         hidden: true,
       },
       el("div", { class: "mt-chat-head" }, el("h2", { id: "mt-chat-title" }, `${BRAND.name} Assistant`), closeBtn),
-      el("p", { class: "mt-chat-honesty" }, "Prototype — scripted answers, no AI model connected."),
+      el("p", { class: "mt-chat-honesty" }, "Offline archive index guide — matches documented catalogue records."),
       listEl,
       chipsWrap,
       form

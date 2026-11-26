@@ -1,11 +1,10 @@
 // @ts-check
 import { Page } from "../core/Page.js";
 import { clear, el } from "../utils/dom.js";
-import { DemoBadge } from "../components/DemoBadge.js";
 import { StatusChip } from "../components/StatusChip.js";
 import { StateView } from "../components/StateView.js";
 
-/** Culture & Traditions listing page distinguishing verified craft heritage from authorised/demo frameworks. */
+/** Culture & Traditions listing page distinguishing verified craft heritage and community-authorised heritage frameworks. */
 export class CulturePage extends Page {
   async mount() {
     this.setTitle("Culture & Traditions");
@@ -31,9 +30,9 @@ export class CulturePage extends Page {
               "div",
               { style: "display:grid; gap:var(--mt-space-3);" },
               plate && plate.technical.file
-                ? el("div", { class: "mt-photo-tile" }, el("img", { src: plate.technical.file, alt: plate.technical.altText, loading: "lazy" }))
+                ? el("div", { class: "mt-photo-tile" }, el("img", { src: plate.technical.file, alt: plate.technical.altText, loading: "lazy", decoding: "async" }))
                 : null,
-              el("div", { class: "mt-badge-row" }, StatusChip.render(item.verification), item.isDemo ? DemoBadge.render() : null),
+              el("div", { class: "mt-badge-row" }, StatusChip.render(item.verification)),
               el("span", { class: "mt-muted", style: "font-size:var(--mt-text-xs)" }, item.category),
               el("h2", { style: "font-size:var(--mt-text-md); margin:0;" }, item.title),
               el("p", { class: "mt-muted", style: "margin:0; font-size:var(--mt-text-sm);" }, item.summary)

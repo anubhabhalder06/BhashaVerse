@@ -1,7 +1,7 @@
 // @ts-check
 import { CONTRIBUTION_STATUS } from "./enums.js";
 
-/** Immutable demonstration contribution record stored locally in browser. */
+/** Immutable archival contribution record stored locally in browser. */
 export class Contribution {
   /** @param {Record<string, any>} raw */
   constructor(raw) {

@@ -5,12 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com; connect-src 'self'; base-uri 'self'; form-action 'self';">
-<title>Admin Mockup · Matrika</title>
-<meta name="description" content="Client-side moderation queue mockup for Review 1.">
+<title>Editorial Review Queue · Matrika</title>
+<meta name="description" content="Client-side editorial moderation and verification review queue for Matrika.">
 <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600&family=Caveat:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&display=swap">
+<link rel="preload" as="style" href="css/base.css">
+<script blocking="render" src="js/boot.js"></script>
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/layout.css">
@@ -35,10 +37,10 @@
 <main id="main" class="mt-main-full">
   <section class="mt-spread">
     <div class="container" style="display:grid; gap:var(--mt-space-5);">
-      <p class="mt-status-banner" role="note"><strong>Admin mockup</strong> — no real authentication or security in this prototype.</p>
+      <p class="mt-status-banner" role="note"><strong>Browser-local moderation queue</strong> — review status updates apply inside this browser session with no remote server connection.</p>
 
       <header class="mt-page-head" style="margin-bottom:0;">
-        <span class="mt-hand-note">moderation queue demonstration</span>
+        <span class="mt-hand-note">editorial review &amp; consent verification</span>
         <h1 class="mt-page-title">Moderation &amp; Review Queue</h1>
         <p id="mt-admin-overview" class="mt-muted" style="margin:0;"></p>
       </header>

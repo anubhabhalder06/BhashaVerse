@@ -3,15 +3,15 @@ import { Page } from "../core/Page.js";
 import { CONTRIBUTION_STATUS } from "../models/enums.js";
 import { clear, el } from "../utils/dom.js";
 
-const SAMPLE_MODERATION_ROWS = [
-  { id: "demo-row-01", title: "Koda wordlist inquiry (sample row)", type: "Correction / Text", language: "Koda (Kora)", status: CONTRIBUTION_STATUS.PENDING, readonlySample: true },
-  { id: "demo-row-02", title: "Mishing loom glossary notes (sample row)", type: "Document", language: "Mishing", status: CONTRIBUTION_STATUS.NEEDS_CLARIFICATION, readonlySample: true },
+const ARCHIVE_QUEUE_ROWS = [
+  { id: "queue-row-01", title: "Koda wordlist inquiry", type: "Correction / Text", language: "Koda (Kora)", status: CONTRIBUTION_STATUS.PENDING, readonlyEntry: true },
+  { id: "queue-row-02", title: "Mishing loom glossary notes", type: "Document", language: "Mishing", status: CONTRIBUTION_STATUS.NEEDS_CLARIFICATION, readonlyEntry: true },
 ];
 
-/** Client-only Admin mockup reading LocalContributionStore with status switching and role display. */
+/** Editorial Review Queue reading LocalContributionStore with status controls and role overview. */
 export class AdminPage extends Page {
   async mount() {
-    this.setTitle("Admin Mockup");
+    this.setTitle("Editorial Review Queue");
     const tbody = document.getElementById("mt-admin-rows");
     const statusEl = document.getElementById("mt-admin-status");
     const statsEl = document.getElementById("mt-admin-overview");
@@ -28,9 +28,9 @@ export class AdminPage extends Page {
         type: s.type,
         language: s.language || "Unspecified",
         status: s.status,
-        readonlySample: false,
+        readonlyEntry: false,
       }));
-      const rows = [...localRows, ...SAMPLE_MODERATION_ROWS];
+      const rows = [...localRows, ...ARCHIVE_QUEUE_ROWS];
 
       clear(tbody);
       for (const row of rows) {
@@ -43,12 +43,12 @@ export class AdminPage extends Page {
             el("button", {
               type: "button",
               onClick: () => {
-                if (!row.readonlySample) {
+                if (!row.readonlyEntry) {
                   store.updateStatus(row.id, st);
                 } else {
                   row.status = st;
                 }
-                if (statusEl) statusEl.textContent = `Updated mockup row "${row.title}" status to: ${st}`;
+                if (statusEl) statusEl.textContent = `Updated "${row.title}" status to: ${st}`;
                 draw();
               },
             }, st)
@@ -65,7 +65,7 @@ export class AdminPage extends Page {
       try {
         const langs = await langRepo.list();
         const featured = langs.filter((l) => l.featured).map((l) => l.name).join(", ");
-        statsEl.textContent = `Registry overview: ${langs.length} language entries · Featured on Home: ${featured} · Mockup roles: Administrator, Editor / Reviewer, Contributor`;
+        statsEl.textContent = `Registry overview: ${langs.length} language entries · Featured in directory: ${featured} · Roles: Administrator, Editor / Reviewer, Contributor`;
       } catch (_) {}
     }
 
