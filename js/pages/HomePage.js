@@ -1,9 +1,10 @@
 // @ts-check
 import { Page } from "../core/Page.js";
+import { DemoBadge } from "../components/DemoBadge.js";
 import { clear, el, iconCategory, pictureEl } from "../utils/dom.js";
 import { pad2 } from "../utils/format.js";
 
-/** Home broadsheet controller hydrating audio player, 8-script poster, 6-option index, uniform folio spread, and plates. */
+/** Home broadsheet controller hydrating data-derived stats, honest mock audio player, 8-script poster, 6-option index, folio spread, and plates. */
 export class HomePage extends Page {
   async mount() {
     this.setTitle("Home");
@@ -20,7 +21,6 @@ export class HomePage extends Page {
     ]);
 
     this.mountHeroControls(taxonomy, languages, mediaItems, audioPlayer);
-    this.mountHeroParallax();
     this.mountPoster(languages);
     this.mountCategoryChart(taxonomy.categories || []);
     this.mountSpecimenSpread(languages, mediaItems);
@@ -35,10 +35,18 @@ export class HomePage extends Page {
    */
   mountHeroControls(taxonomy, languages, mediaItems, audioPlayer) {
     const heroAudioHost = document.getElementById("mt-hero-audio-host");
+    const quoteDemoHost = document.getElementById("mt-hero-demo-host");
     const bylineEl = document.getElementById("mt-hero-byline");
     const factsEl = document.getElementById("mt-hero-facts");
     const cueEl = document.getElementById("mt-scroll-cue-text");
     const hq = taxonomy.heroQuote || {};
+
+    if (quoteDemoHost) {
+      clear(quoteDemoHost);
+      if (hq.isDemo !== false) {
+        quoteDemoHost.appendChild(DemoBadge.render("Demo content"));
+      }
+    }
 
     if (bylineEl && hq.attribution) {
       bylineEl.textContent = hq.attribution;
@@ -50,14 +58,11 @@ export class HomePage extends Page {
       heroAudioHost.append(
         audioPlayer.render({
           id: hq.id || "hero-mishing",
-          title: "Mishing oral history quote",
+          title: "Mishing oral-tradition demonstration",
           src: hq.src || null,
           durationSec: hq.durationSec || 0,
-          attribution: hq.attribution || "Community speaker · Mishing · Assam",
-          statusCopy: "Recording shared with community consent — available soon",
-          transcriptNative: hq.transcriptNative || null,
-          transcriptLatin: hq.transcriptLatin || null,
-          transcriptEnglish: hq.transcriptEnglish || hq.transcriptTranslation || null,
+          attribution: hq.attribution || "Demo content",
+          transcript: hq.src ? hq.transcript || null : null,
         })
       );
     }
@@ -80,50 +85,6 @@ export class HomePage extends Page {
     }
   }
 
-  /** Bounded desktop pointer parallax inside hero image container (<=10px, rAF-throttled). */
-  mountHeroParallax() {
-    if (typeof window === "undefined") return;
-    if (document.documentElement.dataset.motion === "reduced") return;
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-
-    const heroGrid = document.querySelector(".hero-grid");
-    const parallax = /** @type {HTMLElement | null} */ (document.querySelector(".hero-parallax-wrap"));
-    if (!heroGrid || !parallax) return;
-
-    let rafId = 0;
-    let px = 0;
-    let py = 0;
-    const commit = () => {
-      rafId = 0;
-      parallax.style.setProperty("--mt-px", `${px.toFixed(1)}px`);
-      parallax.style.setProperty("--mt-py", `${py.toFixed(1)}px`);
-    };
-
-    const onMove = (/** @type {PointerEvent} */ e) => {
-      const r = heroGrid.getBoundingClientRect();
-      if (!r.width || !r.height) return;
-      const nx = (e.clientX - r.left) / r.width - 0.5;
-      const ny = (e.clientY - r.top) / r.height - 0.5;
-      px = Math.max(-10, Math.min(10, nx * -16));
-      py = Math.max(-8, Math.min(8, ny * -12));
-      if (!rafId) rafId = requestAnimationFrame(commit);
-    };
-
-    const onLeave = () => {
-      px = 0;
-      py = 0;
-      if (!rafId) rafId = requestAnimationFrame(commit);
-    };
-
-    heroGrid.addEventListener("pointermove", onMove, { passive: true });
-    heroGrid.addEventListener("pointerleave", onLeave, { passive: true });
-    window.addEventListener("pagehide", () => {
-      cancelAnimationFrame(rafId);
-      heroGrid.removeEventListener("pointermove", onMove);
-      heroGrid.removeEventListener("pointerleave", onLeave);
-    }, { once: true });
-  }
-
   /** @param {import('../models/Language.js').Language[]} languages */
   mountPoster(languages) {
     const posterSec = document.getElementById("s-poster");
@@ -134,7 +95,6 @@ export class HomePage extends Page {
 
     const concepts = ["water", "home", "song"];
     let conceptIdx = 0;
-    let swapping = false;
 
     const posterLangs = languages.filter((l) => l.vocabulary.length > 0);
     const pendingLangs = languages.filter((l) => l.vocabulary.length === 0);
@@ -142,7 +102,6 @@ export class HomePage extends Page {
     const draw = (conceptKey) => {
       conceptEl.textContent = conceptKey;
       clear(rowsEl);
-      let rowIndex = 0;
 
       posterLangs.forEach((lang) => {
         const entry = lang.vocabulary.find((v) => v.meaning.toLowerCase().includes(conceptKey)) || lang.vocabulary[0];
@@ -168,7 +127,6 @@ export class HomePage extends Page {
           ),
           el("a", { class: "mt-text-arrow-link", href: profileHref }, "Inspect folio ", el("span", { "aria-hidden": "true" }, "→"))
         );
-        li.style.setProperty("--mt-swap-i", String(Math.min(8, rowIndex++)));
         rowsEl.appendChild(li);
       });
 
@@ -189,48 +147,13 @@ export class HomePage extends Page {
           ),
           el("a", { class: "mt-text-arrow-link", href: `contribute.html?lang=${encodeURIComponent(lang.id)}` }, "Contribute ", el("span", { "aria-hidden": "true" }, "→"))
         );
-        li.style.setProperty("--mt-swap-i", String(Math.min(8, rowIndex++)));
         rowsEl.appendChild(li);
       });
     };
 
     const swapConcept = (nextIdx) => {
-      if (swapping) return;
       conceptIdx = (nextIdx + concepts.length) % concepts.length;
-      const reduced = document.documentElement.dataset.motion === "reduced";
-
-      if (rotateBtn) {
-        rotateBtn.classList.add("is-spinning");
-        window.setTimeout(() => rotateBtn.classList.remove("is-spinning"), 420);
-      }
-
-      if (reduced) {
-        draw(concepts[conceptIdx]);
-        return;
-      }
-
-      swapping = true;
-      const lockedH = rowsEl.offsetHeight;
-      if (lockedH > 0) rowsEl.style.minHeight = `${lockedH}px`;
-      rowsEl.classList.remove("is-entering");
-      conceptEl.classList.remove("is-entering");
-      rowsEl.classList.add("is-exiting");
-      conceptEl.classList.add("is-exiting");
-
-      window.setTimeout(() => {
-        draw(concepts[conceptIdx]);
-        rowsEl.classList.remove("is-exiting");
-        conceptEl.classList.remove("is-exiting");
-        rowsEl.classList.add("is-entering");
-        conceptEl.classList.add("is-entering");
-
-        window.setTimeout(() => {
-          rowsEl.classList.remove("is-entering");
-          conceptEl.classList.remove("is-entering");
-          rowsEl.style.minHeight = "";
-          swapping = false;
-        }, 480);
-      }, 240);
+      draw(concepts[conceptIdx]);
     };
 
     draw(concepts[0]);
@@ -251,49 +174,6 @@ export class HomePage extends Page {
           }
         }
       });
-
-      // Fallback hover dimming for browsers without CSS :has()
-      rowsEl.addEventListener("pointerover", (e) => {
-        if (!(e.target instanceof Element)) return;
-        const row = e.target.closest(".mt-poster-row");
-        if (!row) return;
-        rowsEl.classList.add("has-hover");
-        rowsEl.querySelectorAll(".mt-poster-row.is-row-active").forEach((r) => {
-          if (r !== row) r.classList.remove("is-row-active");
-        });
-        row.classList.add("is-row-active");
-      });
-      rowsEl.addEventListener("pointerleave", () => {
-        rowsEl.classList.remove("has-hover");
-        rowsEl.querySelectorAll(".mt-poster-row.is-row-active").forEach((r) => r.classList.remove("is-row-active"));
-      });
-
-      // Radial pointer glow following cursor smoothly via rAF
-      if (document.documentElement.dataset.motion !== "reduced" && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-        let glowRaf = 0;
-        let gx = 0;
-        let gy = 0;
-        const paintGlow = () => {
-          glowRaf = 0;
-          posterSec.style.setProperty("--mt-mx", `${gx.toFixed(0)}px`);
-          posterSec.style.setProperty("--mt-my", `${gy.toFixed(0)}px`);
-          posterSec.style.setProperty("--mt-m-active", "1");
-        };
-        const onMove = (/** @type {PointerEvent} */ e) => {
-          const r = posterSec.getBoundingClientRect();
-          gx = e.clientX - r.left;
-          gy = e.clientY - r.top;
-          if (!glowRaf) glowRaf = requestAnimationFrame(paintGlow);
-        };
-        const onLeave = () => {
-          cancelAnimationFrame(glowRaf);
-          glowRaf = 0;
-          posterSec.style.setProperty("--mt-m-active", "0");
-        };
-        posterSec.addEventListener("pointermove", onMove, { passive: true });
-        posterSec.addEventListener("pointerleave", onLeave, { passive: true });
-        window.addEventListener("pagehide", () => cancelAnimationFrame(glowRaf), { once: true });
-      }
     }
   }
 
@@ -324,12 +204,9 @@ export class HomePage extends Page {
     if (!host || !languages.length) return;
 
     let current = 0;
-    let hasRendered = false;
 
-    const renderSpread = (idx, dir = "next") => {
-      const targetIdx = Math.max(0, Math.min(languages.length - 1, idx));
-      const resolvedDir = dir || (targetIdx >= current ? "next" : "prev");
-      current = targetIdx;
+    const renderSpread = (idx) => {
+      current = Math.max(0, Math.min(languages.length - 1, idx));
       const lang = languages[current];
       const plate = lang.featuredImageId ? mediaItems.find((m) => m.id === lang.featuredImageId) : null;
 
@@ -412,15 +289,7 @@ export class HomePage extends Page {
         el("span", {}, `Page ${pad2(current + 1)} of ${pad2(languages.length)}`)
       );
 
-      const spreadEl = el(
-        "div",
-        {
-          class: `mt-book-spread${hasRendered ? ` mt-folio-turn-${resolvedDir}` : ""}`,
-        },
-        verso,
-        recto
-      );
-      hasRendered = true;
+      const spreadEl = el("div", { class: "mt-book-spread" }, verso, recto);
       host.append(spreadEl, meta);
 
       if (counterEl) counterEl.textContent = `Folio ${pad2(current + 1)} / ${pad2(languages.length)} · ${lang.name}`;
@@ -444,7 +313,7 @@ export class HomePage extends Page {
               type: "button",
               class: "mt-folio-pip",
               "aria-current": i === 0 ? "true" : "false",
-              onClick: () => renderSpread(i, i >= current ? "next" : "prev"),
+              onClick: () => renderSpread(i),
             },
             pad2(i + 1),
             " ",
@@ -454,19 +323,18 @@ export class HomePage extends Page {
       });
     }
 
-    if (prevBtn) prevBtn.addEventListener("click", () => renderSpread(current - 1, "prev"));
-    if (nextBtn) nextBtn.addEventListener("click", () => renderSpread(current + 1, "next"));
+    if (prevBtn) prevBtn.addEventListener("click", () => renderSpread(current - 1));
+    if (nextBtn) nextBtn.addEventListener("click", () => renderSpread(current + 1));
     host.addEventListener("keydown", (e) => {
       if (e.key === "ArrowRight" && current < languages.length - 1) {
         e.preventDefault();
-        renderSpread(current + 1, "next");
+        renderSpread(current + 1);
       } else if (e.key === "ArrowLeft" && current > 0) {
         e.preventDefault();
-        renderSpread(current - 1, "prev");
+        renderSpread(current - 1);
       }
     });
 
-    // Touch / pointer swipe across folio card
     let swipeX = 0;
     let swipeY = 0;
     host.addEventListener("pointerdown", (e) => {
@@ -477,11 +345,11 @@ export class HomePage extends Page {
       const dx = e.clientX - swipeX;
       const dy = e.clientY - swipeY;
       if (Math.abs(dx) < 48 || Math.abs(dx) <= Math.abs(dy) * 1.2) return;
-      if (dx < 0 && current < languages.length - 1) renderSpread(current + 1, "next");
-      else if (dx > 0 && current > 0) renderSpread(current - 1, "prev");
+      if (dx < 0 && current < languages.length - 1) renderSpread(current + 1);
+      else if (dx > 0 && current > 0) renderSpread(current - 1);
     }, { passive: true });
 
-    renderSpread(0, "next");
+    renderSpread(0);
   }
 
   /**

@@ -1,4 +1,4 @@
-/* BASE: Resets, typography, accessibility, branded loom transition cover, scroll reveals, skeletons */
+/* BASE: Resets, typography, accessibility, @view-transition cross-fade, NavigationProgress line */
 *,
 *::before,
 *::after {
@@ -11,12 +11,6 @@ html {
   accent-color: var(--mt-ink);
   overflow-x: clip;
   scroll-padding-top: var(--mt-header-h);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-  }
 }
 
 @supports not (scrollbar-width: none) {
@@ -51,20 +45,9 @@ body {
   overflow-x: clip;
 }
 
-/* Warm archival paper surface + discrete subtle fixed film grain */
 .mt-paper-grain {
   position: relative;
   background-color: var(--mt-paper);
-}
-
-.mt-paper-film {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 25;
-  opacity: 0.032;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E");
-  mix-blend-mode: multiply;
 }
 
 h1, h2, h3, h4 {
@@ -165,121 +148,44 @@ th {
   display: none !important;
 }
 
-/* BRANDED LOOM / WARP-THREAD PAGE TRANSITION COVER (Single Unified System) */
-.mt-cover {
-  position: fixed;
-  inset: 0;
-  z-index: 500;
-  background: var(--mt-ink-always);
-  color: var(--mt-paper-always);
-  display: grid;
-  place-items: center;
-  padding: var(--gutter);
-  transform: translateY(100%);
-  opacity: 0;
-  pointer-events: none;
+/* Native Cross-Document View Transitions (Section 2.2 A) */
+@view-transition {
+  navigation: auto;
 }
 
-.mt-cover.is-animating {
-  will-change: transform, opacity;
+::view-transition-old(root) {
+  animation: var(--mt-dur-vt-out) var(--mt-ease-out) both mt-vt-fade-out;
 }
 
-html.is-entering .mt-cover,
-html.is-first-visit .mt-cover,
-.mt-cover.is-covering,
-.mt-cover.is-holding {
-  transform: translateY(0);
-  opacity: 1;
-  pointer-events: auto;
+::view-transition-new(root) {
+  animation: var(--mt-dur-vt-in) var(--mt-ease-out) both mt-vt-fade-in;
 }
 
-.mt-cover.is-covering {
-  transition: transform var(--mt-cover-exit-ms) var(--ease-loom);
+.mt-header-wrap {
+  view-transition-name: mt-header;
 }
 
-.mt-cover.is-lifting {
-  transform: translateY(-100%);
-  opacity: 1;
-  pointer-events: none;
-  transition: transform var(--mt-cover-enter-ms) var(--ease-loom);
+.mt-chat-launcher {
+  view-transition-name: mt-launcher;
 }
 
-.mt-cover-inner {
-  width: min(28rem, 100%);
-  display: grid;
-  justify-items: center;
-  gap: var(--mt-space-4);
-  text-align: center;
+::view-transition-group(mt-header),
+::view-transition-group(mt-launcher) {
+  animation-duration: 0s;
 }
 
-.mt-cover-thread {
-  width: 100%;
-  height: 1px;
-  background: var(--mt-paper-always);
-  transform-origin: left center;
-  transform: scaleX(0);
-  opacity: 0.72;
+@keyframes mt-vt-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
-html.is-entering .mt-cover-thread,
-html.is-first-visit .mt-cover-thread,
-.mt-cover.is-covering .mt-cover-thread,
-.mt-cover.is-holding .mt-cover-thread {
-  transform: scaleX(1);
-  transition: transform 360ms var(--ease-loom);
+@keyframes mt-vt-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.mt-cover-mark {
-  font-family: var(--mt-font-indic);
-  font-size: clamp(1.5rem, 2.8vw, 2.25rem);
-  font-weight: var(--mt-weight-regular);
-  line-height: 1.25;
-  letter-spacing: 0;
-  color: var(--mt-paper-always);
-  opacity: 0;
-  transform: translateY(8px);
-}
-
-.mt-cover-dest {
-  font-family: var(--mt-font-body);
-  font-size: var(--mt-text-xs);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  font-variant-caps: small-caps;
-  color: var(--mt-paper-muted-always);
-  min-height: 1.25em;
-  opacity: 0;
-  transform: translateY(6px);
-}
-
-html.is-entering .mt-cover-mark,
-html.is-first-visit .mt-cover-mark,
-.mt-cover.is-covering .mt-cover-mark,
-.mt-cover.is-holding .mt-cover-mark,
-html.is-entering .mt-cover-dest,
-html.is-first-visit .mt-cover-dest,
-.mt-cover.is-covering .mt-cover-dest,
-.mt-cover.is-holding .mt-cover-dest {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity var(--dur-base) var(--ease-out) 110ms, transform var(--dur-base) var(--ease-out) 110ms;
-}
-
-.mt-cover-skip {
-  font-size: var(--mt-text-xs);
-  color: var(--mt-paper-muted-always);
-  background: transparent;
-  border: 0;
-  padding: var(--mt-space-2);
-  opacity: 0;
-}
-
-html.is-first-visit .mt-cover-skip {
-  opacity: 0.7;
-}
-
-/* Slim Top Progress Thread (loads + scroll indicator) */
-.mt-top-thread {
+/* 2px Top Navigation Progress Line (Section 2.2 B) */
+.mt-nav-progress {
   position: fixed;
   top: 0;
   left: 0;
@@ -287,29 +193,37 @@ html.is-first-visit .mt-cover-skip {
   height: 2px;
   z-index: 600;
   background: var(--mt-ink);
-  transform-origin: left center;
-  transform: scaleX(var(--mt-thread-scale, 0));
-  opacity: var(--mt-thread-opacity, 0);
   pointer-events: none;
-  transition: transform var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
-}
-
-/* Shared Scroll-In Reveals (pre-paint .js sets hidden cleanly before first frame) */
-.js .reveal {
+  transform-origin: left center;
+  transform: scaleX(0);
   opacity: 0;
-  transform: translateY(16px);
 }
 
-.js .reveal.is-inview {
+.mt-nav-progress.is-active {
   opacity: 1;
-  transform: translateY(0);
-  transition:
-    opacity var(--dur-base) var(--ease-out),
-    transform var(--dur-base) var(--ease-out);
-  transition-delay: calc(var(--mt-stagger-i, 0) * var(--mt-stagger-step));
+  transform: scaleX(0.85);
+  transition: transform 1200ms cubic-bezier(0.16, 1, 0.3, 1), opacity 100ms var(--mt-ease-out);
 }
 
-/* Custom Archival Skeleton Loaders */
+.mt-nav-progress.is-resumed {
+  opacity: 1;
+  transform: scaleX(0.85);
+  transition: none;
+}
+
+.mt-nav-progress.is-finishing {
+  opacity: 1;
+  transform: scaleX(1);
+  transition: transform 120ms var(--mt-ease-out);
+}
+
+.mt-nav-progress.is-fading {
+  opacity: 0;
+  transform: scaleX(1);
+  transition: opacity 160ms var(--mt-ease-out);
+}
+
+/* Archival Static Async State Containers (no shimmer) */
 .mt-skeleton-wrap {
   grid-column: 1 / -1;
   width: 100%;
@@ -366,8 +280,6 @@ html.is-first-visit .mt-cover-skip {
 .mt-skeleton-block {
   height: 11rem;
   background: var(--mt-paper-elev);
-  position: relative;
-  overflow: hidden;
 }
 
 .mt-skeleton-line {
@@ -375,41 +287,18 @@ html.is-first-visit .mt-cover-skip {
   height: 0.85rem;
   width: 100%;
   background: var(--mt-paper-elev);
-  position: relative;
-  overflow: hidden;
 }
 
 .mt-skeleton-line--chip { width: 34%; height: 1.15rem; }
 .mt-skeleton-line--title { width: 72%; height: 1.35rem; }
 .mt-skeleton-line--short { width: 54%; }
 
-@media (prefers-reduced-motion: no-preference) {
-  .mt-skeleton-dot {
-    animation: mt-dot-breathe var(--mt-dur-shimmer) var(--ease-out) infinite;
-  }
-
-  .mt-skeleton-block::after,
-  .mt-skeleton-line::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent, var(--mt-paper-sheen), transparent);
-    transform: translateX(-100%);
-    animation: mt-shimmer var(--mt-dur-shimmer) var(--ease-out) infinite;
-  }
-}
-
-@keyframes mt-dot-breathe {
-  0%, 100% { opacity: 0.35; }
-  50% { opacity: 1; }
-}
-
-@keyframes mt-shimmer {
-  to { transform: translateX(100%); }
-}
-
-/* Global Reduced Motion Block: disables transforms/wipes/parallax, keeps <=150ms opacity fades only */
+/* Global Reduced Motion Rules (Section 2.3) */
 @media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+
   html {
     scroll-behavior: auto !important;
   }
@@ -417,42 +306,31 @@ html.is-first-visit .mt-cover-skip {
   *,
   *::before,
   *::after {
-    animation-duration: 150ms !important;
+    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 150ms !important;
+    transition-duration: 0.01ms !important;
     transition-delay: 0ms !important;
     scroll-behavior: auto !important;
   }
 
-  .mt-cover {
-    transform: none !important;
-    opacity: 0;
-    transition: opacity 150ms ease-out !important;
-  }
-
-  html.is-entering .mt-cover,
-  .mt-cover.is-covering,
-  .mt-cover.is-holding {
-    transform: none !important;
+  .mt-nav-progress.is-active,
+  .mt-nav-progress.is-resumed,
+  .mt-nav-progress.is-finishing {
     opacity: 1;
+    transform: scaleX(1);
+    transition: none !important;
+  }
+}
+
+/* Mobile Typography & Touch Hygiene (phones <768px only) */
+@media (max-width: 767.98px) {
+  input,
+  select,
+  textarea {
+    font-size: max(16px, 1rem);
   }
 
-  .mt-cover.is-lifting {
-    transform: none !important;
-    opacity: 0;
-  }
-
-  .mt-cover-thread,
-  .mt-cover-mark,
-  .mt-cover-dest {
-    transform: none !important;
-  }
-
-  .js .reveal,
-  .js .reveal.is-inview,
-  .mt-hand-note,
-  .hero-frame img,
-  .hero-line-inner {
-    transform: none !important;
+  body {
+    padding-bottom: calc(48px + 16px + env(safe-area-inset-bottom, 0px));
   }
 }

@@ -23,6 +23,12 @@
   background: var(--mt-paper-elev);
 }
 
+.mt-demo-badge {
+  border-style: dashed;
+  background: transparent;
+  color: var(--mt-ink-muted);
+}
+
 .mt-spread--ink .mt-chip {
   border-color: var(--mt-paper-muted-always);
   color: var(--mt-paper-always);

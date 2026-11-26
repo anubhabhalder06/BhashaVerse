@@ -188,8 +188,7 @@ export class LanguageProfilePage extends Page {
                       src: a.technical.file,
                       durationSec: a.technical.durationSec,
                       attribution: a.rights.attribution,
-                      transcriptNative: a.description.transcript,
-                      transcriptEnglish: a.description.translation,
+                      transcript: a.technical.file ? a.description.transcript : null,
                     })
                   )
                 )

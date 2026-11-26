@@ -1,6 +1,6 @@
 // Bump CACHE_VERSION whenever static assets, HTML templates, or JSON schemas change.
-const CACHE_VERSION = "matrika-v1.0.0";
-const VERSION_QS = "?v=20261126";
+const CACHE_VERSION = "matrika-v1.0.1";
+const VERSION_QS = "?v=20261126b";
 
 const PRECACHE_PATHS = [
   "./",

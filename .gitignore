@@ -4,9 +4,10 @@ Website_Requirements_BhashaVerse.pdf
 design references/
 bhashaverse-skeleton/
 
-# Build / deployment staging
+# Build / deployment staging & local QA screenshots
 _site/
 dist/
+qa/
 
 # OS & tool files
 .DS_Store

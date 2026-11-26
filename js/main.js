@@ -18,7 +18,7 @@ import { MapService } from "./services/MapService.js";
 import { AudioService } from "./services/AudioService.js";
 import { ThemeService } from "./services/ThemeService.js";
 import { MotionPreferences } from "./services/MotionPreferences.js";
-import { MotionController } from "./services/MotionController.js";
+import { LinkPrefetcher } from "./services/LinkPrefetcher.js";
 import { FontGate } from "./services/FontGate.js";
 import { BookmarkService } from "./services/BookmarkService.js";
 import { KnowledgeBase } from "./chat/KnowledgeBase.js";
@@ -30,6 +30,7 @@ import { LanguageCard } from "./components/LanguageCard.js";
 import { ResourceCard } from "./components/ResourceCard.js";
 import { MediaFigure } from "./components/MediaFigure.js";
 import { AudioPlayer } from "./components/AudioPlayer.js";
+import { NavigationProgress } from "./components/NavigationProgress.js";
 import { MapView } from "./components/MapView.js";
 import { ChatWidget } from "./components/ChatWidget.js";
 import { MatrikaHeader } from "./components/MatrikaHeader.js";
@@ -76,7 +77,8 @@ export function buildContainer() {
   c.singleton("audioService", () => new AudioService());
   c.singleton("themeService", (di) => new ThemeService(di.resolve("storage")));
   c.singleton("motionPrefs", (di) => new MotionPreferences(di.resolve("storage")));
-  c.singleton("motionController", (di) => new MotionController(di.resolve("motionPrefs")));
+  c.singleton("navProgress", () => new NavigationProgress());
+  c.singleton("linkPrefetcher", () => new LinkPrefetcher());
   c.singleton("fontGate", () => new FontGate(3000));
   c.singleton("bookmarkService", (di) => new BookmarkService(di.resolve("storage")));
 
@@ -164,11 +166,13 @@ async function bootstrap() {
   const container = buildContainer();
   container.resolve("themeService").init();
   const audioService = container.resolve("audioService");
-  const motionController = container.resolve("motionController");
-  motionController.init();
+  const navProgress = container.resolve("navProgress");
+  const linkPrefetcher = container.resolve("linkPrefetcher");
+  navProgress.init();
+  linkPrefetcher.init();
   registerElements();
 
-  window.addEventListener("mt:before-navigate", () => {
+  window.addEventListener("pagehide", () => {
     audioService.pauseAll();
   });
 
@@ -177,12 +181,7 @@ async function bootstrap() {
 
   const pageName = document.body.dataset.page || "home";
   const page = createPage(pageName, container);
-  try {
-    await page.mount();
-  } finally {
-    motionController.observeMain();
-    await motionController.finishLoading();
-  }
+  await page.mount();
 
   if (FEATURES.enableChatbot) {
     const chatHost = document.createElement("div");
@@ -191,32 +190,19 @@ async function bootstrap() {
   }
 }
 
-if (typeof window !== "undefined") {
-  const forceUnlock = () => {
-    document.documentElement.classList.remove("is-entering", "is-first-visit");
-    const hq = document.getElementById("mt-hero-quote");
-    if (hq) hq.classList.remove("is-pre-reveal");
-    const cov = document.getElementById("mt-cover");
-    if (cov) cov.classList.remove("is-covering", "is-holding", "is-animating");
-  };
-  window.addEventListener("error", forceUnlock);
-  window.addEventListener("unhandledrejection", forceUnlock);
-
-  if ("serviceWorker" in navigator) {
-    window.addEventListener(
-      "load",
-      () => {
-        navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(() => {});
-      },
-      { once: true }
-    );
-  }
+if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+  window.addEventListener(
+    "load",
+    () => {
+      navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(() => {});
+    },
+    { once: true }
+  );
 }
 
 if (typeof document !== "undefined") {
   document.addEventListener("DOMContentLoaded", () => {
     bootstrap().catch((err) => {
-      document.documentElement.classList.remove("is-entering", "is-first-visit");
       console.error("Matrika bootstrap error:", err);
     });
   });

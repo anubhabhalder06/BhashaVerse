@@ -1,7 +1,9 @@
 // @ts-check
 
+const STATE_KEY = "matrika:wordmark-state";
+
 /**
- * State machine orchestrating header wordmark rotation.
+ * State machine orchestrating continuous header wordmark rotation across page loads.
  * States: idle | running | paused | reduced.
  */
 export class WordmarkRotator {
@@ -14,6 +16,7 @@ export class WordmarkRotator {
    *   scheduler?: { setTimeout: typeof setTimeout, clearTimeout: typeof clearTimeout },
    *   holdMs?: number,
    *   anchorHoldMs?: number,
+   *   session?: Storage | null,
    * }} deps
    */
   constructor(deps) {
@@ -27,31 +30,69 @@ export class WordmarkRotator {
     };
     this.holdMs = deps.holdMs || 2400;
     this.anchorHoldMs = deps.anchorHoldMs || 3400;
+    this.session = deps.session !== undefined ? deps.session : this._defaultSession();
 
     /** @type {"idle" | "running" | "paused" | "reduced"} */
     this.state = "idle";
     /** @type {import('../models/WordmarkFrame.js').WordmarkFrame[]} */
     this.frames = [];
     this.index = 0;
+    this.startedAt = Date.now();
     this.timerId = null;
     this.autoPauseReasons = new Set();
-    /** @type {IntersectionObserver | null} */
-    this.observer = null;
     /** @type {Array<() => void>} */
     this.unsubs = [];
   }
 
-  async init() {
-    this.frames = await this.repository.getFrames();
-    this.view.renderFrames(this.frames);
+  /** @returns {Storage | null} */
+  _defaultSession() {
+    try {
+      return typeof sessionStorage !== "undefined" ? sessionStorage : null;
+    } catch {
+      return null;
+    }
+  }
 
+  /** @returns {boolean} */
+  _isConstrainedNetwork() {
+    if (typeof navigator === "undefined") return false;
+    const conn = /** @type {{ saveData?: boolean, effectiveType?: string } | undefined} */ (
+      /** @type {any} */ (navigator).connection
+    );
+    return Boolean(conn && (conn.saveData || conn.effectiveType === "2g" || conn.effectiveType === "slow-2g"));
+  }
+
+  async init() {
+    const allFrames = await this.repository.getFrames();
+    this.frames = this._isConstrainedNetwork()
+      ? allFrames.filter((f) => f.isAnchor)
+      : allFrames;
+
+    this.view.renderFrames(this.frames);
     this.fontGate.warmSecondaryFonts();
 
     const anchorFrames = this.frames.filter((f) => f.isAnchor);
     await Promise.all(anchorFrames.map((f) => this.fontGate.ensure(f)));
 
+    // Resume saved script frame seamlessly across page transitions
+    const saved = this._loadState();
+    let resumeRemainingMs = null;
+    if (saved && Number.isInteger(saved.index) && saved.index >= 0 && saved.index < this.frames.length) {
+      const target = this.frames[saved.index];
+      const ok = await this.fontGate.ensure(target);
+      if (ok) {
+        this.index = saved.index;
+        this.startedAt = typeof saved.startedAt === "number" ? saved.startedAt : Date.now();
+        this.view.showFrame(target.script, true);
+        const targetHold = target.isAnchor ? this.anchorHoldMs : this.holdMs;
+        resumeRemainingMs = Math.max(200, targetHold - Math.max(0, Date.now() - this.startedAt));
+      }
+    } else {
+      this._saveState();
+    }
+
     this.attachVisibilityWatchers();
-    this.syncState();
+    this.syncState(resumeRemainingMs);
   }
 
   attachVisibilityWatchers() {
@@ -68,7 +109,8 @@ export class WordmarkRotator {
     }
   }
 
-  syncState() {
+  /** @param {number | null} [initialDelayOverride=null] */
+  syncState(initialDelayOverride = null) {
     const reduced = this.motionPrefs.isReducedMotion();
 
     if (reduced) {
@@ -87,14 +129,16 @@ export class WordmarkRotator {
 
     if (this.state !== "running") {
       this.state = "running";
-      this.scheduleNext();
+      this.scheduleNext(initialDelayOverride);
     }
   }
 
-  scheduleNext() {
+  /** @param {number | null} [delayOverride=null] */
+  scheduleNext(delayOverride = null) {
     this.clearTimer();
     const curr = this.frames[this.index];
-    const delay = curr && curr.isAnchor ? this.anchorHoldMs : this.holdMs;
+    const baseDelay = curr && curr.isAnchor ? this.anchorHoldMs : this.holdMs;
+    const delay = typeof delayOverride === "number" ? delayOverride : baseDelay;
     this.timerId = this.scheduler.setTimeout(() => this.advance(), delay);
   }
 
@@ -107,11 +151,32 @@ export class WordmarkRotator {
       if (this.state !== "running") return;
       if (ready) {
         this.index = candidateIdx;
+        this.startedAt = Date.now();
+        this._saveState();
         this.view.showFrame(frame.script, false);
         break;
       }
     }
     this.scheduleNext();
+  }
+
+  _loadState() {
+    try {
+      if (!this.session) return null;
+      const raw = this.session.getItem(STATE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  _saveState() {
+    try {
+      if (!this.session) return;
+      this.session.setItem(STATE_KEY, JSON.stringify({ index: this.index, startedAt: this.startedAt }));
+    } catch {
+      // Ignore quota/storage errors
+    }
   }
 
   clearTimer() {

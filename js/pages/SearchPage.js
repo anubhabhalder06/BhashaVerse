@@ -17,6 +17,10 @@ export class SearchPage extends Page {
   async mount() {
     this.setTitle("Search Archive");
     const qInput = /** @type {HTMLInputElement | null} */ (document.getElementById("search-page-q"));
+    const searchForm = document.getElementById("mt-search-form");
+    if (searchForm) {
+      searchForm.addEventListener("submit", (e) => e.preventDefault());
+    }
     const groupSel = /** @type {HTMLSelectElement | null} */ (document.getElementById("search-page-group"));
     const clearBtn = document.getElementById("search-page-clear");
     const countEl = document.getElementById("mt-search-count");
@@ -24,8 +28,10 @@ export class SearchPage extends Page {
     if (!qInput || !outEl) return;
 
     const getSearchService = this.container.resolve("getSearchService");
+    const navProgress = this.container.resolve("navProgress");
     clear(outEl);
     outEl.appendChild(StateView.loading());
+    navProgress.start();
 
     try {
       const searchService = await getSearchService();
@@ -104,6 +110,8 @@ export class SearchPage extends Page {
     } catch {
       clear(outEl);
       outEl.appendChild(StateView.error("Couldn't index archive search. Try again.", () => this.mount()));
+    } finally {
+      navProgress.done();
     }
   }
 }

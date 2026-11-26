@@ -8,8 +8,8 @@ import { WordmarkRotator } from "./WordmarkRotator.js";
 
 /**
  * Light-DOM custom element providing the unified Matrika header across all pages:
- * rotating wordmark, 7-item nav with sliding ink indicator + More/Saved dropdown,
- * expandable search input, and accessible mobile toggle.
+ * continuous rotating wordmark, desktop nav with indicator + More dropdown,
+ * and a compact 56px phone bar with mutually exclusive overlay Search & Menu panels.
  */
 export class MatrikaHeader extends HTMLElement {
   constructor() {
@@ -72,26 +72,165 @@ export class MatrikaHeader extends HTMLElement {
       moreMenu.appendChild(el("li", {}, a));
     }
 
-    const moreBtn = el(
-      "button",
-      {
-        id: "mt-more-btn",
-        class: "mt-more-trigger",
-        type: "button",
-        "aria-expanded": "false",
-        "aria-controls": "mt-more-menu",
-      },
-      el("span", {}, "More"),
-      svgIcon(14, 14, [["path", { d: "M6 9l6 6 6-6" }]])
+    const moreBtn = /** @type {HTMLButtonElement} */ (
+      el(
+        "button",
+        {
+          id: "mt-more-btn",
+          class: "mt-more-trigger",
+          type: "button",
+          "aria-expanded": "false",
+          "aria-controls": "mt-more-menu",
+        },
+        el("span", {}, "More"),
+        svgIcon(14, 14, [["path", { d: "M6 9l6 6 6-6" }]])
+      )
     );
     if (!activeTarget && NAV_MORE.some((m) => m.id === activePage)) {
       activeTarget = moreBtn;
     }
 
+    const indicator = el("li", { class: "mt-nav-indicator", "aria-hidden": "true" });
+    navList.appendChild(el("li", { class: "mt-nav-more" }, moreBtn, moreMenu));
+    navList.appendChild(indicator);
+
+    const nav = el("nav", { id: "mt-main-nav", class: "site-nav", "aria-label": "Main" }, navList);
+
+    const searchInitial = new URLSearchParams(location.search).get("q") || "";
+    const controls = el("div", { class: "mt-header-controls" }, SearchBox.render(searchInitial));
+
+    // Phone Search panel (4.2) & Search button (4.1), hidden on desktop (>=768px) and omitted on search.html
+    const isSearchPage = activePage === "search";
+    const mobileSearchInput = /** @type {HTMLInputElement} */ (
+      el("input", {
+        id: "mt-mobile-q",
+        name: "q",
+        type: "search",
+        value: searchInitial,
+        placeholder: "Search records",
+        autocomplete: "off",
+      })
+    );
+    const mobileSearchClose = /** @type {HTMLButtonElement} */ (
+      el(
+        "button",
+        {
+          type: "button",
+          class: "mt-mobile-search-close",
+          "aria-label": "Close search",
+        },
+        "×"
+      )
+    );
+    const mobileSearchPanel = el(
+      "div",
+      {
+        id: "mt-mobile-search-panel",
+        class: "mt-mobile-search-panel",
+        hidden: true,
+      },
+      el(
+        "form",
+        { class: "mt-mobile-search-form", role: "search", action: "search.html" },
+        el("label", { for: "mt-mobile-q", class: "sr-only" }, "Search records"),
+        mobileSearchInput,
+        el("button", { type: "submit", class: "mt-mobile-search-go" }, "Go"),
+        mobileSearchClose
+      )
+    );
+
+    const searchToggle = !isSearchPage
+      ? /** @type {HTMLButtonElement} */ (
+          el(
+            "button",
+            {
+              id: "mt-search-toggle",
+              class: "mt-search-toggle",
+              type: "button",
+              "aria-label": "Search",
+              "aria-expanded": "false",
+              "aria-controls": "mt-mobile-search-panel",
+            },
+            svgIcon(18, 18, [
+              ["circle", { cx: "11", cy: "11", r: "7" }],
+              ["path", { d: "M20 20l-3.5-3.5" }],
+            ])
+          )
+        )
+      : null;
+
+    if (searchToggle) controls.appendChild(searchToggle);
+
+    if (FEATURES.enableDarkThemeToggle) {
+      const currTheme = themeService.getTheme();
+      const themeBtn = el(
+        "button",
+        {
+          type: "button",
+          class: "mt-theme-btn",
+          "aria-pressed": currTheme === "dark" ? "true" : "false",
+          "aria-label": currTheme === "dark" ? "Switch to paper light theme" : "Switch to ink dark theme",
+        },
+        currTheme === "dark" ? "Paper" : "Ink"
+      );
+      themeBtn.addEventListener(
+        "click",
+        () => {
+          const next = themeService.toggle();
+          themeBtn.setAttribute("aria-pressed", next === "dark" ? "true" : "false");
+          themeBtn.setAttribute("aria-label", next === "dark" ? "Switch to paper light theme" : "Switch to ink dark theme");
+          themeBtn.textContent = next === "dark" ? "Paper" : "Ink";
+        },
+        { signal }
+      );
+      controls.appendChild(themeBtn);
+    }
+
+    const navToggle = /** @type {HTMLButtonElement} */ (
+      el(
+        "button",
+        {
+          class: "nav-toggle",
+          type: "button",
+          "aria-expanded": "false",
+          "aria-controls": "mt-main-nav",
+        },
+        "Menu"
+      )
+    );
+    controls.appendChild(navToggle);
+
+    const header = el("header", { class: "site-header" }, brandHost, nav, controls);
+    this.append(header, mobileSearchPanel);
+
+    const emitPanelState = () => {
+      const menuOpen = nav.classList.contains("is-open");
+      const searchOpen = !mobileSearchPanel.hidden;
+      window.dispatchEvent(new CustomEvent("mt:header-panel", { detail: { open: menuOpen || searchOpen } }));
+    };
+
     const closeMore = () => {
       moreMenu.hidden = true;
       moreBtn.setAttribute("aria-expanded", "false");
     };
+
+    const closeMenu = (returnFocus = false) => {
+      if (!nav.classList.contains("is-open")) return;
+      nav.classList.remove("is-open");
+      navToggle.setAttribute("aria-expanded", "false");
+      closeMore();
+      emitPanelState();
+      if (returnFocus) navToggle.focus();
+    };
+
+    const closeSearchPanel = (returnFocus = false) => {
+      if (mobileSearchPanel.hidden) return;
+      mobileSearchPanel.hidden = true;
+      if (searchToggle) searchToggle.setAttribute("aria-expanded", "false");
+      emitPanelState();
+      if (returnFocus && searchToggle) searchToggle.focus();
+    };
+
     moreBtn.addEventListener(
       "click",
       (e) => {
@@ -102,19 +241,79 @@ export class MatrikaHeader extends HTMLElement {
       },
       { signal }
     );
-    document.addEventListener(
+
+    if (searchToggle) {
+      searchToggle.addEventListener(
+        "click",
+        () => {
+          const open = mobileSearchPanel.hidden;
+          closeMenu(false);
+          mobileSearchPanel.hidden = !open;
+          searchToggle.setAttribute("aria-expanded", String(open));
+          emitPanelState();
+          if (open) {
+            requestAnimationFrame(() => mobileSearchInput.focus());
+          }
+        },
+        { signal }
+      );
+    }
+
+    mobileSearchClose.addEventListener("click", () => closeSearchPanel(true), { signal });
+
+    navToggle.addEventListener(
       "click",
-      (e) => {
-        if (!moreMenu.hidden && e.target instanceof Element && !e.target.closest(".mt-nav-more")) {
-          closeMore();
+      () => {
+        const willOpen = !nav.classList.contains("is-open");
+        closeSearchPanel(false);
+        nav.classList.toggle("is-open", willOpen);
+        navToggle.setAttribute("aria-expanded", String(willOpen));
+        emitPanelState();
+        if (willOpen) {
+          const firstLink = nav.querySelector("a[href]");
+          if (firstLink instanceof HTMLElement) requestAnimationFrame(() => firstLink.focus());
         }
       },
       { signal }
     );
+
+    // Close menu when selecting any nav destination on phones
+    nav.addEventListener(
+      "click",
+      (e) => {
+        if (e.target instanceof Element && e.target.closest("a[href]")) {
+          closeMenu(false);
+        }
+      },
+      { signal }
+    );
+
+    document.addEventListener(
+      "click",
+      (e) => {
+        if (!(e.target instanceof Element)) return;
+        if (!moreMenu.hidden && !e.target.closest(".mt-nav-more")) {
+          closeMore();
+        }
+        if (!this.contains(e.target)) {
+          closeMenu(false);
+          closeSearchPanel(false);
+        }
+      },
+      { signal }
+    );
+
     document.addEventListener(
       "keydown",
       (e) => {
-        if (e.key === "Escape" && !moreMenu.hidden) {
+        if (e.key !== "Escape") return;
+        if (!mobileSearchPanel.hidden) {
+          e.preventDefault();
+          closeSearchPanel(true);
+        } else if (nav.classList.contains("is-open")) {
+          e.preventDefault();
+          closeMenu(true);
+        } else if (!moreMenu.hidden) {
           closeMore();
           moreBtn.focus();
         }
@@ -122,12 +321,7 @@ export class MatrikaHeader extends HTMLElement {
       { signal }
     );
 
-    const indicator = el("li", { class: "mt-nav-indicator", "aria-hidden": "true" });
-    navList.appendChild(el("li", { class: "mt-nav-more" }, moreBtn, moreMenu));
-    navList.appendChild(indicator);
-
-    const nav = el("nav", { id: "mt-main-nav", class: "site-nav", "aria-label": "Main" }, navList);
-
+    // Desktop horizontal underline indicator
     const moveIndicatorTo = (/** @type {HTMLElement | null} */ target) => {
       cancelAnimationFrame(this._indRaf);
       this._indRaf = requestAnimationFrame(() => {
@@ -167,11 +361,7 @@ export class MatrikaHeader extends HTMLElement {
       },
       { signal }
     );
-    navList.addEventListener(
-      "pointerleave",
-      () => moveIndicatorTo(activeTarget),
-      { signal }
-    );
+    navList.addEventListener("pointerleave", () => moveIndicatorTo(activeTarget), { signal });
     navList.addEventListener(
       "focusout",
       (e) => {
@@ -186,57 +376,6 @@ export class MatrikaHeader extends HTMLElement {
       this._ro.observe(navList);
     }
     requestAnimationFrame(() => moveIndicatorTo(activeTarget));
-
-    const searchInitial = new URLSearchParams(location.search).get("q") || "";
-    const controls = el("div", { class: "mt-header-controls" }, SearchBox.render(searchInitial));
-
-    if (FEATURES.enableDarkThemeToggle) {
-      const currTheme = themeService.getTheme();
-      const themeBtn = el(
-        "button",
-        {
-          type: "button",
-          class: "mt-theme-btn",
-          "aria-pressed": currTheme === "dark" ? "true" : "false",
-          "aria-label": currTheme === "dark" ? "Switch to paper light theme" : "Switch to ink dark theme",
-        },
-        currTheme === "dark" ? "Paper" : "Ink"
-      );
-      themeBtn.addEventListener(
-        "click",
-        () => {
-          const next = themeService.toggle();
-          themeBtn.setAttribute("aria-pressed", next === "dark" ? "true" : "false");
-          themeBtn.setAttribute("aria-label", next === "dark" ? "Switch to paper light theme" : "Switch to ink dark theme");
-          themeBtn.textContent = next === "dark" ? "Paper" : "Ink";
-        },
-        { signal }
-      );
-      controls.appendChild(themeBtn);
-    }
-
-    const navToggle = el(
-      "button",
-      {
-        class: "nav-toggle",
-        type: "button",
-        "aria-expanded": "false",
-        "aria-controls": "mt-main-nav",
-      },
-      "Menu"
-    );
-    navToggle.addEventListener(
-      "click",
-      () => {
-        const open = nav.classList.toggle("is-open");
-        navToggle.setAttribute("aria-expanded", String(open));
-      },
-      { signal }
-    );
-    controls.appendChild(navToggle);
-
-    const header = el("header", { class: "site-header" }, brandHost, nav, controls);
-    this.appendChild(header);
 
     const view = new WordmarkView(brandHost);
     this.rotator = new WordmarkRotator({

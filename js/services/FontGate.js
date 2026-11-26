@@ -13,10 +13,18 @@ export class FontGate {
     this.lazyInjected = false;
   }
 
-  /** Lazy-load non-anchor Indic fonts after main thread is idle. */
+  /** Lazy-load non-anchor Indic fonts after main thread is idle, skipping on Save-Data or 2G. */
   warmSecondaryFonts() {
     if (this.lazyInjected || typeof document === "undefined") return;
-    if (typeof navigator !== "undefined" && navigator.onLine === false) return;
+    if (typeof navigator !== "undefined") {
+      if (navigator.onLine === false) return;
+      const conn = /** @type {{ saveData?: boolean, effectiveType?: string } | undefined} */ (
+        /** @type {any} */ (navigator).connection
+      );
+      if (conn && (conn.saveData || conn.effectiveType === "2g" || conn.effectiveType === "slow-2g")) {
+        return;
+      }
+    }
     this.lazyInjected = true;
     const inject = () => {
       if (document.querySelector(`link[href="${SCRIPT_FONTS_HREF}"]`)) return;

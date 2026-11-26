@@ -1,11 +1,12 @@
 // @ts-check
 import { el, iconPauseCircle, iconPlayCircle } from "../utils/dom.js";
+import { DemoBadge } from "./DemoBadge.js";
 import { formatDuration } from "../utils/format.js";
 
 /**
- * Accessible archive audio player with native <audio preload="none">,
- * round 1px play/pause button, 6-bar waveform, interactive seek line,
- * error recovery, and 0fr/1fr accordion transcript disclosure.
+ * Accessible archive audio player with native <audio preload="none">.
+ * When no verified recording file exists, renders an honestly disabled mock player
+ * labelled with DemoBadge and "Demo — no recording yet", without fabricated consent or transcripts.
  */
 export class AudioPlayer {
   /** @param {import('../services/AudioService.js').AudioService} audioService */
@@ -20,21 +21,14 @@ export class AudioPlayer {
    *   src?: string | null,
    *   durationSec?: number,
    *   attribution?: string,
-   *   statusCopy?: string,
    *   label?: string,
    *   transcript?: string | null,
-   *   transcriptNative?: string | null,
-   *   transcriptLatin?: string | null,
-   *   transcriptEnglish?: string | null,
-   *   translation?: string | null,
-   *   compact?: boolean,
    * }} opts
    * @returns {HTMLElement}
    */
   render(opts) {
     const hasSrc = Boolean(opts.src && String(opts.src).trim());
     const durationSec = hasSrc ? Number(opts.durationSec) || 0 : 0;
-    const trId = `mt-tr-${opts.id}`;
     const btnLabel = opts.label || "Hear it";
 
     /** @type {HTMLAudioElement | null} */
@@ -61,7 +55,7 @@ export class AudioPlayer {
           class: "mt-play-circle-btn",
           "aria-label": hasSrc
             ? `Play ${opts.title}`
-            : `${opts.title} — recording available soon`,
+            : `Demo — no recording yet for ${opts.title}`,
           "aria-pressed": "false",
           "aria-disabled": hasSrc ? "false" : "true",
           disabled: !hasSrc,
@@ -97,7 +91,7 @@ export class AudioPlayer {
         "aria-valuemin": "0",
         "aria-valuemax": String(Math.max(1, durationSec)),
         "aria-valuenow": "0",
-        "aria-valuetext": hasSrc ? "0:00" : "Recording available soon",
+        "aria-valuetext": hasSrc ? "0:00" : "Demo — no recording yet",
         "aria-disabled": hasSrc ? "false" : "true",
       },
       seekTrack
@@ -114,9 +108,10 @@ export class AudioPlayer {
 
     const statusLine = !hasSrc
       ? el(
-          "p",
-          { class: "mt-audio-status" },
-          opts.statusCopy || "Recording shared with community consent — available soon"
+          "div",
+          { class: "mt-audio-status-row" },
+          DemoBadge.render("Demo content"),
+          el("p", { class: "mt-audio-status" }, "Demo — no recording yet")
         )
       : null;
 
@@ -132,8 +127,8 @@ export class AudioPlayer {
       "div",
       { class: "mt-audio-block" },
       audioEl,
-      el("div", { class: "mt-audio-row" }, playBtn, labelWrap, seek, timeReadout),
       statusLine,
+      el("div", { class: "mt-audio-row" }, playBtn, labelWrap, seek, timeReadout),
       errorRow,
       liveStatus
     );
@@ -234,62 +229,15 @@ export class AudioPlayer {
       });
     }
 
-    const scriptLine = opts.transcriptNative || opts.transcript || null;
-    const latinLine = opts.transcriptLatin || null;
-    const englishLine = opts.transcriptEnglish || opts.translation || null;
-
-    if (scriptLine || latinLine || englishLine) {
-      const trArrow = el("span", { "aria-hidden": "true" }, "↓");
-      const trLabel = el("span", {}, "Show transcript");
-      const trBtn = /** @type {HTMLButtonElement} */ (
-        el(
-          "button",
-          {
-            type: "button",
-            class: "mt-transcript-toggle",
-            "aria-expanded": "false",
-            "aria-controls": trId,
-          },
-          trLabel,
-          trArrow
-        )
-      );
-
-      const trWrap = el(
-        "div",
-        { id: trId, class: "mt-transcript-wrap", hidden: true },
+    if (hasSrc && opts.transcript) {
+      block.append(
         el(
           "div",
-          { class: "mt-transcript-panel" },
-          el(
-            "div",
-            { class: "mt-transcript-inner" },
-            scriptLine ? el("p", { style: "margin:0;" }, scriptLine) : null,
-            latinLine ? el("p", { class: "mt-muted", style: "margin:0;" }, latinLine) : null,
-            englishLine ? el("p", { class: "mt-muted", style: "margin:0; font-style:italic;" }, englishLine) : null
-          )
+          { class: "mt-audio-transcript" },
+          el("strong", { style: "font-size:var(--mt-text-xs);" }, "Transcript"),
+          el("p", { class: "mt-muted", style: "margin:0; font-size:var(--mt-text-xs);" }, opts.transcript)
         )
       );
-
-      let hideTimer = 0;
-      trBtn.addEventListener("click", () => {
-        const open = trBtn.getAttribute("aria-expanded") !== "true";
-        window.clearTimeout(hideTimer);
-        trBtn.setAttribute("aria-expanded", open ? "true" : "false");
-        trLabel.textContent = open ? "Hide transcript" : "Show transcript";
-        trArrow.textContent = open ? "↑" : "↓";
-        if (open) {
-          trWrap.hidden = false;
-          requestAnimationFrame(() => trWrap.classList.add("is-open"));
-        } else {
-          trWrap.classList.remove("is-open");
-          hideTimer = window.setTimeout(() => {
-            if (trBtn.getAttribute("aria-expanded") !== "true") trWrap.hidden = true;
-          }, 260);
-        }
-      });
-
-      block.append(trBtn, trWrap);
     }
 
     return block;

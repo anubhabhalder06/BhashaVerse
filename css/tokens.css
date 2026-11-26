@@ -93,23 +93,21 @@
   --mt-border-strong: 1px solid var(--mt-rule-strong);
   --mt-border-dark: 1px solid var(--mt-rule-dark);
 
-  /* Unified Motion System */
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-loom: cubic-bezier(0.76, 0, 0.24, 1);
-  --mt-ease: var(--ease-out);
-  --dur-fast: 180ms;
-  --dur-base: 320ms;
-  --dur-slow: 600ms;
-  --mt-dur-fast: var(--dur-fast);
+  /* Minimal Navigation & Disclosure Motion */
+  --mt-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: var(--mt-ease-out);
+  --mt-ease: var(--mt-ease-out);
+  --mt-dur-fast: 120ms;
+  --mt-dur-panel: 140ms;
+  --mt-dur-chat: 160ms;
+  --mt-dur-vt-out: 120ms;
+  --mt-dur-vt-in: 160ms;
+  --dur-fast: var(--mt-dur-fast);
+  --dur-base: 140ms;
+  --dur-slow: 160ms;
   --mt-dur-exit: 220ms;
   --mt-dur-base: var(--dur-base);
-  --mt-dur-enter: 360ms;
-  --mt-dur-reveal: var(--dur-base);
-  --mt-dur-slow: var(--dur-slow);
-  --mt-dur-shimmer: 1100ms;
-  --mt-stagger-step: 60ms;
-  --mt-cover-exit-ms: 420ms;
-  --mt-cover-enter-ms: 520ms;
+  --mt-dur-enter: 160ms;
   --mt-wordmark-hold: 2400ms;
   --mt-wordmark-hold-anchor: 3400ms;
   --mt-wordmark-exit: 220ms;
@@ -117,4 +115,11 @@
   --mt-wordmark-stagger: 32ms;
 
   color-scheme: light;
+}
+
+@media (max-width: 767.98px) {
+  :root {
+    --gutter: 20px;
+    --mt-header-h: 56px;
+  }
 }

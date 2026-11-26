@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" data-page="home">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-cSgi32yR/A+CpurTWyPhe/lRFQ9D61B7z6c6L0FVifs=' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com; connect-src 'self'; base-uri 'self'; form-action 'self';">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'inline-speculation-rules' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com; connect-src 'self'; base-uri 'self'; form-action 'self';">
 <title>Matrika — Digital Archive of India's Underrepresented Languages</title>
 <meta name="description" content="Matrika is a community-guided digital archive preserving India's underrepresented languages, scripts, oral histories, photographs, and cultural knowledge.">
 <meta name="application-name" content="Matrika">
@@ -15,38 +15,25 @@
 <meta name="theme-color" content="#EFEDE8">
   <link rel="canonical" href="https://anubhabhalder06.github.io/Matrika-digitalarchive/">
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/fraunces-var-normal-latin.woff2" crossorigin>
-  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/plus-jakarta-var-normal-latin.woff2" crossorigin>
-  <link rel="preload" as="image" imagesrcset="assets/images/loom-weaver-assam-640.avif 640w, assets/images/loom-weaver-assam.avif 1400w" imagesizes="(max-width: 900px) 100vw, 52vw" type="image/avif" fetchpriority="high">
-  <link rel="preload" as="style" href="css/base.css?v=20261126">
-  <style data-mt-critical>html.is-entering #mt-cover,html.is-first-visit #mt-cover{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0)}html.js:not([data-motion="reduced"]) .hero-quote.is-pre-reveal{opacity:0}</style>
-  <script data-mt-boot>!function(){var r=document.documentElement;r.classList.add("js");try{var m=matchMedia("(prefers-reduced-motion: reduce)").matches||localStorage.getItem("matrika_motion")==="reduced";if(m)r.dataset.motion="reduced";if(!m&&sessionStorage.getItem("mt_nav_pending"))r.classList.add("is-entering");else if(!m&&r.dataset.page==="home"&&!sessionStorage.getItem("mt_intro_done"))r.classList.add("is-first-visit")}catch(e){}}();</script>
-  <link rel="stylesheet" href="css/fonts.css?v=20261126">
-  <link rel="stylesheet" href="css/tokens.css?v=20261126">
-<link rel="stylesheet" href="css/base.css?v=20261126">
-<link rel="stylesheet" href="css/layout.css?v=20261126">
-<link rel="stylesheet" href="css/components/header.css?v=20261126">
-<link rel="stylesheet" href="css/components/wordmark.css?v=20261126">
-<link rel="stylesheet" href="css/components/footer.css?v=20261126">
-<link rel="stylesheet" href="css/components/button.css?v=20261126">
-<link rel="stylesheet" href="css/components/badge.css?v=20261126">
-<link rel="stylesheet" href="css/components/figure.css?v=20261126">
-<link rel="stylesheet" href="css/components/audio.css?v=20261126">
-<link rel="stylesheet" href="css/components/chat.css?v=20261126">
-<link rel="stylesheet" href="css/pages/home.css?v=20261126">
-<link rel="stylesheet" href="css/print.css?v=20261126" media="print">
-<script type="module" src="js/main.js?v=20261126"></script>
+  <link rel="preload" as="image" imagesrcset="assets/images/loom-weaver-assam-640.webp 640w, assets/images/loom-weaver-assam-800.webp 800w, assets/images/loom-weaver-assam.webp 1400w" imagesizes="(max-width: 767.98px) 100vw, 52vw" fetchpriority="high">
+  <link rel="preload" as="style" href="css/base.css?v=20261126b">
+  <link rel="stylesheet" href="css/fonts.css?v=20261126b">
+  <link rel="stylesheet" href="css/tokens.css?v=20261126b">
+<link rel="stylesheet" href="css/base.css?v=20261126b">
+<link rel="stylesheet" href="css/layout.css?v=20261126b">
+<link rel="stylesheet" href="css/components/header.css?v=20261126b">
+<link rel="stylesheet" href="css/components/wordmark.css?v=20261126b">
+<link rel="stylesheet" href="css/components/footer.css?v=20261126b">
+<link rel="stylesheet" href="css/components/button.css?v=20261126b">
+<link rel="stylesheet" href="css/components/badge.css?v=20261126b">
+<link rel="stylesheet" href="css/components/figure.css?v=20261126b">
+<link rel="stylesheet" href="css/components/audio.css?v=20261126b">
+<link rel="stylesheet" href="css/components/chat.css?v=20261126b">
+<link rel="stylesheet" href="css/pages/home.css?v=20261126b">
+<link rel="stylesheet" href="css/print.css?v=20261126b" media="print">
+<script type="module" src="js/main.js?v=20261126b"></script>
 </head>
 <body class="mt-paper-grain" data-page="home">
-<div id="mt-cover" class="mt-cover" aria-hidden="true">
-  <div class="mt-cover-inner">
-    <span class="mt-cover-thread" aria-hidden="true"></span>
-    <span class="mt-cover-mark" lang="sa-Deva">मातृका</span>
-    <span id="mt-cover-dest" class="mt-cover-dest"></span>
-    <button id="mt-cover-skip" type="button" class="mt-cover-skip" hidden>Skip intro →</button>
-  </div>
-</div>
-<div id="mt-top-thread" class="mt-top-thread" aria-hidden="true"></div>
-<div class="mt-paper-film" aria-hidden="true"></div>
 <a class="skip-link" href="#main">Skip to main content</a>
 
 <svg class="sr-only" aria-hidden="true" width="0" height="0">
@@ -72,8 +59,11 @@
       <div class="container hero-grid">
         <div class="hero-text">
           <p class="hero-eyebrow">Digital Archive · Est. 2026</p>
-          <h1 id="mt-hero-quote" class="hero-quote is-pre-reveal"><span class="hero-open-quote">“</span>The loom remembers the <em class="hero-quote-em">river’s old name.</em></h1>
-          <p id="mt-hero-byline" class="hero-byline">Community speaker · Mishing · Assam</p>
+          <h1 id="mt-hero-quote" class="hero-quote"><span class="hero-open-quote">“</span>The loom remembers the <em class="hero-quote-em">river’s old name.</em></h1>
+          <div class="hero-meta-line">
+            <span id="mt-hero-demo-host"><span class="mt-chip mt-demo-badge">Demo content</span></span>
+            <p id="mt-hero-byline" class="hero-byline">Community speaker · Mishing · Assam</p>
+          </div>
           <p class="hero-purpose">An archive of India’s underrepresented languages: words, voices, scripts and photographs, shared with community consent.</p>
 
           <div id="mt-hero-audio-host" class="hero-audio-row"></div>
@@ -91,17 +81,18 @@
         </div>
 
         <figure class="hero-photo">
-          <div class="hero-frame">
-            <div class="hero-parallax-wrap">
+          <div class="mt-photo-frame">
+            <div class="hero-frame">
               <picture>
-                <source type="image/avif" srcset="assets/images/loom-weaver-assam-640.avif 640w, assets/images/loom-weaver-assam.avif 1400w" sizes="(max-width: 900px) 100vw, 52vw">
-                <source type="image/webp" srcset="assets/images/loom-weaver-assam-640.webp 640w, assets/images/loom-weaver-assam.webp 1400w" sizes="(max-width: 900px) 100vw, 52vw">
+                <source type="image/avif" srcset="assets/images/loom-weaver-assam-640.avif 640w, assets/images/loom-weaver-assam.avif 1400w" sizes="(max-width: 767.98px) 100vw, 52vw">
+                <source type="image/webp" srcset="assets/images/loom-weaver-assam-640.webp 640w, assets/images/loom-weaver-assam-800.webp 800w, assets/images/loom-weaver-assam.webp 1400w" sizes="(max-width: 767.98px) 100vw, 52vw">
                 <img src="assets/images/loom-weaver-assam.jpg" width="1280" height="853" alt="Black-and-white photograph of a weaver working at a handloom" loading="eager" fetchpriority="high" decoding="async">
               </picture>
+              <div class="hero-gradient" aria-hidden="true"></div>
+              <span class="hero-mishing-word" lang="mrg-Beng" aria-hidden="true">মিশিং</span>
+              <span class="hero-mishing-caption">Mishing</span>
             </div>
-            <div class="hero-gradient" aria-hidden="true"></div>
-            <span class="hero-mishing-word hero-overlay-item" lang="mrg-Beng" aria-hidden="true">মিশিং</span>
-            <span class="hero-mishing-caption hero-overlay-item">Mishing</span>
+            <span class="mt-vertical-tag hero-mobile-vtag" lang="mrg-Beng" aria-hidden="true">মিশিং</span>
           </div>
           <figcaption>Handloom, Mishing weaver (label: মিশিং). Photo: Deepraj, <a href="https://commons.wikimedia.org/wiki/File:Assamese_woman_using_traditional_handloom.jpg" target="_blank" rel="noopener noreferrer">CC BY 2.5</a>.</figcaption>
         </figure>
@@ -117,17 +108,14 @@
   </section>
 
   <section id="s-poster" class="mt-spread mt-spread--ink">
-    <div class="mt-spread-inner reveal">
+    <div class="mt-spread-inner">
       <div class="mt-poster-head">
         <div>
           <p class="mt-muted" style="margin:0;">One word across the archive · documented scripts &amp; spoken heritage</p>
           <h2 id="mt-poster-concept" class="mt-poster-word">water</h2>
         </div>
         <div class="mt-cta-row">
-          <button id="mt-rotate-word" type="button" class="mt-btn" style="color:var(--mt-paper-always); border-color:var(--mt-paper-always);">
-            <span class="mt-btn-icon-spin" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg></span>
-            <span>Next specimen word</span>
-          </button>
+          <button id="mt-rotate-word" type="button" class="mt-btn" style="color:var(--mt-paper-always); border-color:var(--mt-paper-always);">Next specimen word</button>
         </div>
       </div>
       <ul id="mt-poster-rows" class="mt-poster-rows" aria-label="Rotating word across archive languages"></ul>
@@ -135,7 +123,7 @@
   </section>
 
   <section id="s-pillars" class="mt-spread">
-    <div class="mt-spread-inner reveal">
+    <div class="mt-spread-inner">
       <div class="mt-pillars-grid">
         <div>
           <ol class="mt-fading-stack" aria-label="Archive principles">
@@ -190,7 +178,7 @@
   </section>
 
   <section id="s-spread" class="mt-spread" aria-label="Featured language specimen spreads">
-    <div class="mt-spread-inner reveal">
+    <div class="mt-spread-inner">
       <div class="mt-spread-bar">
         <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:var(--mt-space-3);">
           <span class="mt-hand-note">turn folios across the registry</span>
@@ -209,7 +197,7 @@
   </section>
 
   <section id="s-additions" class="mt-spread">
-    <div class="mt-spread-inner reveal">
+    <div class="mt-spread-inner">
       <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:var(--mt-space-4); margin-bottom:var(--mt-space-5);">
         <h2 style="font-size:var(--mt-text-2xl); margin:0;">Latest archive plates</h2>
         <div class="mt-cta-row">
@@ -222,7 +210,7 @@
   </section>
 
   <section id="s-contribute" class="mt-spread">
-    <div class="mt-spread-inner reveal" style="display:grid; gap:var(--mt-space-5);">
+    <div class="mt-spread-inner" style="display:grid; gap:var(--mt-space-5);">
       <div style="display:grid; gap:var(--mt-space-2); max-width:48rem;">
         <h2 style="font-size:var(--mt-text-2xl); margin:0;">Know a word we got wrong? Have a photo or story to share?</h2>
         <p class="mt-muted" style="margin:0;">Community speakers, families, and local educators help keep this archive accurate and accountable.</p>

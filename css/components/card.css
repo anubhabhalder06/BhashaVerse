@@ -67,6 +67,30 @@
   }
 }
 
+@media (max-width: 767.98px) {
+  .mt-dir-masonry,
+  .mt-card-grid-3,
+  .mt-card-grid-2 {
+    gap: var(--mt-space-4);
+  }
+
+  .mt-lang-card,
+  .mt-tile-editorial {
+    padding: var(--mt-space-4);
+  }
+
+  .mt-lang-script-stage {
+    flex-wrap: wrap;
+    min-height: 4rem;
+  }
+
+  .mt-lang-script-hero,
+  .mt-secondary-script {
+    white-space: normal;
+    word-break: break-word;
+  }
+}
+
 .mt-card-top {
   display: flex;
   flex-wrap: wrap;

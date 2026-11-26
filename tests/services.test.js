@@ -12,6 +12,7 @@ import { DataSource } from "../js/data/DataSource.js";
 import { LanguageRepository } from "../js/data/LanguageRepository.js";
 import { WordmarkRepository } from "../js/data/WordmarkRepository.js";
 import { LocalContributionStore } from "../js/data/LocalContributionStore.js";
+import { NavigationProgress } from "../js/components/NavigationProgress.js";
 import { SafeStorage } from "../js/utils/storage.js";
 import { CONTRIBUTION_STATUS } from "../js/models/enums.js";
 
@@ -155,4 +156,69 @@ test("LocalContributionStore stores pending entries safely with memory fallback"
   const updated = store.updateStatus(created.id, CONTRIBUTION_STATUS.APPROVED);
   assert.equal(updated?.status, CONTRIBUTION_STATUS.APPROVED);
   assert.equal(store.list()[0].status, CONTRIBUTION_STATUS.APPROVED);
+});
+
+test("NavigationProgress delays 150ms, sets flag, finishes on next load, and resets on persisted pageshow", () => {
+  const timers = new Map();
+  let nextId = 1;
+  const scheduler = {
+    setTimeout: (fn, ms) => {
+      const id = nextId++;
+      timers.set(id, { fn, ms });
+      return id;
+    },
+    clearTimeout: (id) => {
+      timers.delete(id);
+    },
+  };
+  const mem = new Map();
+  const storage = {
+    getItem: (k) => (mem.has(k) ? mem.get(k) : null),
+    setItem: (k, v) => mem.set(k, String(v)),
+    removeItem: (k) => mem.delete(k),
+  };
+
+  // Fast action finishes < 150ms: bar never shows and no storage flag is written
+  const npFast = new NavigationProgress({ scheduler, storage, document: null, window: null });
+  npFast.start({ forNavigation: true });
+  assert.equal(npFast.visible, false);
+  assert.equal(storage.getItem("matrika:nav-pending"), null);
+  npFast.done();
+  assert.equal(npFast.visible, false);
+  assert.equal(timers.size, 0);
+
+  // Slow navigation triggers after 150ms and writes matrika:nav-pending
+  const npSlow = new NavigationProgress({ scheduler, storage, document: null, window: null });
+  npSlow.start({ forNavigation: true });
+  const delayEntry = [...timers.values()].find((t) => t.ms === 150);
+  assert.ok(delayEntry);
+  delayEntry.fn();
+  assert.equal(npSlow.visible, true);
+  assert.equal(storage.getItem("matrika:nav-pending"), "1");
+
+  // Completing navigation clears flag cleanly and finishes animation sequence
+  npSlow.done();
+  assert.equal(storage.getItem("matrika:nav-pending"), null);
+  while (timers.size > 0) {
+    const [k, t] = timers.entries().next().value;
+    timers.delete(k);
+    t.fn();
+  }
+  assert.equal(npSlow.visible, false);
+
+  // Cancel simulates persisted pageshow bfcache reset
+  npSlow.start({ forNavigation: true });
+  while (timers.size > 0) {
+    const firstKey = timers.keys().next().value;
+    const t = timers.get(firstKey);
+    timers.delete(firstKey);
+    if (t.ms === 150) {
+      t.fn();
+      break;
+    }
+  }
+  assert.equal(npSlow.visible, true);
+  npSlow.cancel();
+  assert.equal(npSlow.visible, false);
+  assert.equal(storage.getItem("matrika:nav-pending"), null);
 });

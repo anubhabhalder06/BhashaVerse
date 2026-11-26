@@ -144,3 +144,35 @@
   background: var(--mt-ink);
   color: var(--mt-paper);
 }
+
+@media (max-width: 767.98px) {
+  .mt-profile-hero {
+    gap: var(--mt-space-4);
+  }
+
+  .mt-vellum-stage {
+    padding: var(--mt-space-4);
+    overflow-wrap: anywhere;
+  }
+
+  .mt-meta-dl {
+    grid-template-columns: 1fr;
+    gap: var(--mt-space-1);
+  }
+
+  .mt-meta-dl dt {
+    margin-top: var(--mt-space-2);
+  }
+
+  .mt-meta-dl dd {
+    overflow-wrap: anywhere;
+  }
+
+  .mt-timeline {
+    padding-left: var(--mt-space-4);
+  }
+
+  .mt-search-list li {
+    padding: var(--mt-space-3);
+  }
+}

@@ -2,6 +2,7 @@
 import { Page } from "../core/Page.js";
 import { UrlHelper } from "../core/Url.js";
 import { clear, el } from "../utils/dom.js";
+import { DemoBadge } from "../components/DemoBadge.js";
 import { StatusChip } from "../components/StatusChip.js";
 import { FilterBar } from "../components/FilterBar.js";
 import { StateView } from "../components/StateView.js";
@@ -53,13 +54,15 @@ export class AudioPage extends Page {
         for (const item of filtered) {
           const lang = item.languages[0];
           const attributionText = `${item.creators.map((c) => c.name).join(", ")} · ${lang ? lang.communityName : "Archive"} · ${item.place.region}`;
+          const badgesRow = el("div", { class: "mt-badge-row" }, rightsBadge.render(item), StatusChip.render(item.quality.verification));
+          if (item.isDemo) badgesRow.appendChild(DemoBadge.render("Demo content"));
           const card = el(
             "article",
             { id: item.id, class: "mt-tile-editorial" },
             el(
               "div",
               { style: "display:grid; gap:var(--mt-space-3);" },
-              el("div", { class: "mt-badge-row" }, rightsBadge.render(item), StatusChip.render(item.quality.verification)),
+              badgesRow,
               el("h2", { style: "font-size:var(--mt-text-md); margin:0;" }, lang ? el("a", { href: `language-profile.html?id=${encodeURIComponent(lang.id)}`, style: "text-decoration:none" }, item.title) : item.title),
               el("p", { class: "mt-muted", style: "margin:0; font-size:var(--mt-text-xs);" }, `${item.collection} · ${item.place.region} · ${item.time.date || ""}`),
               el("p", { style: "margin:0; font-size:var(--mt-text-sm);" }, item.summary),
@@ -69,14 +72,12 @@ export class AudioPage extends Page {
                 src: item.technical.file,
                 durationSec: item.technical.durationSec,
                 attribution: attributionText,
-                transcriptNative: item.description.transcript,
-                transcriptEnglish: item.description.translation,
+                transcript: item.technical.file ? item.description.transcript : null,
               }),
               !item.technical.file
                 ? el(
                     "div",
                     { style: "display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:var(--mt-space-2); font-size:var(--mt-text-xs);" },
-                    item.description.caption ? el("span", { class: "mt-muted" }, item.description.caption) : null,
                     el("a", { href: `contribute.html?lang=${encodeURIComponent(lang ? lang.id : "")}` }, "Contribute speaker recording →")
                   )
                 : null
@@ -84,7 +85,7 @@ export class AudioPage extends Page {
             el(
               "div",
               { class: "mt-tile-foot" },
-              el("span", {}, `Consent: ${item.rights.consent}`),
+              el("span", {}, item.isDemo ? "Demonstration entry" : `Review status: ${item.quality.reviewer || "Pending"}`),
               el("a", { href: "contact.html" }, "Report correction")
             )
           );

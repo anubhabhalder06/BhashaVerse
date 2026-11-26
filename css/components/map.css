@@ -101,3 +101,13 @@
   color: var(--mt-paper);
   font-weight: var(--mt-weight-semibold);
 }
+
+@media (max-width: 767.98px) {
+  .mt-leaflet-map {
+    height: 20rem;
+  }
+
+  .mt-map-inspector {
+    padding: var(--mt-space-4);
+  }
+}

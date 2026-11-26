@@ -1,6 +1,6 @@
 // @ts-check
 import { BRAND } from "../config/brand.js";
-import { clear, el } from "../utils/dom.js";
+import { clear, el, svgIcon } from "../utils/dom.js";
 
 /**
  * Accessible scripted chatbot dialog widget:
@@ -42,13 +42,22 @@ export class ChatWidget {
     } catch (_) {}
 
     const launcher = /** @type {HTMLButtonElement} */ (
-      el("button", {
-        type: "button",
-        class: "mt-chat-launcher",
-        "aria-expanded": "false",
-        "aria-haspopup": "dialog",
-        onClick: () => (this.isOpen ? this.close() : this.open()),
-      }, `Ask ${BRAND.name}`)
+      el(
+        "button",
+        {
+          type: "button",
+          class: "mt-chat-launcher",
+          title: `Ask ${BRAND.name}`,
+          "aria-label": `Ask ${BRAND.name}`,
+          "aria-expanded": "false",
+          "aria-haspopup": "dialog",
+          onClick: () => (this.isOpen ? this.close() : this.open()),
+        },
+        svgIcon(20, 20, [
+          ["path", { d: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" }],
+        ]),
+        el("span", { class: "mt-chat-launcher-text" }, `Ask ${BRAND.name}`)
+      )
     );
     this.launcher = launcher;
 
@@ -126,6 +135,33 @@ export class ChatWidget {
 
     this.renderMessages();
     host.append(launcher, panel);
+
+    if (typeof window !== "undefined") {
+      let lastY = window.scrollY;
+      let scrollRaf = 0;
+      const syncScroll = () => {
+        scrollRaf = 0;
+        if (this.isOpen) {
+          host.classList.remove("is-scroll-hidden");
+          return;
+        }
+        const y = window.scrollY;
+        const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+        const atBottom = maxY > 0 && y >= maxY - 64;
+        if (y > lastY + 12 && !atBottom && y > 48) {
+          host.classList.add("is-scroll-hidden");
+        } else if (y < lastY - 8 || atBottom || y <= 48) {
+          host.classList.remove("is-scroll-hidden");
+        }
+        lastY = y;
+      };
+      window.addEventListener("scroll", () => {
+        if (!scrollRaf) scrollRaf = requestAnimationFrame(syncScroll);
+      }, { passive: true });
+      window.addEventListener("mt:header-panel", (/** @type {CustomEvent} */ e) => {
+        host.classList.toggle("is-panel-hidden", Boolean(e.detail && e.detail.open));
+      });
+    }
   }
 
   open() {

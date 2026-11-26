@@ -2,19 +2,20 @@
   {
     "id": "aud-mishing-hero-01",
     "type": "audio",
+    "isDemo": true,
     "collection": "Oral histories",
     "title": "River Memory Oral Quote",
     "altTitles": [],
-    "summary": "Oral history quote attribution paired with the Mishing handloom plate pending speaker-cleared audio recording.",
+    "summary": "Demonstration oral-history motif paired with the Mishing handloom plate; no recording yet.",
     "languages": [{ "id": "mishing", "communityName": "Mishing", "variety": null, "scripts": ["Beng"] }],
     "place": { "region": "Upper Assam (approximate)", "precision": "state", "approximate": true },
-    "time": { "date": "2026-11-08", "period": "oral history", "range": "contemporary" },
-    "creators": [{ "name": "Community speaker (attribution open)", "role": "speaker" }],
-    "source": { "institution": "Matrika oral history registry", "url": "", "citation": "Spoken quote attribution documented with community consultation." },
-    "description": { "caption": "Recording awaits cleared speaker release.", "transcript": null, "translation": "“The loom remembers the river’s old name.”", "keywords": ["mishing", "oral history", "loom", "river"], "subject": "Oral history", "notes": "Attribution preserved pending cleared audio release." },
-    "rights": { "status": "permission-granted", "owner": "Pending speaker release", "licence": "Pending consent", "attribution": "Community speaker · Mishing · Assam", "consent": "pending", "access": "view-only" },
-    "quality": { "verification": "oral-account", "reviewer": "Community review", "references": [], "added": "2026-11-08", "updated": "2026-11-26" },
-    "technical": { "format": "metadata-only", "file": null, "sizeBytes": null, "durationSec": 0, "dimensions": null, "metadataLang": "en", "altText": "Archival oral history record for Mishing river quote" }
+    "time": { "date": "2026-11-08", "period": "demonstration entry", "range": "contemporary" },
+    "creators": [{ "name": "Demonstration entry (speaker unattributed)", "role": "speaker" }],
+    "source": { "institution": "Matrika demonstration entry", "url": "", "citation": "Illustrative excerpt; no verified audio recording deposited." },
+    "description": { "caption": "Demo — no recording yet.", "transcript": null, "translation": null, "keywords": ["mishing", "loom", "river"], "subject": "Demonstration motif", "notes": "No consent or recording deposited yet." },
+    "rights": { "status": "metadata-only", "owner": "Unverified demonstration entry", "licence": "Demo content", "attribution": "Demo content", "consent": "pending", "access": "none" },
+    "quality": { "verification": "unverified", "reviewer": "Pending community review", "references": [], "added": "2026-11-08", "updated": "2026-11-26" },
+    "technical": { "format": "metadata-only", "file": null, "sizeBytes": null, "durationSec": 0, "dimensions": null, "metadataLang": "en", "altText": "Demonstration oral history record for Mishing river quote" }
   },
   {
     "id": "aud-tulu-water-02",

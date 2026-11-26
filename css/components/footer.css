@@ -28,6 +28,13 @@
   }
 }
 
+@media (max-width: 767.98px) {
+  .mt-footer-wrap {
+    padding-top: var(--mt-space-6);
+    padding-bottom: calc(var(--mt-space-7) + 48px + 16px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 .mt-footer-col h2 {
   font-size: var(--mt-text-xs);
   font-family: var(--mt-font-body);

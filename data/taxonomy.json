@@ -19,11 +19,10 @@
   ],
   "heroQuote": {
     "id": "hero-quote-mishing-01",
+    "isDemo": true,
     "quote": "“The loom remembers the river’s old name.”",
     "attribution": "Community speaker · Mishing · Assam",
     "src": null,
-    "transcriptNative": "মিশিং · অসম — Mishing handloom oral history attribution recorded with community consultation.",
-    "transcriptLatin": "Mishing (mrg · Upper Assam, Brahmaputra floodplains) — Archival oral-history attribution.",
-    "transcriptEnglish": "“The loom remembers the river’s old name.”"
+    "transcript": null
   }
 }
