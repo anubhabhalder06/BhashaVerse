@@ -1,6 +1,6 @@
 // @ts-check
 import { BRAND } from "../config/brand.js";
-import { clear, el, svgIcon } from "../utils/dom.js";
+import { clear, el } from "../utils/dom.js";
 import { segmentGraphemes } from "../utils/a11y.js";
 
 /**
@@ -13,8 +13,6 @@ export class WordmarkView {
     this.container = container;
     /** @type {Map<string, HTMLElement>} */
     this.frameNodes = new Map();
-    /** @type {HTMLButtonElement | null} */
-    this.pauseBtn = null;
     /** @type {HTMLAnchorElement | null} */
     this.brandLink = null;
     /** @type {string} */
@@ -32,11 +30,10 @@ export class WordmarkView {
   }
 
   /**
-   * Build the wordmark stack + pause button inside container.
+   * Build the wordmark stack inside container.
    * @param {import('../models/WordmarkFrame.js').WordmarkFrame[]} frames
-   * @param {{ onTogglePause: () => void }} handlers
    */
-  renderFrames(frames, handlers) {
+  renderFrames(frames) {
     this._clearTimers();
     clear(this.container);
     this.frameNodes.clear();
@@ -75,20 +72,7 @@ export class WordmarkView {
     );
     this.brandLink = brandLink;
 
-    const pauseBtn = /** @type {HTMLButtonElement} */ (
-      el("button", {
-        type: "button",
-        class: "mt-wordmark-pause",
-        "aria-pressed": "false",
-        "aria-label": "Pause wordmark animation",
-        title: "Pause wordmark animation",
-        onClick: handlers.onTogglePause,
-      })
-    );
-    this.pauseBtn = pauseBtn;
-    this.updatePauseControl(false);
-
-    const group = el("div", { class: "mt-brand-group" }, brandLink, pauseBtn);
+    const group = el("div", { class: "mt-brand-group" }, brandLink);
     this.container.appendChild(group);
   }
 
@@ -129,22 +113,5 @@ export class WordmarkView {
       nextEl.classList.remove("is-exiting");
       nextEl.classList.add("is-active");
     }, 225);
-  }
-
-  /** @param {boolean} paused */
-  updatePauseControl(paused) {
-    if (!this.pauseBtn) return;
-    clear(this.pauseBtn);
-    this.pauseBtn.setAttribute("aria-pressed", paused ? "true" : "false");
-    const label = paused ? "Play wordmark animation" : "Pause wordmark animation";
-    this.pauseBtn.setAttribute("aria-label", label);
-    this.pauseBtn.setAttribute("title", label);
-    const icon = paused
-      ? svgIcon(16, 16, [["polygon", { points: "7 5 19 12 7 19 7 5" }]])
-      : svgIcon(16, 16, [
-          ["line", { x1: "9", y1: "5", x2: "9", y2: "19" }],
-          ["line", { x1: "15", y1: "5", x2: "15", y2: "19" }],
-        ]);
-    this.pauseBtn.appendChild(icon);
   }
 }

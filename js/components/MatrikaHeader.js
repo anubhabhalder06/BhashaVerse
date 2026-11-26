@@ -131,10 +131,10 @@ export class MatrikaHeader extends HTMLElement {
 
     if (FEATURES.enableWordmarkRotation) {
       this.rotator.init().catch(() => {
-        view.renderFrames([], { onTogglePause: () => {} });
+        view.renderFrames([]);
       });
     } else {
-      view.renderFrames([], { onTogglePause: () => {} });
+      view.renderFrames([]);
     }
   }
 

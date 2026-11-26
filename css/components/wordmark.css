@@ -97,25 +97,6 @@
   transition-delay: 0ms;
 }
 
-.mt-wordmark-pause {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--mt-touch-min);
-  height: var(--mt-touch-min);
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--mt-ink-muted);
-  border-radius: var(--mt-radius-control);
-  transition: color var(--mt-dur-fast) var(--mt-ease), border-color var(--mt-dur-fast) var(--mt-ease);
-}
-
-.mt-wordmark-pause:hover,
-.mt-wordmark-pause:focus-visible {
-  color: var(--mt-ink);
-  border-color: var(--mt-rule-strong);
-}
-
 /* Reduced motion: calm static lockup ("Matrika · मातृका"), zero cycling */
 @media (prefers-reduced-motion: reduce) {
   .mt-wordmark-stack {
@@ -134,10 +115,6 @@
     visibility: visible;
     opacity: 1;
     position: static;
-  }
-
-  .mt-wordmark-pause {
-    display: none;
   }
 
   .mt-wordmark-cluster {

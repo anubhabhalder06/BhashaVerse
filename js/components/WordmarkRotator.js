@@ -43,38 +43,19 @@ export class WordmarkRotator {
 
   async init() {
     this.frames = await this.repository.getFrames();
-    this.view.renderFrames(this.frames, {
-      onTogglePause: () => {
-        const next = !this.motionPrefs.isPausedByUser();
-        this.motionPrefs.setPausedByUser(next);
-        this.view.updatePauseControl(next);
-        this.syncState();
-      },
-    });
+    this.view.renderFrames(this.frames);
 
     this.fontGate.warmSecondaryFonts();
 
     const anchorFrames = this.frames.filter((f) => f.isAnchor);
     await Promise.all(anchorFrames.map((f) => this.fontGate.ensure(f)));
 
-    this.attachPauseWatchers();
+    this.attachVisibilityWatchers();
     this.syncState();
   }
 
-  attachPauseWatchers() {
+  attachVisibilityWatchers() {
     this.unsubs.push(this.motionPrefs.onChange(() => this.syncState()));
-
-    const brand = this.view.brandLink;
-    if (brand) {
-      const enter = () => { this.autoPauseReasons.add("hover"); this.syncState(); };
-      const leave = () => { this.autoPauseReasons.delete("hover"); this.syncState(); };
-      const focusIn = () => { this.autoPauseReasons.add("focus"); this.syncState(); };
-      const focusOut = () => { this.autoPauseReasons.delete("focus"); this.syncState(); };
-      brand.addEventListener("pointerenter", enter);
-      brand.addEventListener("pointerleave", leave);
-      brand.addEventListener("focusin", focusIn);
-      brand.addEventListener("focusout", focusOut);
-    }
 
     if (typeof document !== "undefined") {
       const onVis = () => {
@@ -85,22 +66,10 @@ export class WordmarkRotator {
       document.addEventListener("visibilitychange", onVis);
       this.unsubs.push(() => document.removeEventListener("visibilitychange", onVis));
     }
-
-    if (typeof IntersectionObserver !== "undefined" && this.view.container) {
-      this.observer = new IntersectionObserver((entries) => {
-        const vis = entries.some((e) => e.isIntersecting);
-        if (!vis) this.autoPauseReasons.add("offscreen");
-        else this.autoPauseReasons.delete("offscreen");
-        this.syncState();
-      });
-      this.observer.observe(this.view.container);
-    }
   }
 
   syncState() {
     const reduced = this.motionPrefs.isReducedMotion();
-    const userPaused = this.motionPrefs.isPausedByUser();
-    this.view.updatePauseControl(userPaused);
 
     if (reduced) {
       this.clearTimer();
@@ -110,7 +79,7 @@ export class WordmarkRotator {
       return;
     }
 
-    if (userPaused || this.autoPauseReasons.size > 0 || this.frames.length < 2) {
+    if (this.autoPauseReasons.size > 0 || this.frames.length < 2) {
       this.clearTimer();
       this.state = "paused";
       return;
@@ -152,23 +121,12 @@ export class WordmarkRotator {
     }
   }
 
-  pause() {
-    this.motionPrefs.setPausedByUser(true);
-    this.syncState();
-  }
-
-  resume() {
-    this.motionPrefs.setPausedByUser(false);
-    this.syncState();
-  }
-
   start() {
     this.syncState();
   }
 
   destroy() {
     this.clearTimer();
-    if (this.observer) this.observer.disconnect();
     while (this.unsubs.length) {
       const fn = this.unsubs.pop();
       if (fn) fn();
