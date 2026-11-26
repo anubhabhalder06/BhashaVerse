@@ -1,8 +1,9 @@
 // @ts-check
+import { FEATURES } from "../config/features.js";
 
 const THEME_KEY = "matrika:theme";
 
-/** High-contrast paper/ink light & dark token switcher persisted in matrika:theme. */
+/** High-contrast paper/ink token manager persisted in matrika:theme. */
 export class ThemeService {
   /** @param {import('../utils/storage.js').SafeStorage} storage */
   constructor(storage) {
@@ -11,6 +12,7 @@ export class ThemeService {
 
   /** @returns {"light" | "dark"} */
   getTheme() {
+    if (!FEATURES.enableDarkThemeToggle) return "light";
     const saved = this.storage.getItem(THEME_KEY);
     if (saved === "dark" || saved === "light") return saved;
     return "light";

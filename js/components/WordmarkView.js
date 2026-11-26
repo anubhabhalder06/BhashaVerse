@@ -19,6 +19,16 @@ export class WordmarkView {
     this.brandLink = null;
     /** @type {string} */
     this.currentScript = "Latn";
+    /** @type {ReturnType<typeof setTimeout> | null} */
+    this.exitTimer = null;
+  }
+
+  /** @private */
+  _clearTimers() {
+    if (this.exitTimer) {
+      clearTimeout(this.exitTimer);
+      this.exitTimer = null;
+    }
   }
 
   /**
@@ -27,6 +37,7 @@ export class WordmarkView {
    * @param {{ onTogglePause: () => void }} handlers
    */
   renderFrames(frames, handlers) {
+    this._clearTimers();
     clear(this.container);
     this.frameNodes.clear();
 
@@ -51,9 +62,6 @@ export class WordmarkView {
         "aria-hidden": "true",
       }, textWrap);
 
-      if (frame.captionText) {
-        frameEl.appendChild(el("span", { class: "mt-wordmark-caption" }, frame.captionText));
-      }
       this.frameNodes.set(frame.script, frameEl);
       stack.appendChild(frameEl);
     }
@@ -91,23 +99,36 @@ export class WordmarkView {
    */
   showFrame(nextScript, instant = false) {
     if (!this.frameNodes.has(nextScript)) return;
+    this._clearTimers();
+
     const prevEl = this.frameNodes.get(this.currentScript);
     const nextEl = this.frameNodes.get(nextScript);
     if (!nextEl) return;
 
-    if (prevEl && prevEl !== nextEl) {
-      prevEl.classList.remove("is-active");
-      if (!instant) {
-        prevEl.classList.add("is-exiting");
-        setTimeout(() => prevEl.classList.remove("is-exiting"), 720);
-      } else {
-        prevEl.classList.remove("is-exiting");
+    for (const node of this.frameNodes.values()) {
+      if (node !== prevEl) {
+        node.classList.remove("is-active", "is-exiting");
       }
     }
 
-    nextEl.classList.remove("is-exiting");
-    nextEl.classList.add("is-active");
     this.currentScript = nextScript;
+
+    if (instant || !prevEl || prevEl === nextEl) {
+      if (prevEl) prevEl.classList.remove("is-active", "is-exiting");
+      nextEl.classList.remove("is-exiting");
+      nextEl.classList.add("is-active");
+      return;
+    }
+
+    prevEl.classList.remove("is-active");
+    prevEl.classList.add("is-exiting");
+
+    this.exitTimer = setTimeout(() => {
+      prevEl.classList.remove("is-exiting");
+      this.exitTimer = null;
+      nextEl.classList.remove("is-exiting");
+      nextEl.classList.add("is-active");
+    }, 225);
   }
 
   /** @param {boolean} paused */

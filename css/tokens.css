@@ -99,8 +99,9 @@
   --mt-dur-slow: 700ms;
   --mt-wordmark-hold: 2400ms;
   --mt-wordmark-hold-anchor: 3400ms;
-  --mt-wordmark-transition: 700ms;
-  --mt-wordmark-stagger: 35ms;
+  --mt-wordmark-exit: 220ms;
+  --mt-wordmark-transition: 580ms;
+  --mt-wordmark-stagger: 32ms;
 
   color-scheme: light;
 }

@@ -4,6 +4,6 @@
 export const FEATURES = Object.freeze({
   enableWordmarkRotation: true,
   enableChatbot: true,
-  enableDarkThemeToggle: true,
+  enableDarkThemeToggle: false,
   enableBookmarks: true,
 });

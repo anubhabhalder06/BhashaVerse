@@ -30,7 +30,6 @@
   grid-area: 1 / 1;
   display: inline-flex;
   align-items: baseline;
-  gap: var(--mt-space-2);
   white-space: nowrap;
   visibility: hidden;
   opacity: 0;
@@ -58,14 +57,15 @@
   display: inline-flex;
   align-items: baseline;
   overflow: hidden;
-  padding-block: 0.08em;
+  padding-block: 0.2em;
 }
 
 .mt-wordmark-cluster {
   display: inline-block;
-  transform: translateY(0.35em);
+  transform: translateY(0.32em);
   opacity: 0;
   clip-path: inset(0 0 100% 0);
+  will-change: transform, opacity;
   transition:
     transform var(--mt-wordmark-transition) var(--mt-ease),
     opacity var(--mt-wordmark-transition) var(--mt-ease),
@@ -81,7 +81,7 @@
 .mt-wordmark-frame.is-active .mt-wordmark-cluster {
   transform: translateY(0);
   opacity: 1;
-  clip-path: inset(-0.15em 0 -0.15em 0);
+  clip-path: inset(-0.22em 0 -0.22em 0);
 }
 
 .mt-wordmark-frame.is-exiting {
@@ -90,24 +90,11 @@
 }
 
 .mt-wordmark-frame.is-exiting .mt-wordmark-cluster {
-  transform: translateY(-0.35em);
+  transform: translateY(-0.32em);
   opacity: 0;
   clip-path: inset(100% 0 0 0);
-}
-
-.mt-wordmark-caption {
-  font-family: var(--mt-font-body);
-  font-size: var(--mt-text-xs);
-  font-weight: var(--mt-weight-regular);
-  color: var(--mt-ink-muted);
-  letter-spacing: 0;
-  line-height: 1.2;
-}
-
-@media (max-width: 21.25rem) {
-  .mt-wordmark-caption {
-    display: none;
-  }
+  transition-duration: var(--mt-wordmark-exit);
+  transition-delay: 0ms;
 }
 
 .mt-wordmark-pause {
@@ -149,7 +136,6 @@
     position: static;
   }
 
-  .mt-wordmark-frame[data-script="Deva"] .mt-wordmark-caption,
   .mt-wordmark-pause {
     display: none;
   }
