@@ -68,8 +68,17 @@ export class FilterBar {
     }, "Clear all");
     form.appendChild(clearBtn);
 
-    form.addEventListener("input", () => this.emit());
-    form.addEventListener("change", () => this.emit());
+    let inputTimer = 0;
+    input.addEventListener("input", () => {
+      window.clearTimeout(inputTimer);
+      inputTimer = window.setTimeout(() => this.emit(), 180);
+    });
+    for (const sel of this.selects.values()) {
+      sel.addEventListener("change", () => {
+        window.clearTimeout(inputTimer);
+        this.emit();
+      });
+    }
     return form;
   }
 
@@ -79,7 +88,7 @@ export class FilterBar {
       facets[key] = sel.value;
     }
     this.config.onChange({
-      query: this.searchInput ? this.searchInput.value : "",
+      query: this.searchInput ? this.searchInput.value.trim() : "",
       facets,
     });
   }

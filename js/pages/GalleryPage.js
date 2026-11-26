@@ -67,9 +67,9 @@ export class GalleryPage extends Page {
       }
 
       renderFiltered(initialState);
-    } catch (err) {
+    } catch {
       clear(grid);
-      grid.appendChild(StateView.error(err instanceof Error ? err.message : "Could not load gallery."));
+      grid.appendChild(StateView.error("Couldn't load photographs. Try again.", () => this.mount()));
     }
   }
 }

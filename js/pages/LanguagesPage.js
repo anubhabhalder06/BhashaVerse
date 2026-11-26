@@ -110,9 +110,9 @@ export class LanguagesPage extends Page {
       }
 
       renderFiltered(initialState);
-    } catch (err) {
+    } catch {
       clear(grid);
-      grid.appendChild(StateView.error(err instanceof Error ? err.message : "Failed to load languages."));
+      grid.appendChild(StateView.error("Couldn't load languages. Try again.", () => this.mount()));
     }
   }
 }

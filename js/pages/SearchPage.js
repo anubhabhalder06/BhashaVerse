@@ -80,10 +80,20 @@ export class SearchPage extends Page {
         }
       };
 
-      qInput.addEventListener("input", runSearch);
-      if (groupSel) groupSel.addEventListener("change", runSearch);
+      let searchTimer = 0;
+      qInput.addEventListener("input", () => {
+        window.clearTimeout(searchTimer);
+        searchTimer = window.setTimeout(runSearch, 180);
+      });
+      if (groupSel) {
+        groupSel.addEventListener("change", () => {
+          window.clearTimeout(searchTimer);
+          runSearch();
+        });
+      }
       if (clearBtn) {
         clearBtn.addEventListener("click", () => {
+          window.clearTimeout(searchTimer);
           qInput.value = "";
           if (groupSel) groupSel.value = "";
           runSearch();
@@ -91,9 +101,9 @@ export class SearchPage extends Page {
       }
 
       runSearch();
-    } catch (err) {
+    } catch {
       clear(outEl);
-      outEl.appendChild(StateView.error(err instanceof Error ? err.message : "Could not index archive search."));
+      outEl.appendChild(StateView.error("Couldn't index archive search. Try again.", () => this.mount()));
     }
   }
 }

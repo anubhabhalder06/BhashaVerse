@@ -24,9 +24,9 @@ export class MapPage extends Page {
     try {
       const [places, languages] = await Promise.all([placeRepo.list(), langRepo.list()]);
       await mapView.mountMap({ mapEl, listEl, inspectorEl, places, languages, initialLangId });
-    } catch (err) {
+    } catch {
       clear(inspectorEl);
-      inspectorEl.appendChild(StateView.error(err instanceof Error ? err.message : "Could not load Language Map."));
+      inspectorEl.appendChild(StateView.error("Couldn't load the Language Map. Try again.", () => this.mount()));
     }
   }
 }

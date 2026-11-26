@@ -16,6 +16,7 @@
   aspect-ratio: 4 / 3;
 }
 
+.mt-photo-tile picture,
 .mt-photo-tile img {
   display: block;
   width: 100%;

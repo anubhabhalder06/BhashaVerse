@@ -27,7 +27,7 @@ jobs:
       - name: Stage static site files
         run: |
           mkdir -p _site
-          cp *.html .nojekyll robots.txt sitemap.xml _site/
+          cp *.html .nojekyll robots.txt sitemap.xml sw.js _site/
           cp -r assets css data js _site/
 
       - name: Upload Pages artifact

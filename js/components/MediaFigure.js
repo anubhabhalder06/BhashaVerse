@@ -1,5 +1,5 @@
 // @ts-check
-import { el } from "../utils/dom.js";
+import { el, pictureEl } from "../utils/dom.js";
 
 /**
  * Renders monochrome rounded photograph with optional vertical native-script label.
@@ -22,13 +22,15 @@ export class MediaFigure {
   render(item, opts = {}) {
     const frameChildren = [];
     if (item.technical.file) {
+      const dims = item.technical.dimensions || {};
       frameChildren.push(
         el(
           "div",
           { class: "mt-photo-tile" },
-          el("img", {
-            src: item.technical.file,
-            alt: item.technical.altText,
+          pictureEl(item.technical.file, item.technical.altText, {
+            width: dims.width,
+            height: dims.height,
+            sizes: "(max-width: 768px) 100vw, 33vw",
             loading: "lazy",
             decoding: "async",
           })

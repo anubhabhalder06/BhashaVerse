@@ -1,14 +1,11 @@
 {
   "categories": [
     { "key": "Word", "href": "languages.html", "icon": "word" },
-    { "key": "Song", "href": "audio.html", "icon": "song" },
+    { "key": "Song", "href": "audio.html?collection=Songs", "icon": "song" },
     { "key": "Story", "href": "stories.html", "icon": "story" },
-    { "key": "Manuscript", "href": "library.html", "icon": "manuscript" },
+    { "key": "Manuscript", "href": "library.html?category=Manuscripts", "icon": "manuscript" },
     { "key": "Photograph", "href": "gallery.html", "icon": "photograph" },
-    { "key": "Elder", "href": "stories.html", "icon": "elder" },
-    { "key": "Place", "href": "map.html", "icon": "place" },
-    { "key": "Festival", "href": "culture.html", "icon": "festival" },
-    { "key": "Craft", "href": "culture.html", "icon": "craft" }
+    { "key": "Place", "href": "map.html", "icon": "place" }
   ],
   "galleryCollections": [
     "People and portraits",
@@ -25,7 +22,8 @@
     "quote": "“The loom remembers the river’s old name.”",
     "attribution": "Community speaker · Mishing · Assam",
     "src": null,
-    "transcriptNative": "Mishing oral history attribution documented with community consent.",
-    "transcriptTranslation": "“The loom remembers the river’s old name.”"
+    "transcriptNative": "মিশিং · অসম — Mishing handloom oral history attribution recorded with community consultation.",
+    "transcriptLatin": "Mishing (mrg · Upper Assam, Brahmaputra floodplains) — Archival oral-history attribution.",
+    "transcriptEnglish": "“The loom remembers the river’s old name.”"
   }
 }

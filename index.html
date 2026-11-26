@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-page="home">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com; connect-src 'self'; base-uri 'self'; form-action 'self';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-cSgi32yR/A+CpurTWyPhe/lRFQ9D61B7z6c6L0FVifs=' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com; connect-src 'self'; base-uri 'self'; form-action 'self';">
 <title>Matrika — Digital Archive of India's Underrepresented Languages</title>
 <meta name="description" content="Matrika is a community-guided digital archive preserving India's underrepresented languages, scripts, oral histories, photographs, and cultural knowledge.">
 <meta name="application-name" content="Matrika">
@@ -12,28 +12,41 @@
 <meta property="og:title" content="Matrika — Digital Archive of India's Underrepresented Languages">
 <meta property="og:description" content="Community-guided digital archive preserving India's underrepresented languages, manuscripts, and cultural knowledge.">
 <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="css/base.css">
-<link rel="preload" as="image" href="assets/images/loom-weaver-assam.jpg" fetchpriority="high">
-<script blocking="render" src="js/boot.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600&family=Caveat:wght@400;600&family=Noto+Serif+Devanagari:wght@400;600&display=swap">
-<link rel="stylesheet" href="css/tokens.css">
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/layout.css">
-<link rel="stylesheet" href="css/components/header.css">
-<link rel="stylesheet" href="css/components/wordmark.css">
-<link rel="stylesheet" href="css/components/footer.css">
-<link rel="stylesheet" href="css/components/button.css">
-<link rel="stylesheet" href="css/components/badge.css">
-<link rel="stylesheet" href="css/components/figure.css">
-<link rel="stylesheet" href="css/components/audio.css">
-<link rel="stylesheet" href="css/components/chat.css">
-<link rel="stylesheet" href="css/pages/home.css">
-<link rel="stylesheet" href="css/print.css" media="print">
-<script type="module" src="js/main.js"></script>
+<meta name="theme-color" content="#EFEDE8">
+  <link rel="canonical" href="https://anubhabhalder06.github.io/Matrika-digitalarchive/">
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/fraunces-var-normal-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/plus-jakarta-var-normal-latin.woff2" crossorigin>
+  <link rel="preload" as="image" imagesrcset="assets/images/loom-weaver-assam-640.avif 640w, assets/images/loom-weaver-assam.avif 1400w" imagesizes="(max-width: 900px) 100vw, 52vw" type="image/avif" fetchpriority="high">
+  <link rel="preload" as="style" href="css/base.css?v=20261126">
+  <style data-mt-critical>html.is-entering #mt-cover,html.is-first-visit #mt-cover{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0)}html.js:not([data-motion="reduced"]) .hero-quote.is-pre-reveal{opacity:0}</style>
+  <script data-mt-boot>!function(){var r=document.documentElement;r.classList.add("js");try{var m=matchMedia("(prefers-reduced-motion: reduce)").matches||localStorage.getItem("matrika_motion")==="reduced";if(m)r.dataset.motion="reduced";if(!m&&sessionStorage.getItem("mt_nav_pending"))r.classList.add("is-entering");else if(!m&&r.dataset.page==="home"&&!sessionStorage.getItem("mt_intro_done"))r.classList.add("is-first-visit")}catch(e){}}();</script>
+  <link rel="stylesheet" href="css/fonts.css?v=20261126">
+  <link rel="stylesheet" href="css/tokens.css?v=20261126">
+<link rel="stylesheet" href="css/base.css?v=20261126">
+<link rel="stylesheet" href="css/layout.css?v=20261126">
+<link rel="stylesheet" href="css/components/header.css?v=20261126">
+<link rel="stylesheet" href="css/components/wordmark.css?v=20261126">
+<link rel="stylesheet" href="css/components/footer.css?v=20261126">
+<link rel="stylesheet" href="css/components/button.css?v=20261126">
+<link rel="stylesheet" href="css/components/badge.css?v=20261126">
+<link rel="stylesheet" href="css/components/figure.css?v=20261126">
+<link rel="stylesheet" href="css/components/audio.css?v=20261126">
+<link rel="stylesheet" href="css/components/chat.css?v=20261126">
+<link rel="stylesheet" href="css/pages/home.css?v=20261126">
+<link rel="stylesheet" href="css/print.css?v=20261126" media="print">
+<script type="module" src="js/main.js?v=20261126"></script>
 </head>
 <body class="mt-paper-grain" data-page="home">
+<div id="mt-cover" class="mt-cover" aria-hidden="true">
+  <div class="mt-cover-inner">
+    <span class="mt-cover-thread" aria-hidden="true"></span>
+    <span class="mt-cover-mark" lang="sa-Deva">मातृका</span>
+    <span id="mt-cover-dest" class="mt-cover-dest"></span>
+    <button id="mt-cover-skip" type="button" class="mt-cover-skip" hidden>Skip intro →</button>
+  </div>
+</div>
+<div id="mt-top-thread" class="mt-top-thread" aria-hidden="true"></div>
+<div class="mt-paper-film" aria-hidden="true"></div>
 <a class="skip-link" href="#main">Skip to main content</a>
 
 <svg class="sr-only" aria-hidden="true" width="0" height="0">
@@ -59,11 +72,11 @@
       <div class="container hero-grid">
         <div class="hero-text">
           <p class="hero-eyebrow">Digital Archive · Est. 2026</p>
-          <h1 class="hero-quote">“The loom remembers the river’s old name.”</h1>
+          <h1 id="mt-hero-quote" class="hero-quote is-pre-reveal"><span class="hero-open-quote">“</span>The loom remembers the <em class="hero-quote-em">river’s old name.</em></h1>
           <p id="mt-hero-byline" class="hero-byline">Community speaker · Mishing · Assam</p>
           <p class="hero-purpose">An archive of India’s underrepresented languages: words, voices, scripts and photographs, shared with community consent.</p>
 
-          <div id="mt-hero-audio-host" class="hero-audio-row" hidden></div>
+          <div id="mt-hero-audio-host" class="hero-audio-row"></div>
 
           <div class="hero-actions">
             <a class="mt-btn mt-btn--solid" href="languages.html">Explore Languages</a>
@@ -79,10 +92,16 @@
 
         <figure class="hero-photo">
           <div class="hero-frame">
-            <img src="assets/images/loom-weaver-assam.jpg" width="1280" height="853" alt="Black-and-white photograph of a weaver working at a handloom" loading="eager" fetchpriority="high" decoding="async">
+            <div class="hero-parallax-wrap">
+              <picture>
+                <source type="image/avif" srcset="assets/images/loom-weaver-assam-640.avif 640w, assets/images/loom-weaver-assam.avif 1400w" sizes="(max-width: 900px) 100vw, 52vw">
+                <source type="image/webp" srcset="assets/images/loom-weaver-assam-640.webp 640w, assets/images/loom-weaver-assam.webp 1400w" sizes="(max-width: 900px) 100vw, 52vw">
+                <img src="assets/images/loom-weaver-assam.jpg" width="1280" height="853" alt="Black-and-white photograph of a weaver working at a handloom" loading="eager" fetchpriority="high" decoding="async">
+              </picture>
+            </div>
             <div class="hero-gradient" aria-hidden="true"></div>
-            <span class="hero-mishing-word" lang="mrg-Beng" aria-hidden="true">মিশিং</span>
-            <span class="hero-mishing-caption">Mishing</span>
+            <span class="hero-mishing-word hero-overlay-item" lang="mrg-Beng" aria-hidden="true">মিশিং</span>
+            <span class="hero-mishing-caption hero-overlay-item">Mishing</span>
           </div>
           <figcaption>Handloom, Mishing weaver (label: মিশিং). Photo: Deepraj, <a href="https://commons.wikimedia.org/wiki/File:Assamese_woman_using_traditional_handloom.jpg" target="_blank" rel="noopener noreferrer">CC BY 2.5</a>.</figcaption>
         </figure>
@@ -105,7 +124,10 @@
           <h2 id="mt-poster-concept" class="mt-poster-word">water</h2>
         </div>
         <div class="mt-cta-row">
-          <button id="mt-rotate-word" type="button" class="mt-btn" style="color:var(--mt-paper-always); border-color:var(--mt-paper-always);">Next specimen word</button>
+          <button id="mt-rotate-word" type="button" class="mt-btn" style="color:var(--mt-paper-always); border-color:var(--mt-paper-always);">
+            <span class="mt-btn-icon-spin" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg></span>
+            <span>Next specimen word</span>
+          </button>
         </div>
       </div>
       <ul id="mt-poster-rows" class="mt-poster-rows" aria-label="Rotating word across archive languages"></ul>
@@ -135,7 +157,11 @@
             <figure>
               <div class="mt-photo-frame">
                 <div class="mt-photo-tile">
-                  <img src="assets/images/lachen-weaving-sikkim.jpg" width="1280" height="960" alt="Traditional weaver operating a wooden treadle loom in Lachen, Sikkim" loading="lazy" decoding="async">
+                  <picture>
+                    <source type="image/avif" srcset="assets/images/lachen-weaving-sikkim-640.avif 640w, assets/images/lachen-weaving-sikkim.avif 1400w" sizes="(max-width: 768px) 100vw, 28vw">
+                    <source type="image/webp" srcset="assets/images/lachen-weaving-sikkim-640.webp 640w, assets/images/lachen-weaving-sikkim.webp 1400w" sizes="(max-width: 768px) 100vw, 28vw">
+                    <img src="assets/images/lachen-weaving-sikkim.jpg" width="1280" height="960" alt="Traditional weaver operating a wooden treadle loom in Lachen, Sikkim" loading="lazy" decoding="async">
+                  </picture>
                 </div>
                 <span class="mt-vertical-tag" lang="hi-Deva" aria-hidden="true">बुनकर</span>
               </div>
@@ -145,7 +171,11 @@
             <figure class="mt-masonry-offset">
               <div class="mt-photo-frame">
                 <div class="mt-photo-tile" style="aspect-ratio:3/4;">
-                  <img src="assets/images/toda-archival-1871.jpg" width="960" height="1200" alt="1871 archival photograph of Toda people in traditional Nilgiri Poothkuli shawls" loading="lazy" decoding="async">
+                  <picture>
+                    <source type="image/avif" srcset="assets/images/toda-archival-1871-640.avif 640w, assets/images/toda-archival-1871.avif 1400w" sizes="(max-width: 768px) 100vw, 22vw">
+                    <source type="image/webp" srcset="assets/images/toda-archival-1871-640.webp 640w, assets/images/toda-archival-1871.webp 1400w" sizes="(max-width: 768px) 100vw, 22vw">
+                    <img src="assets/images/toda-archival-1871.jpg" width="960" height="1200" alt="1871 archival photograph of Toda people in traditional Nilgiri Poothkuli shawls" loading="lazy" decoding="async">
+                  </picture>
                 </div>
                 <span class="mt-vertical-tag" lang="tcx-Taml" aria-hidden="true">அர்ஸ்</span>
               </div>

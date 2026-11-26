@@ -6,6 +6,7 @@ bhashaverse-skeleton/
 
 # Build / deployment staging
 _site/
+dist/
 
 # OS & tool files
 .DS_Store

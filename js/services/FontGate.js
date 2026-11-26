@@ -16,12 +16,14 @@ export class FontGate {
   /** Lazy-load non-anchor Indic fonts after main thread is idle. */
   warmSecondaryFonts() {
     if (this.lazyInjected || typeof document === "undefined") return;
+    if (typeof navigator !== "undefined" && navigator.onLine === false) return;
     this.lazyInjected = true;
     const inject = () => {
       if (document.querySelector(`link[href="${SCRIPT_FONTS_HREF}"]`)) return;
       const link = document.createElement("link");
       link.rel = "stylesheet";
       link.href = SCRIPT_FONTS_HREF;
+      link.addEventListener("error", () => link.remove(), { once: true });
       document.head.appendChild(link);
     };
     if ("requestIdleCallback" in window) {

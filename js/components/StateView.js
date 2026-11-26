@@ -84,14 +84,29 @@ export class StateView {
 
   /**
    * @param {string} message
+   * @param {() => void} [onRetry]
    * @returns {HTMLElement}
    */
-  static error(message) {
-    return el(
+  static error(message, onRetry) {
+    const box = el(
       "div",
       { class: "mt-state-box", role: "alert" },
       el("strong", {}, "Could not load records"),
       el("p", { style: "margin:0" }, message)
     );
+    if (typeof onRetry === "function") {
+      box.appendChild(
+        el(
+          "button",
+          {
+            type: "button",
+            class: "mt-btn",
+            onClick: () => onRetry(),
+          },
+          "Try again"
+        )
+      );
+    }
+    return box;
   }
 }

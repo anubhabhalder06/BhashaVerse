@@ -1,14 +1,16 @@
-/* COMPONENT: MatrikaHeader — wordmark, 7-item nav, More + Saved dropdown, 44px touch targets */
+/* COMPONENT: MatrikaHeader — fixed-stability header, single sliding nav underline indicator, search expansion */
 .mt-header-wrap {
   border-bottom: var(--mt-border-rule);
   position: relative;
   z-index: 40;
+  min-height: calc(var(--mt-header-h) + 1px);
   background: var(--mt-paper);
 }
 
 .site-header {
   max-width: var(--mt-container);
   width: 100%;
+  min-height: var(--mt-header-h);
   margin-inline: auto;
   padding: var(--mt-space-3) var(--gutter);
   display: flex;
@@ -31,6 +33,7 @@
 }
 
 .site-nav ul {
+  position: relative;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -54,19 +57,33 @@
   min-height: var(--mt-touch-min);
   padding: 0 var(--mt-space-1);
   text-decoration: none;
-  border-bottom: 2px solid transparent;
-  transition: border-color var(--mt-dur-fast) var(--mt-ease);
 }
 
-.site-nav a:hover,
-.site-nav a:focus-visible {
-  border-bottom-color: var(--mt-ink);
-}
-
-/* Clear active-page mark beyond colour alone */
 .site-nav a[aria-current="page"] {
   font-weight: var(--mt-weight-semibold);
-  border-bottom-color: var(--mt-ink);
+}
+
+/* Single sliding ink indicator moving with transform only */
+.mt-nav-indicator {
+  position: absolute;
+  left: 0;
+  bottom: 6px;
+  height: 2px;
+  width: 100px;
+  background: var(--mt-ink);
+  pointer-events: none;
+  transform-origin: left center;
+  transform: translateX(var(--mt-ind-x, 0px)) scaleX(var(--mt-ind-s, 0));
+  opacity: var(--mt-ind-o, 0);
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
+}
+
+@media (max-width: 77.99rem) {
+  .mt-nav-indicator {
+    display: none;
+  }
 }
 
 .mt-nav-more {
@@ -104,10 +121,16 @@
   min-height: var(--mt-touch-min);
   padding: var(--mt-space-2) var(--mt-space-4);
   text-decoration: none;
-  border-bottom: 0;
 }
 
-.mt-more-menu a:hover,
+@media (hover: hover) and (pointer: fine) {
+  .mt-more-menu a:hover {
+    background: var(--mt-paper-elev);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
 .mt-more-menu a:focus-visible {
   background: var(--mt-paper-elev);
   text-decoration: underline;
@@ -128,6 +151,13 @@
   border: var(--mt-border-strong);
   background: var(--mt-paper);
   border-radius: var(--mt-radius-control);
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.site-search:focus-within {
+  border-color: var(--mt-ink);
 }
 
 .site-search input {
@@ -137,14 +167,24 @@
   min-height: var(--mt-touch-min);
   padding: 0 var(--mt-space-2);
   font-size: var(--mt-text-xs);
-  min-width: 9.25rem;
   width: 9.5rem;
   border-radius: var(--mt-radius-control);
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+@media (min-width: 78rem) {
+  .site-search input {
+    width: 9rem;
+    transition: width var(--dur-base) var(--ease-out);
+  }
+
+  .site-search input:focus {
+    width: 12.5rem;
+  }
 }
 
 .site-search button,
-.nav-toggle,
-.mt-theme-btn {
+.nav-toggle {
   min-height: var(--mt-touch-min);
   min-width: var(--mt-touch-min);
   padding: 0 var(--mt-space-3);
@@ -153,7 +193,9 @@
   font-size: var(--mt-text-sm);
   white-space: nowrap;
   border-radius: var(--mt-radius-control);
-  transition: background-color var(--mt-dur-fast) var(--mt-ease), color var(--mt-dur-fast) var(--mt-ease);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
 }
 
 .site-search button {
@@ -161,14 +203,20 @@
   border-left: var(--mt-border-strong);
 }
 
-.nav-toggle,
-.mt-theme-btn {
+.nav-toggle {
   border: var(--mt-border-strong);
 }
 
-.site-search button:hover,
-.nav-toggle:hover,
-.mt-theme-btn:hover {
+@media (hover: hover) and (pointer: fine) {
+  .site-search button:hover,
+  .nav-toggle:hover {
+    background: var(--mt-ink);
+    color: var(--mt-paper);
+  }
+}
+
+.nav-toggle:focus-visible,
+.site-search button:focus-visible {
   background: var(--mt-ink);
   color: var(--mt-paper);
 }

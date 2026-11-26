@@ -1,6 +1,6 @@
-/* DESIGN TOKENS: Matrika monochrome paper/ink specimen palette + semantic contrast */
+/* DESIGN TOKENS: Matrika monochrome paper/ink specimen palette + unified type & motion system */
 :root {
-  /* Core Colours */
+  /* Core Palette (preserved: paper, ink, muted gray) */
   --mt-paper: #EFEDE8;
   --mt-paper-elev: #E3E0D8;
   --mt-ink: #0E0E0E;
@@ -11,8 +11,8 @@
   --mt-rule: rgba(14, 14, 14, 0.18);
   --mt-rule-strong: rgba(14, 14, 14, 0.55);
   --mt-rule-dark: rgba(239, 237, 232, 0.22);
-  --mt-grain-dark: rgba(14, 14, 14, 0.038);
-  --mt-grain-dark-2: rgba(14, 14, 14, 0.022);
+  --mt-grain-dark: rgba(14, 14, 14, 0.036);
+  --mt-grain-dark-2: rgba(14, 14, 14, 0.02);
   --mt-grain-light: rgba(255, 255, 255, 0.06);
   --mt-hero-fade: rgba(14, 14, 14, 0.6);
   --mt-hero-fade-0: rgba(14, 14, 14, 0);
@@ -30,9 +30,9 @@
   --mt-step-4: #1F1F1D;
   --mt-step-5: #0E0E0E;
 
-  /* Typography Families */
-  --mt-font-display: "Fraunces", "Instrument Serif", Georgia, serif;
-  --mt-font-body: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  /* Unified Typography Families */
+  --mt-font-display: "Fraunces", "Fraunces Fallback", Georgia, serif;
+  --mt-font-body: "Plus Jakarta Sans", "Plus Jakarta Sans Fallback", system-ui, -apple-system, sans-serif;
   --mt-font-hand: "Caveat", cursive;
   --mt-font-indic: "Noto Serif Devanagari", "Noto Serif Bengali", "Noto Serif Kannada", "Noto Serif Oriya", "Noto Sans Ol Chiki", "Noto Sans Sora Sompeng", "Noto Sans Devanagari", "Noto Sans Kannada", "Noto Sans Oriya", "Noto Sans Tamil", "Noto Sans Bengali", "Noto Sans Masaram Gondi", "Noto Sans Gunjala Gondi", "Noto Sans Lepcha", "Noto Sans Limbu", "Noto Sans Meetei Mayek", "Noto Sans Warang Citi", "Noto Serif Toto", "Nirmala UI", sans-serif;
 
@@ -44,19 +44,19 @@
   --mt-text-lg: clamp(1.35rem, 2vw, 1.7rem);
   --mt-text-xl: clamp(1.6rem, 2.8vw, 2.25rem);
   --mt-text-2xl: clamp(2rem, 3.8vw, 3rem);
-  --mt-text-hero: clamp(3rem, 6.2vw, 6.5rem);
+  --mt-text-hero: clamp(2.6rem, 4.8vw, 5.25rem);
   --mt-text-stack: clamp(2.25rem, 5vw, 4rem);
-  --mt-text-giant: clamp(4rem, 8.8vw, 7.75rem);
+  --mt-text-giant: clamp(3rem, 5.2vw, 5.5rem);
 
   /* Line Heights & Weights */
-  --mt-lh-tight: 1.02;
+  --mt-lh-tight: 1.08;
   --mt-lh-heading: 1.12;
   --mt-lh-body: 1.6;
   --mt-weight-regular: 400;
   --mt-weight-medium: 500;
   --mt-weight-semibold: 600;
 
-  /* Per-Script Wordmark Line Heights (no letter-spacing on Indic text) */
+  /* Per-Script Wordmark Line Heights (zero letter-spacing on Indic text) */
   --mt-wordmark-lh-Latn: 1.08;
   --mt-wordmark-lh-Deva: 1.32;
   --mt-wordmark-lh-Beng: 1.32;
@@ -76,12 +76,12 @@
   --mt-space-9: 96px;
 
   /* Unified Layout Gutter & Container */
-  --gutter: clamp(20px, 5vw, 96px);
+  --gutter: clamp(24px, 5vw, 96px);
   --mt-container: 1680px;
   --mt-max-width: 80rem;
   --mt-card-min: 17.5rem;
   --mt-touch-min: 44px;
-  --mt-header-h: 68px;
+  --mt-header-h: 80px;
 
   /* Shape & Borders */
   --mt-radius-media: 24px;
@@ -95,6 +95,7 @@
 
   /* Unified Motion System */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-loom: cubic-bezier(0.76, 0, 0.24, 1);
   --mt-ease: var(--ease-out);
   --dur-fast: 180ms;
   --dur-base: 320ms;
@@ -107,6 +108,8 @@
   --mt-dur-slow: var(--dur-slow);
   --mt-dur-shimmer: 1100ms;
   --mt-stagger-step: 60ms;
+  --mt-cover-exit-ms: 420ms;
+  --mt-cover-enter-ms: 520ms;
   --mt-wordmark-hold: 2400ms;
   --mt-wordmark-hold-anchor: 3400ms;
   --mt-wordmark-exit: 220ms;

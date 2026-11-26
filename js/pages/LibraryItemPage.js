@@ -1,7 +1,7 @@
 // @ts-check
 import { Page } from "../core/Page.js";
 import { UrlHelper } from "../core/Url.js";
-import { clear, el } from "../utils/dom.js";
+import { clear, el, pictureEl } from "../utils/dom.js";
 import { Breadcrumbs } from "../components/Breadcrumbs.js";
 import { StatusChip } from "../components/StatusChip.js";
 import { StateView } from "../components/StateView.js";
@@ -42,7 +42,15 @@ export class LibraryItemPage extends Page {
 
       const policy = rightsPolicy.evaluate(item);
       const previewEl = policy.canPreview && item.technical.file
-        ? el("div", { class: "mt-photo-tile", style: "aspect-ratio:16/10;" }, el("img", { src: item.technical.file, alt: item.technical.altText, decoding: "async" }))
+        ? el(
+            "div",
+            { class: "mt-photo-tile", style: "aspect-ratio:16/10;" },
+            pictureEl(item.technical.file, item.technical.altText, {
+              sizes: "(max-width: 900px) 100vw, 60vw",
+              loading: "eager",
+              decoding: "async",
+            })
+          )
         : el(
             "div",
             { class: "mt-state-box mt-state-box--empty", style: "min-height:18rem; align-content:center;" },
@@ -110,9 +118,9 @@ export class LibraryItemPage extends Page {
           )
         )
       );
-    } catch (err) {
+    } catch {
       clear(root);
-      root.appendChild(StateView.error(err instanceof Error ? err.message : "Could not load record."));
+      root.appendChild(StateView.error("Couldn't load archival item. Try again.", () => this.mount()));
     }
   }
 }

@@ -110,6 +110,61 @@ export function iconPauseCircle() {
 }
 
 /**
+ * Build a responsive <picture> with AVIF/WebP 640w + full srcset when available.
+ * @param {string} src
+ * @param {string} alt
+ * @param {{
+ *   class?: string,
+ *   pictureClass?: string,
+ *   width?: number | string,
+ *   height?: number | string,
+ *   sizes?: string,
+ *   loading?: "lazy" | "eager",
+ *   decoding?: "async" | "sync" | "auto",
+ *   fetchpriority?: "high" | "low" | "auto",
+ *   draggable?: boolean
+ * }} [opts]
+ * @returns {HTMLElement}
+ */
+export function pictureEl(src, alt, opts = {}) {
+  const isLocalRaster = typeof src === "string" && /(^|\/)assets\/images\/.+\.(jpg|jpeg|png)$/i.test(src);
+  const sizes = opts.sizes || "(max-width: 768px) 100vw, 50vw";
+  const img = el("img", {
+    src,
+    alt: alt || "",
+    class: opts.class || "",
+    width: opts.width,
+    height: opts.height,
+    sizes: isLocalRaster ? sizes : undefined,
+    loading: opts.loading || "lazy",
+    decoding: opts.decoding || "async",
+    fetchpriority: opts.fetchpriority,
+    draggable: opts.draggable === false ? "false" : undefined,
+  });
+
+  if (!isLocalRaster) {
+    return el("picture", { class: opts.pictureClass || "" }, img);
+  }
+
+  const base = src.replace(/\.(jpg|jpeg|png)$/i, "");
+  return el(
+    "picture",
+    { class: opts.pictureClass || "" },
+    el("source", {
+      type: "image/avif",
+      srcset: `${base}-640.avif 640w, ${base}.avif 1400w`,
+      sizes,
+    }),
+    el("source", {
+      type: "image/webp",
+      srcset: `${base}-640.webp 640w, ${base}.webp 1400w`,
+      sizes,
+    }),
+    img,
+  );
+}
+
+/**
  * Render category hairline icon by key.
  * @param {string} key
  * @returns {SVGSVGElement}
@@ -122,10 +177,7 @@ export function iconCategory(key) {
     story: [["path", { d: "M4 6h16v10H9l-5 4V6z" }], ["path", { d: "M9 10h6M9 13h4" }]],
     manuscript: [["rect", { x: "4", y: "6", width: "16", height: "12", rx: "2" }], ["circle", { cx: "8", cy: "12", r: "1" }], ["circle", { cx: "16", cy: "12", r: "1" }], ["path", { d: "M10 10h4M10 14h4" }]],
     photograph: [["rect", { x: "3", y: "5", width: "18", height: "14", rx: "4" }], ["circle", { cx: "12", cy: "12", r: "3.5" }]],
-    elder: [["circle", { cx: "12", cy: "8", r: "3.5" }], ["path", { d: "M6 20c1.2-3.8 10.8-3.8 12 0" }]],
     place: [["path", { d: "M12 21s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10z" }], ["circle", { cx: "12", cy: "11", r: "2" }]],
-    festival: [["path", { d: "M12 3v4M5.6 6.6l2.8 2.8M18.4 6.6l-2.8 2.8M4 14h16M7 14a5 5 0 0 0 10 0" }]],
-    craft: [["path", { d: "M4 8h16M4 16h16M8 5v14M16 5v14M9 12h6" }]],
   };
   return svgIcon(30, 30, map[key] || map.word);
 }

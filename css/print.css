@@ -10,14 +10,13 @@
   }
 
   .mt-wordmark-frame:not([data-script="Latn"]),
-  .mt-wordmark-pause,
-  .mt-wordmark-caption,
   .mt-header-controls,
   .site-nav,
   .mt-chat-root,
-  .mt-theme-btn,
   .skip-link,
-  .mt-filter-panel {
+  .mt-filter-panel,
+  .mt-cover,
+  .mt-top-thread {
     display: none !important;
   }
 

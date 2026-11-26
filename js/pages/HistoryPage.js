@@ -1,6 +1,6 @@
 // @ts-check
 import { Page } from "../core/Page.js";
-import { clear, el } from "../utils/dom.js";
+import { clear, el, pictureEl } from "../utils/dom.js";
 import { StatusChip } from "../components/StatusChip.js";
 import { StateView } from "../components/StateView.js";
 
@@ -31,7 +31,15 @@ export class HistoryPage extends Page {
               "div",
               { style: "display:grid; gap:var(--mt-space-3);" },
               plate && plate.technical.file
-                ? el("div", { class: "mt-photo-tile" }, el("img", { src: plate.technical.file, alt: plate.technical.altText, loading: "lazy", decoding: "async" }))
+                ? el(
+                    "div",
+                    { class: "mt-photo-tile" },
+                    pictureEl(plate.technical.file, plate.technical.altText, {
+                      sizes: "(max-width: 768px) 100vw, 33vw",
+                      loading: "lazy",
+                      decoding: "async",
+                    })
+                  )
                 : null,
               el("div", { class: "mt-badge-row" }, StatusChip.render(entry.verification)),
               el("span", { class: "mt-muted", style: "font-size:var(--mt-text-xs)" }, entry.category),
@@ -62,9 +70,9 @@ export class HistoryPage extends Page {
           );
         }
       }
-    } catch (err) {
+    } catch {
       clear(grid);
-      grid.appendChild(StateView.error(err instanceof Error ? err.message : "Could not load History records."));
+      grid.appendChild(StateView.error("Couldn't load History & Heritage records. Try again.", () => this.mount()));
     }
   }
 }

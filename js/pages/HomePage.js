@@ -1,9 +1,9 @@
 // @ts-check
 import { Page } from "../core/Page.js";
-import { clear, el, iconCategory } from "../utils/dom.js";
+import { clear, el, iconCategory, pictureEl } from "../utils/dom.js";
 import { pad2 } from "../utils/format.js";
 
-/** Home broadsheet controller hydrating archive stats, hero attribution, 8-script poster, 10-language folio spread, and latest plates. */
+/** Home broadsheet controller hydrating audio player, 8-script poster, 6-option index, uniform folio spread, and plates. */
 export class HomePage extends Page {
   async mount() {
     this.setTitle("Home");
@@ -20,7 +20,8 @@ export class HomePage extends Page {
     ]);
 
     this.mountHeroControls(taxonomy, languages, mediaItems, audioPlayer);
-    this.mountPoster(languages, audioPlayer);
+    this.mountHeroParallax();
+    this.mountPoster(languages);
     this.mountCategoryChart(taxonomy.categories || []);
     this.mountSpecimenSpread(languages, mediaItems);
     this.mountLatestAdditions(mediaItems, rightsBadge);
@@ -45,22 +46,20 @@ export class HomePage extends Page {
 
     if (heroAudioHost) {
       clear(heroAudioHost);
-      if (hq.src) {
-        heroAudioHost.hidden = false;
-        heroAudioHost.append(
-          audioPlayer.render({
-            id: "hero-mishing",
-            title: "Mishing oral history quote",
-            src: hq.src,
-            durationSec: hq.durationSec || 12,
-            compact: true,
-            transcript: hq.transcriptNative || undefined,
-            translation: hq.transcriptTranslation || undefined,
-          })
-        );
-      } else {
-        heroAudioHost.hidden = true;
-      }
+      heroAudioHost.hidden = false;
+      heroAudioHost.append(
+        audioPlayer.render({
+          id: hq.id || "hero-mishing",
+          title: "Mishing oral history quote",
+          src: hq.src || null,
+          durationSec: hq.durationSec || 0,
+          attribution: hq.attribution || "Community speaker · Mishing · Assam",
+          statusCopy: "Recording shared with community consent — available soon",
+          transcriptNative: hq.transcriptNative || null,
+          transcriptLatin: hq.transcriptLatin || null,
+          transcriptEnglish: hq.transcriptEnglish || hq.transcriptTranslation || null,
+        })
+      );
     }
 
     if (factsEl) {
@@ -81,18 +80,61 @@ export class HomePage extends Page {
     }
   }
 
-  /**
-   * @param {import('../models/Language.js').Language[]} languages
-   * @param {import('../components/AudioPlayer.js').AudioPlayer} _audioPlayer
-   */
-  mountPoster(languages, _audioPlayer) {
+  /** Bounded desktop pointer parallax inside hero image container (<=10px, rAF-throttled). */
+  mountHeroParallax() {
+    if (typeof window === "undefined") return;
+    if (document.documentElement.dataset.motion === "reduced") return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+    const heroGrid = document.querySelector(".hero-grid");
+    const parallax = /** @type {HTMLElement | null} */ (document.querySelector(".hero-parallax-wrap"));
+    if (!heroGrid || !parallax) return;
+
+    let rafId = 0;
+    let px = 0;
+    let py = 0;
+    const commit = () => {
+      rafId = 0;
+      parallax.style.setProperty("--mt-px", `${px.toFixed(1)}px`);
+      parallax.style.setProperty("--mt-py", `${py.toFixed(1)}px`);
+    };
+
+    const onMove = (/** @type {PointerEvent} */ e) => {
+      const r = heroGrid.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      const nx = (e.clientX - r.left) / r.width - 0.5;
+      const ny = (e.clientY - r.top) / r.height - 0.5;
+      px = Math.max(-10, Math.min(10, nx * -16));
+      py = Math.max(-8, Math.min(8, ny * -12));
+      if (!rafId) rafId = requestAnimationFrame(commit);
+    };
+
+    const onLeave = () => {
+      px = 0;
+      py = 0;
+      if (!rafId) rafId = requestAnimationFrame(commit);
+    };
+
+    heroGrid.addEventListener("pointermove", onMove, { passive: true });
+    heroGrid.addEventListener("pointerleave", onLeave, { passive: true });
+    window.addEventListener("pagehide", () => {
+      cancelAnimationFrame(rafId);
+      heroGrid.removeEventListener("pointermove", onMove);
+      heroGrid.removeEventListener("pointerleave", onLeave);
+    }, { once: true });
+  }
+
+  /** @param {import('../models/Language.js').Language[]} languages */
+  mountPoster(languages) {
+    const posterSec = document.getElementById("s-poster");
     const rowsEl = document.getElementById("mt-poster-rows");
     const conceptEl = document.getElementById("mt-poster-concept");
-    const rotateBtn = document.getElementById("mt-rotate-word");
+    const rotateBtn = /** @type {HTMLButtonElement | null} */ (document.getElementById("mt-rotate-word"));
     if (!rowsEl || !conceptEl) return;
 
     const concepts = ["water", "home", "song"];
     let conceptIdx = 0;
+    let swapping = false;
 
     const posterLangs = languages.filter((l) => l.vocabulary.length > 0);
     const pendingLangs = languages.filter((l) => l.vocabulary.length === 0);
@@ -100,6 +142,7 @@ export class HomePage extends Page {
     const draw = (conceptKey) => {
       conceptEl.textContent = conceptKey;
       clear(rowsEl);
+      let rowIndex = 0;
 
       posterLangs.forEach((lang) => {
         const entry = lang.vocabulary.find((v) => v.meaning.toLowerCase().includes(conceptKey)) || lang.vocabulary[0];
@@ -125,6 +168,7 @@ export class HomePage extends Page {
           ),
           el("a", { class: "mt-text-arrow-link", href: profileHref }, "Inspect folio ", el("span", { "aria-hidden": "true" }, "→"))
         );
+        li.style.setProperty("--mt-swap-i", String(Math.min(8, rowIndex++)));
         rowsEl.appendChild(li);
       });
 
@@ -141,20 +185,115 @@ export class HomePage extends Page {
             "div",
             { class: "mt-poster-meta" },
             el("span", { class: "mt-poster-lang" }, lang.name),
-            el("span", { class: "mt-muted" }, lang.quality.reviewer || "Awaiting community contribution")
+            el("span", { class: "mt-muted" }, lang.quality.reviewer || "Community review in progress")
           ),
           el("a", { class: "mt-text-arrow-link", href: `contribute.html?lang=${encodeURIComponent(lang.id)}` }, "Contribute ", el("span", { "aria-hidden": "true" }, "→"))
         );
+        li.style.setProperty("--mt-swap-i", String(Math.min(8, rowIndex++)));
         rowsEl.appendChild(li);
       });
     };
 
-    draw(concepts[0]);
-    if (rotateBtn) {
-      rotateBtn.addEventListener("click", () => {
-        conceptIdx = (conceptIdx + 1) % concepts.length;
+    const swapConcept = (nextIdx) => {
+      if (swapping) return;
+      conceptIdx = (nextIdx + concepts.length) % concepts.length;
+      const reduced = document.documentElement.dataset.motion === "reduced";
+
+      if (rotateBtn) {
+        rotateBtn.classList.add("is-spinning");
+        window.setTimeout(() => rotateBtn.classList.remove("is-spinning"), 420);
+      }
+
+      if (reduced) {
         draw(concepts[conceptIdx]);
+        return;
+      }
+
+      swapping = true;
+      const lockedH = rowsEl.offsetHeight;
+      if (lockedH > 0) rowsEl.style.minHeight = `${lockedH}px`;
+      rowsEl.classList.remove("is-entering");
+      conceptEl.classList.remove("is-entering");
+      rowsEl.classList.add("is-exiting");
+      conceptEl.classList.add("is-exiting");
+
+      window.setTimeout(() => {
+        draw(concepts[conceptIdx]);
+        rowsEl.classList.remove("is-exiting");
+        conceptEl.classList.remove("is-exiting");
+        rowsEl.classList.add("is-entering");
+        conceptEl.classList.add("is-entering");
+
+        window.setTimeout(() => {
+          rowsEl.classList.remove("is-entering");
+          conceptEl.classList.remove("is-entering");
+          rowsEl.style.minHeight = "";
+          swapping = false;
+        }, 480);
+      }, 240);
+    };
+
+    draw(concepts[0]);
+
+    if (rotateBtn) {
+      rotateBtn.addEventListener("click", () => swapConcept(conceptIdx + 1));
+    }
+
+    if (posterSec) {
+      posterSec.addEventListener("keydown", (e) => {
+        if (e.target instanceof Element && e.target.closest("#mt-rotate-word")) {
+          if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+            e.preventDefault();
+            swapConcept(conceptIdx + 1);
+          } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+            e.preventDefault();
+            swapConcept(conceptIdx - 1);
+          }
+        }
       });
+
+      // Fallback hover dimming for browsers without CSS :has()
+      rowsEl.addEventListener("pointerover", (e) => {
+        if (!(e.target instanceof Element)) return;
+        const row = e.target.closest(".mt-poster-row");
+        if (!row) return;
+        rowsEl.classList.add("has-hover");
+        rowsEl.querySelectorAll(".mt-poster-row.is-row-active").forEach((r) => {
+          if (r !== row) r.classList.remove("is-row-active");
+        });
+        row.classList.add("is-row-active");
+      });
+      rowsEl.addEventListener("pointerleave", () => {
+        rowsEl.classList.remove("has-hover");
+        rowsEl.querySelectorAll(".mt-poster-row.is-row-active").forEach((r) => r.classList.remove("is-row-active"));
+      });
+
+      // Radial pointer glow following cursor smoothly via rAF
+      if (document.documentElement.dataset.motion !== "reduced" && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+        let glowRaf = 0;
+        let gx = 0;
+        let gy = 0;
+        const paintGlow = () => {
+          glowRaf = 0;
+          posterSec.style.setProperty("--mt-mx", `${gx.toFixed(0)}px`);
+          posterSec.style.setProperty("--mt-my", `${gy.toFixed(0)}px`);
+          posterSec.style.setProperty("--mt-m-active", "1");
+        };
+        const onMove = (/** @type {PointerEvent} */ e) => {
+          const r = posterSec.getBoundingClientRect();
+          gx = e.clientX - r.left;
+          gy = e.clientY - r.top;
+          if (!glowRaf) glowRaf = requestAnimationFrame(paintGlow);
+        };
+        const onLeave = () => {
+          cancelAnimationFrame(glowRaf);
+          glowRaf = 0;
+          posterSec.style.setProperty("--mt-m-active", "0");
+        };
+        posterSec.addEventListener("pointermove", onMove, { passive: true });
+        posterSec.addEventListener("pointerleave", onLeave, { passive: true });
+        window.addEventListener("pagehide", () => cancelAnimationFrame(glowRaf), { once: true });
+      }
     }
   }
 
@@ -171,7 +310,7 @@ export class HomePage extends Page {
   }
 
   /**
-   * Switchable two-page folio specimen spread across all registry languages.
+   * Switchable fixed-height two-page folio specimen spread across all registry languages.
    * @param {import('../models/Language.js').Language[]} languages
    * @param {import('../models/MediaItem.js').MediaItem[]} mediaItems
    */
@@ -195,58 +334,72 @@ export class HomePage extends Page {
       const plate = lang.featuredImageId ? mediaItems.find((m) => m.id === lang.featuredImageId) : null;
 
       clear(host);
+      const displayGlyph =
+        lang.nativeName && lang.nativeName !== lang.name ? lang.nativeName : lang.name.split(" ")[0];
+      const isCompact = !lang.nativeName || lang.nativeName === lang.name || displayGlyph.length > 7;
+      const glyphEl =
+        lang.nativeName && lang.nativeName !== lang.name
+          ? el("div", { class: `mt-giant-glyph${isCompact ? " mt-giant-glyph--compact" : ""}`, lang: lang.langAttr }, displayGlyph)
+          : el(
+              "div",
+              { class: `mt-giant-glyph${isCompact ? " mt-giant-glyph--compact" : ""}`, style: "font-family:var(--mt-font-display);" },
+              displayGlyph
+            );
+
       const verso = el(
         "div",
         { class: "mt-book-verso" },
-        el(
-          "div",
-          {},
-          el("p", { style: "margin:0 0 var(--mt-space-3); color:var(--mt-paper-muted-always);" }, `Featured Specimen · ${lang.family} · ${lang.region}`),
-          lang.nativeName && lang.nativeName !== lang.name
-            ? el("div", { class: "mt-giant-glyph", lang: lang.langAttr }, lang.nativeName)
-            : el("div", { class: "mt-giant-glyph", style: "font-family:var(--mt-font-display);" }, lang.name.split(" ")[0])
-        ),
+        el("p", { class: "mt-verso-eyebrow" }, `Featured Specimen · ${lang.family} · ${lang.region}`),
+        el("div", { class: "mt-verso-glyph-stage" }, glyphEl),
         lang.writingSystem
           ? el(
               "div",
               { class: "mt-specimen-tiers", lang: lang.langAttr },
               el("div", { class: "mt-tier-display" }, lang.writingSystem.vowels),
               el("div", { class: "mt-tier-text" }, lang.writingSystem.consonants),
-              el("div", { style: "font-size:var(--mt-text-xs); color:var(--mt-paper-muted-always);" }, lang.writingSystem.note)
+              el("div", { class: "mt-tier-note" }, lang.writingSystem.note)
             )
           : el(
               "div",
               { class: "mt-specimen-tiers" },
               el("div", { class: "mt-tier-display" }, "Script specimen under community review"),
-              el("div", { style: "font-size:var(--mt-text-xs); color:var(--mt-paper-muted-always);" }, "Awaiting speaker-cleared script tables and community naming confirmation.")
+              el("div", { class: "mt-tier-note" }, "Awaiting speaker-cleared script tables and community naming confirmation.")
             )
       );
 
-      const rectoTop = el(
-        "div",
-        { style: "display:grid; gap:var(--mt-space-3);" },
-        el("div", { class: "mt-badge-row" }, el("span", { class: "mt-hand-note" }, lang.preferredNameNote || lang.scriptLabel)),
-        el("h2", { style: "font-size:var(--mt-text-xl); margin:0;" }, lang.id === "tulu" ? "Tulu and the Tigalari folio tradition" : `${lang.name} — ${lang.scriptLabel}`),
-        el("p", { style: "margin:0;" }, lang.overview),
-        el("p", { class: "mt-muted", style: "margin:0; font-size:var(--mt-text-sm);" }, lang.history)
-      );
-
-      if (plate && plate.technical.file) {
-        rectoTop.append(
-          el("div", { class: "mt-photo-tile", style: "aspect-ratio:16/5;" }, el("img", { src: plate.technical.file, alt: plate.technical.altText, loading: "lazy", decoding: "async" })),
-          el("p", { class: "mt-muted", style: "margin:0; font-size:var(--mt-text-xs);" }, `${plate.title} · ${plate.rights.attribution}`)
-        );
-      }
+      const rectoFigure =
+        plate && plate.technical.file
+          ? el(
+              "figure",
+              { class: "mt-recto-figure" },
+              el(
+                "div",
+                { class: "mt-recto-media" },
+                pictureEl(plate.technical.file, plate.technical.altText, {
+                  sizes: "(max-width: 900px) 100vw, 44vw",
+                  loading: "lazy",
+                  decoding: "async",
+                })
+              ),
+              el("figcaption", { class: "mt-muted", style: "font-size:var(--mt-text-xs); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" }, `${plate.title} · ${plate.rights.attribution}`)
+            )
+          : el("div", { class: "mt-recto-figure" }, el("div", { class: "mt-recto-stub" }, "Field photography under community clearance — lexical records open below"));
 
       const recto = el(
         "div",
         { class: "mt-book-recto" },
-        rectoTop,
+        el("div", { class: "mt-badge-row" }, el("span", { class: "mt-hand-note" }, lang.preferredNameNote || lang.scriptLabel)),
+        el("h2", { class: "mt-recto-title" }, lang.id === "tulu" ? "Tulu and the Tigalari folio tradition" : `${lang.name} — ${lang.scriptLabel}`),
+        el("p", { class: "mt-recto-overview" }, lang.overview),
+        el("p", { class: "mt-recto-history" }, lang.history),
+        rectoFigure,
         el(
           "div",
-          { class: "mt-cta-row" },
+          { class: "mt-recto-cta mt-cta-row" },
           el("a", { class: "mt-btn", href: `language-profile.html?id=${encodeURIComponent(lang.id)}` }, `Read full ${lang.name} profile`),
-          !lang.vocabulary.length ? el("a", { class: "mt-text-arrow-link", href: `contribute.html?lang=${encodeURIComponent(lang.id)}` }, "Contribute record ", el("span", { "aria-hidden": "true" }, "→")) : null
+          !lang.vocabulary.length
+            ? el("a", { class: "mt-text-arrow-link", href: `contribute.html?lang=${encodeURIComponent(lang.id)}` }, "Contribute record ", el("span", { "aria-hidden": "true" }, "→"))
+            : null
         )
       );
 
@@ -255,13 +408,18 @@ export class HomePage extends Page {
         { class: "mt-folio-footer", "aria-label": `${lang.name} folio metadata` },
         el("span", {}, `Catalogue MT-S${pad2(current + 1)}`),
         el("span", {}, `Collection: ${lang.family} — ${lang.region}`),
-        el("span", {}, `Verification: ${lang.quality.reviewer || "Community review"}`),
+        el("span", {}, `Verification: ${lang.quality.reviewer || "Community review in progress"}`),
         el("span", {}, `Page ${pad2(current + 1)} of ${pad2(languages.length)}`)
       );
 
-      const spreadEl = el("div", {
-        class: `mt-book-spread${hasRendered ? ` mt-folio-turn-${resolvedDir}` : ""}`,
-      }, verso, recto);
+      const spreadEl = el(
+        "div",
+        {
+          class: `mt-book-spread${hasRendered ? ` mt-folio-turn-${resolvedDir}` : ""}`,
+        },
+        verso,
+        recto
+      );
       hasRendered = true;
       host.append(spreadEl, meta);
 
@@ -280,12 +438,18 @@ export class HomePage extends Page {
       clear(pipsEl);
       languages.forEach((lang, i) => {
         pipsEl.appendChild(
-          el("button", {
-            type: "button",
-            class: "mt-folio-pip",
-            "aria-current": i === 0 ? "true" : "false",
-            onClick: () => renderSpread(i, i >= current ? "next" : "prev"),
-          }, pad2(i + 1), " ", lang.name.split(" ")[0])
+          el(
+            "button",
+            {
+              type: "button",
+              class: "mt-folio-pip",
+              "aria-current": i === 0 ? "true" : "false",
+              onClick: () => renderSpread(i, i >= current ? "next" : "prev"),
+            },
+            pad2(i + 1),
+            " ",
+            lang.name.split(" ")[0]
+          )
         );
       });
     }
@@ -302,6 +466,21 @@ export class HomePage extends Page {
       }
     });
 
+    // Touch / pointer swipe across folio card
+    let swipeX = 0;
+    let swipeY = 0;
+    host.addEventListener("pointerdown", (e) => {
+      swipeX = e.clientX;
+      swipeY = e.clientY;
+    }, { passive: true });
+    host.addEventListener("pointerup", (e) => {
+      const dx = e.clientX - swipeX;
+      const dy = e.clientY - swipeY;
+      if (Math.abs(dx) < 48 || Math.abs(dx) <= Math.abs(dy) * 1.2) return;
+      if (dx < 0 && current < languages.length - 1) renderSpread(current + 1, "next");
+      else if (dx > 0 && current > 0) renderSpread(current - 1, "prev");
+    }, { passive: true });
+
     renderSpread(0, "next");
   }
 
@@ -316,13 +495,24 @@ export class HomePage extends Page {
     const items = mediaItems.filter((m) => m.technical.file).slice(0, 4);
 
     for (const item of items) {
+      const dims = item.technical.dimensions || {};
       const tile = el(
         "article",
         { class: "mt-tile-editorial" },
         el(
           "div",
           { style: "display:grid; gap:var(--mt-space-3);" },
-          el("div", { class: "mt-photo-tile" }, el("img", { src: item.technical.file, alt: item.technical.altText, loading: "lazy", decoding: "async" })),
+          el(
+            "div",
+            { class: "mt-photo-tile" },
+            pictureEl(item.technical.file, item.technical.altText, {
+              width: dims.width,
+              height: dims.height,
+              sizes: "(max-width: 608px) 100vw, (max-width: 1088px) 50vw, 25vw",
+              loading: "lazy",
+              decoding: "async",
+            })
+          ),
           rightsBadge.render(item),
           el("h3", { style: "font-size:var(--mt-text-md); margin:0;" }, el("a", { href: `gallery.html#${encodeURIComponent(item.id)}`, style: "text-decoration:none;" }, item.title)),
           el("p", { class: "mt-muted", style: "margin:0; font-size:var(--mt-text-xs);" }, `${item.collection} · ${item.place.region}`)

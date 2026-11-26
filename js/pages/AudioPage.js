@@ -63,23 +63,23 @@ export class AudioPage extends Page {
               el("h2", { style: "font-size:var(--mt-text-md); margin:0;" }, lang ? el("a", { href: `language-profile.html?id=${encodeURIComponent(lang.id)}`, style: "text-decoration:none" }, item.title) : item.title),
               el("p", { class: "mt-muted", style: "margin:0; font-size:var(--mt-text-xs);" }, `${item.collection} · ${item.place.region} · ${item.time.date || ""}`),
               el("p", { style: "margin:0; font-size:var(--mt-text-sm);" }, item.summary),
-              item.technical.file
-                ? audioPlayer.render({
-                    id: item.id,
-                    title: item.title,
-                    src: item.technical.file,
-                    durationSec: item.technical.durationSec,
-                    attribution: attributionText,
-                    transcript: item.description.transcript,
-                    translation: item.description.translation,
-                  })
-                : el(
+              audioPlayer.render({
+                id: item.id,
+                title: item.title,
+                src: item.technical.file,
+                durationSec: item.technical.durationSec,
+                attribution: attributionText,
+                transcriptNative: item.description.transcript,
+                transcriptEnglish: item.description.translation,
+              }),
+              !item.technical.file
+                ? el(
                     "div",
-                    { class: "mt-state-box mt-state-box--empty" },
-                    el("p", { style: "margin:0; font-size:var(--mt-text-sm);" }, attributionText),
-                    item.description.caption ? el("p", { class: "mt-muted", style: "margin:0; font-size:var(--mt-text-xs);" }, item.description.caption) : null,
+                    { style: "display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:var(--mt-space-2); font-size:var(--mt-text-xs);" },
+                    item.description.caption ? el("span", { class: "mt-muted" }, item.description.caption) : null,
                     el("a", { href: `contribute.html?lang=${encodeURIComponent(lang ? lang.id : "")}` }, "Contribute speaker recording →")
                   )
+                : null
             ),
             el(
               "div",
@@ -109,7 +109,7 @@ export class AudioPage extends Page {
       renderFiltered(initialState);
     } catch (err) {
       clear(grid);
-      grid.appendChild(StateView.error(err instanceof Error ? err.message : "Could not load Audio Archive."));
+      grid.appendChild(StateView.error("Couldn't load audio records. Try again.", () => this.mount()));
     }
   }
 }

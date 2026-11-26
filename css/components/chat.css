@@ -19,12 +19,28 @@
   display: inline-flex;
   align-items: center;
   gap: var(--mt-space-2);
-  transition: background-color var(--mt-dur-fast) var(--mt-ease), color var(--mt-dur-fast) var(--mt-ease);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out),
+    outline-offset var(--dur-fast) var(--ease-out);
 }
 
-.mt-chat-launcher:hover {
-  background: var(--mt-ink);
-  color: var(--mt-paper);
+@media (hover: hover) and (pointer: fine) {
+  .mt-chat-launcher:hover {
+    background: var(--mt-ink);
+    color: var(--mt-paper);
+    transform: translateY(-2px);
+  }
+}
+
+.mt-chat-launcher:focus-visible {
+  outline: 2px solid var(--mt-ink);
+  outline-offset: 5px;
+}
+
+.mt-chat-launcher:active {
+  transform: scale(0.97);
 }
 
 .mt-chat-panel {

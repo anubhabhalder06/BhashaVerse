@@ -163,9 +163,14 @@ function registerElements() {
 async function bootstrap() {
   const container = buildContainer();
   container.resolve("themeService").init();
+  const audioService = container.resolve("audioService");
   const motionController = container.resolve("motionController");
   motionController.init();
   registerElements();
+
+  window.addEventListener("mt:before-navigate", () => {
+    audioService.pauseAll();
+  });
 
   document.querySelectorAll("matrika-header").forEach((el) => /** @type {MatrikaHeader} */ (el).hydrate(container));
   document.querySelectorAll("matrika-footer").forEach((el) => /** @type {MatrikaFooter} */ (el).hydrate());
@@ -176,7 +181,7 @@ async function bootstrap() {
     await page.mount();
   } finally {
     motionController.observeMain();
-    motionController.finishLoading();
+    await motionController.finishLoading();
   }
 
   if (FEATURES.enableChatbot) {
@@ -186,9 +191,32 @@ async function bootstrap() {
   }
 }
 
+if (typeof window !== "undefined") {
+  const forceUnlock = () => {
+    document.documentElement.classList.remove("is-entering", "is-first-visit");
+    const hq = document.getElementById("mt-hero-quote");
+    if (hq) hq.classList.remove("is-pre-reveal");
+    const cov = document.getElementById("mt-cover");
+    if (cov) cov.classList.remove("is-covering", "is-holding", "is-animating");
+  };
+  window.addEventListener("error", forceUnlock);
+  window.addEventListener("unhandledrejection", forceUnlock);
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener(
+      "load",
+      () => {
+        navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(() => {});
+      },
+      { once: true }
+    );
+  }
+}
+
 if (typeof document !== "undefined") {
   document.addEventListener("DOMContentLoaded", () => {
     bootstrap().catch((err) => {
+      document.documentElement.classList.remove("is-entering", "is-first-visit");
       console.error("Matrika bootstrap error:", err);
     });
   });

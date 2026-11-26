@@ -173,11 +173,32 @@ export class LanguageProfilePage extends Page {
           "div",
           { class: "mt-tile-editorial" },
           el("h3", { style: "margin:0;" }, `Photos, Audio & Stories (${mediaList.length + audioList.length + stories.length})`),
+          audioList.length
+            ? el(
+                "div",
+                { style: "display:grid; gap:var(--mt-space-3);" },
+                audioList.map((a) =>
+                  el(
+                    "div",
+                    { style: "display:grid; gap:var(--mt-space-1);" },
+                    el("p", { style: "margin:0; font-weight:var(--mt-weight-semibold); font-size:var(--mt-text-sm);" }, el("a", { href: `audio.html#${encodeURIComponent(a.id)}` }, a.title)),
+                    audioPlayer.render({
+                      id: `profile-${a.id}`,
+                      title: a.title,
+                      src: a.technical.file,
+                      durationSec: a.technical.durationSec,
+                      attribution: a.rights.attribution,
+                      transcriptNative: a.description.transcript,
+                      transcriptEnglish: a.description.translation,
+                    })
+                  )
+                )
+              )
+            : null,
           el(
             "ul",
             { style: "margin:0; padding-left:1.2rem;" },
             ...mediaList.map((m) => el("li", {}, el("a", { href: `gallery.html#${encodeURIComponent(m.id)}` }, `Photo: ${m.title}`))),
-            ...audioList.map((a) => el("li", {}, el("a", { href: `audio.html#${encodeURIComponent(a.id)}` }, `Audio: ${a.title}`))),
             ...stories.map((s) => el("li", {}, el("a", { href: `stories.html#${encodeURIComponent(s.id)}` }, `Story: ${s.title}`)))
           )
         )
@@ -234,9 +255,9 @@ export class LanguageProfilePage extends Page {
 
       clear(root);
       root.append(hero, onPageNav, body);
-    } catch (err) {
+    } catch {
       clear(root);
-      root.appendChild(StateView.error(err instanceof Error ? err.message : "Could not load language profile."));
+      root.appendChild(StateView.error("Couldn't load language profile. Try again.", () => this.mount()));
     }
   }
 }

@@ -73,9 +73,9 @@ export class LibraryPage extends Page {
       }
 
       renderFiltered(initialState);
-    } catch (err) {
+    } catch {
       clear(grid);
-      grid.appendChild(StateView.error(err instanceof Error ? err.message : "Could not load Digital Library."));
+      grid.appendChild(StateView.error("Couldn't load the Digital Library. Try again.", () => this.mount()));
     }
   }
 }

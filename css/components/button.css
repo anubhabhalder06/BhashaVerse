@@ -1,5 +1,8 @@
-/* COMPONENT: Sharp-cornered buttons, arrow links, bookmark toggle */
+/* COMPONENT: Sharp-cornered buttons with subtle fill sweep, sliding arrows, and bookmarks */
 .mt-btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -13,12 +16,41 @@
   font-size: var(--mt-text-sm);
   background: transparent;
   color: var(--mt-ink);
-  transition: background-color var(--mt-dur-fast) var(--mt-ease), color var(--mt-dur-fast) var(--mt-ease), opacity var(--mt-dur-fast) var(--mt-ease);
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
 }
 
-.mt-btn:hover:not(:disabled) {
+.mt-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--mt-ink);
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mt-btn:hover:not(:disabled)::before {
+    transform: scaleX(1);
+  }
+
+  .mt-btn:hover:not(:disabled) {
+    color: var(--mt-paper);
+  }
+}
+
+.mt-btn:focus-visible:not(:disabled) {
   background: var(--mt-ink);
   color: var(--mt-paper);
+}
+
+.mt-btn:active:not(:disabled) {
+  transform: scale(0.97);
 }
 
 .mt-btn--solid {
@@ -27,13 +59,48 @@
   border-color: var(--mt-ink);
 }
 
-.mt-btn--solid:hover:not(:disabled) {
-  opacity: 0.86;
+.mt-btn--solid::before {
+  background: var(--mt-paper);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mt-btn--solid:hover:not(:disabled) {
+    color: var(--mt-ink);
+  }
+}
+
+.mt-btn--solid:focus-visible:not(:disabled) {
+  background: var(--mt-paper);
+  color: var(--mt-ink);
+}
+
+/* Dark-section button reversal */
+.mt-spread--ink .mt-btn {
+  color: var(--mt-paper-always);
+  border-color: var(--mt-paper-always);
+}
+
+.mt-spread--ink .mt-btn::before {
+  background: var(--mt-paper-always);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mt-spread--ink .mt-btn:hover:not(:disabled) {
+    color: var(--mt-ink-always);
+  }
+}
+
+.mt-btn-icon-spin svg {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.mt-btn.is-spinning .mt-btn-icon-spin svg {
+  transform: rotate(180deg);
 }
 
 .mt-btn:disabled,
 .mt-btn[aria-disabled="true"] {
-  opacity: 0.48;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
@@ -45,14 +112,31 @@
   text-decoration: none;
   font-weight: var(--mt-weight-medium);
   font-size: var(--mt-text-sm);
-  transition: transform var(--mt-dur-fast) var(--mt-ease);
 }
 
-.mt-text-arrow-link:hover,
+.mt-text-arrow-link span[aria-hidden] {
+  display: inline-block;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mt-text-arrow-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 5px;
+  }
+
+  .mt-text-arrow-link:hover span[aria-hidden] {
+    transform: translateX(6px);
+  }
+}
+
 .mt-text-arrow-link:focus-visible {
   text-decoration: underline;
   text-underline-offset: 5px;
-  transform: translateX(3px);
+}
+
+.mt-text-arrow-link:focus-visible span[aria-hidden] {
+  transform: translateX(6px);
 }
 
 .mt-cta-row {
@@ -74,7 +158,14 @@
   background: transparent;
   color: var(--mt-ink);
   font-size: var(--mt-text-xs);
-  transition: background-color var(--mt-dur-fast) var(--mt-ease), color var(--mt-dur-fast) var(--mt-ease);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.mt-bookmark-btn:active {
+  transform: scale(0.97);
 }
 
 .mt-bookmark-btn[aria-pressed="true"] {

@@ -8,8 +8,26 @@
 
 .mt-main-full {
   max-width: none;
+  min-height: calc(100svh - var(--mt-header-h) + 4px);
   margin: 0;
   padding: 0;
+}
+
+#mt-lang-filters,
+#mt-lib-filters,
+#mt-gal-filters {
+  min-height: 8.4rem;
+}
+
+#mt-audio-filters {
+  min-height: 5.5rem;
+}
+
+#mt-lang-count,
+#mt-lib-count,
+#mt-gal-count,
+#mt-audio-count {
+  min-height: 1.6rem;
 }
 
 .mt-spread {
