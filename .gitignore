@@ -1,4 +1,15 @@
+# Local reference documents & drafts (kept locally, excluded from GitHub)
+BHASHAVERSE_DESIGN_AND_BUILD_PROMPT.md
+Website_Requirements_BhashaVerse.pdf
+design references/
+bhashaverse-skeleton/
+
+# Build / deployment staging
+_site/
+
+# OS & tool files
 .DS_Store
 Thumbs.db
 desktop.ini
 *.log
+node_modules/
