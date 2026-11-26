@@ -1,6 +1,18 @@
 /* STRUCTURE & ACCESSIBILITY BASE: shared across all BhashaVerse pages */
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{
+  scroll-behavior:smooth;
+  scrollbar-width:none;
+}
+@supports not (scrollbar-width:none){
+  html::-webkit-scrollbar{display:none}
+}
+@media (prefers-contrast:more){
+  html{
+    scrollbar-width:thin;
+    scrollbar-color:#0E0E0E #FFFFFF;
+  }
+}
 body{
   margin:0;
   font-family:var(--font-body);

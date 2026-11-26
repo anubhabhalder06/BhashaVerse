@@ -181,22 +181,17 @@ BhashaVerse/
 
 ---
 
-## Running Locally
+## Live Archive Access
 
-Open `index.html` directly, or serve the root folder with any static HTTP server:
+BhashaVerse is hosted directly on **GitHub Pages** and requires no backend server or build step:
 
-```bash
-git clone https://github.com/anubhabhalder06/BhashaVerse.git
-cd BhashaVerse
+- **Home Broadsheet:** https://anubhabhalder06.github.io/BhashaVerse/
+- **India Language Map:** https://anubhabhalder06.github.io/BhashaVerse/map.html
+- **Language Directory:** https://anubhabhalder06.github.io/BhashaVerse/languages.html
+- **Digital Library:** https://anubhabhalder06.github.io/BhashaVerse/library.html
+- **Contribution Form:** https://anubhabhalder06.github.io/BhashaVerse/contribute.html
 
-# Python
-python -m http.server 8080
-
-# Or Node.js
-npx serve .
-```
-
-Then visit `http://localhost:8080`.
+If you clone the repository to inspect or contribute to the source code, open `index.html` directly in your browser.
 
 ---
 
