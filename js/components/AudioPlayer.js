@@ -1,12 +1,11 @@
 // @ts-check
 import { el, iconPauseCircle, iconPlayCircle } from "../utils/dom.js";
-import { DemoBadge } from "./DemoBadge.js";
 import { formatDuration } from "../utils/format.js";
 
 /**
  * Accessible archive audio player with native <audio preload="none">.
- * When no verified recording file exists, renders an honestly disabled mock player
- * labelled with DemoBadge and "Demo — no recording yet", without fabricated consent or transcripts.
+ * When no verified recording file exists, renders a cleanly disabled player
+ * indicating the recording is not yet available.
  */
 export class AudioPlayer {
   /** @param {import('../services/AudioService.js').AudioService} audioService */
@@ -55,7 +54,7 @@ export class AudioPlayer {
           class: "mt-play-circle-btn",
           "aria-label": hasSrc
             ? `Play ${opts.title}`
-            : `Demo — no recording yet for ${opts.title}`,
+            : `Recording not yet available for ${opts.title}`,
           "aria-pressed": "false",
           "aria-disabled": hasSrc ? "false" : "true",
           disabled: !hasSrc,
@@ -91,7 +90,7 @@ export class AudioPlayer {
         "aria-valuemin": "0",
         "aria-valuemax": String(Math.max(1, durationSec)),
         "aria-valuenow": "0",
-        "aria-valuetext": hasSrc ? "0:00" : "Demo — no recording yet",
+        "aria-valuetext": hasSrc ? "0:00" : "Recording not yet available",
         "aria-disabled": hasSrc ? "false" : "true",
       },
       seekTrack
@@ -110,8 +109,7 @@ export class AudioPlayer {
       ? el(
           "div",
           { class: "mt-audio-status-row" },
-          DemoBadge.render("Demo content"),
-          el("p", { class: "mt-audio-status" }, "Demo — no recording yet")
+          el("p", { class: "mt-audio-status mt-muted" }, "Recording not yet available")
         )
       : null;
 

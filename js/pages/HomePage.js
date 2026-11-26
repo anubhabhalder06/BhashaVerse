@@ -1,10 +1,9 @@
 // @ts-check
 import { Page } from "../core/Page.js";
-import { DemoBadge } from "../components/DemoBadge.js";
 import { clear, el, iconCategory, pictureEl } from "../utils/dom.js";
 import { pad2 } from "../utils/format.js";
 
-/** Home broadsheet controller hydrating data-derived stats, honest mock audio player, 8-script poster, 6-option index, folio spread, and plates. */
+/** Home broadsheet controller hydrating data-derived stats, audio player, 8-script poster, 6-option index, folio spread, and plates. */
 export class HomePage extends Page {
   async mount() {
     this.setTitle("Home");
@@ -35,18 +34,10 @@ export class HomePage extends Page {
    */
   mountHeroControls(taxonomy, languages, mediaItems, audioPlayer) {
     const heroAudioHost = document.getElementById("mt-hero-audio-host");
-    const quoteDemoHost = document.getElementById("mt-hero-demo-host");
     const bylineEl = document.getElementById("mt-hero-byline");
     const factsEl = document.getElementById("mt-hero-facts");
     const cueEl = document.getElementById("mt-scroll-cue-text");
     const hq = taxonomy.heroQuote || {};
-
-    if (quoteDemoHost) {
-      clear(quoteDemoHost);
-      if (hq.isDemo !== false) {
-        quoteDemoHost.appendChild(DemoBadge.render("Demo content"));
-      }
-    }
 
     if (bylineEl && hq.attribution) {
       bylineEl.textContent = hq.attribution;
@@ -58,10 +49,10 @@ export class HomePage extends Page {
       heroAudioHost.append(
         audioPlayer.render({
           id: hq.id || "hero-mishing",
-          title: "Mishing oral-tradition demonstration",
+          title: "Mishing oral tradition",
           src: hq.src || null,
           durationSec: hq.durationSec || 0,
-          attribution: hq.attribution || "Demo content",
+          attribution: hq.attribution || "Community speaker · Mishing · Assam",
           transcript: hq.src ? hq.transcript || null : null,
         })
       );
@@ -102,6 +93,7 @@ export class HomePage extends Page {
     const draw = (conceptKey) => {
       conceptEl.textContent = conceptKey;
       clear(rowsEl);
+      rowsEl.classList.remove("is-entering");
 
       posterLangs.forEach((lang) => {
         const entry = lang.vocabulary.find((v) => v.meaning.toLowerCase().includes(conceptKey)) || lang.vocabulary[0];
@@ -148,6 +140,10 @@ export class HomePage extends Page {
           el("a", { class: "mt-text-arrow-link", href: `contribute.html?lang=${encodeURIComponent(lang.id)}` }, "Contribute ", el("span", { "aria-hidden": "true" }, "→"))
         );
         rowsEl.appendChild(li);
+      });
+      // Trigger smooth fade-in after rows are populated
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => rowsEl.classList.add("is-entering"));
       });
     };
 
@@ -291,6 +287,10 @@ export class HomePage extends Page {
 
       const spreadEl = el("div", { class: "mt-book-spread" }, verso, recto);
       host.append(spreadEl, meta);
+      // Trigger entrance animation
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => spreadEl.classList.add("is-entering"));
+      });
 
       if (counterEl) counterEl.textContent = `Folio ${pad2(current + 1)} / ${pad2(languages.length)} · ${lang.name}`;
       if (prevBtn) prevBtn.disabled = current === 0;

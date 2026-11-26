@@ -309,6 +309,20 @@
   border-top: 1px solid var(--mt-rule-dark-always);
 }
 
+/* Smooth fade when concept word changes */
+.mt-poster-rows.is-entering {
+  animation: mt-poster-fadein 180ms var(--mt-ease-out) both;
+}
+
+@keyframes mt-poster-fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mt-poster-rows.is-entering { animation: none; }
+}
+
 .mt-poster-row {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(0, 1.2fr) auto;
@@ -756,6 +770,30 @@
 }
 
 /* (Removed folio animations & synthetic dissolves per Section 2.3 motion palette) */
+
+/* Smooth fade-in when folio spread content is replaced */
+.mt-book-spread {
+  animation: none;
+}
+
+.mt-book-spread.is-entering {
+  animation: mt-folio-fadein 220ms var(--mt-ease-out) both;
+}
+
+@keyframes mt-folio-fadein {
+  from { opacity: 0; transform: translateX(8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mt-book-spread.is-entering {
+    animation: mt-folio-fadein-reduced 120ms linear both;
+  }
+  @keyframes mt-folio-fadein-reduced {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+}
 
 /* Latest Plates + Contribute */
 .mt-additions-row {

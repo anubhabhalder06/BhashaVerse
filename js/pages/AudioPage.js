@@ -2,7 +2,6 @@
 import { Page } from "../core/Page.js";
 import { UrlHelper } from "../core/Url.js";
 import { clear, el } from "../utils/dom.js";
-import { DemoBadge } from "../components/DemoBadge.js";
 import { StatusChip } from "../components/StatusChip.js";
 import { FilterBar } from "../components/FilterBar.js";
 import { StateView } from "../components/StateView.js";
@@ -55,7 +54,7 @@ export class AudioPage extends Page {
           const lang = item.languages[0];
           const attributionText = `${item.creators.map((c) => c.name).join(", ")} · ${lang ? lang.communityName : "Archive"} · ${item.place.region}`;
           const badgesRow = el("div", { class: "mt-badge-row" }, rightsBadge.render(item), StatusChip.render(item.quality.verification));
-          if (item.isDemo) badgesRow.appendChild(DemoBadge.render("Demo content"));
+
           const card = el(
             "article",
             { id: item.id, class: "mt-tile-editorial" },
@@ -85,7 +84,7 @@ export class AudioPage extends Page {
             el(
               "div",
               { class: "mt-tile-foot" },
-              el("span", {}, item.isDemo ? "Demonstration entry" : `Review status: ${item.quality.reviewer || "Pending"}`),
+              el("span", {}, `Review status: ${item.quality.reviewer || "Pending"}`),
               el("a", { href: "contact.html" }, "Report correction")
             )
           );
