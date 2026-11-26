@@ -189,45 +189,43 @@
     </div>
   </section>
 
-  <!-- 4. FEATURED TWO-PAGE SPECIMEN SPREAD (keeps the specimen book footer metadata) -->
-  <section id="s-spread" class="bv-spread">
-    <div class="bv-spread-inner">
-      <div class="bv-book-spread">
-        <div class="bv-book-verso">
-          <div>
-            <p style="margin:0 0 1rem;color:var(--color-muted-on-dark);">Featured Specimen · Coastal Dravidian</p>
-            <div class="bv-giant-glyph" lang="tcy">ತುಳು</div>
+  <!-- 4. FEATURED TWO-PAGE SPECIMEN SPREADS (Scroll-driven & manually scrubbable across all 9 languages) -->
+  <section id="s-spread" class="bv-spread bv-spread--scroll-stage" aria-roledescription="carousel" aria-label="Featured language specimen spreads">
+    <div class="bv-spread-sticky">
+      <div class="bv-spread-inner bv-spread-shell">
+        <div class="bv-spread-bar">
+          <div class="bv-spread-bar-meta">
+            <span class="bv-hand-note">scroll down or drag below to turn folios</span>
+            <span id="bv-spread-counter" class="bv-spread-counter">Folio 01 / 09 · Tulu</span>
           </div>
-          <div class="bv-specimen-tiers" lang="tcy">
-            <div class="bv-tier-display">ಅ ಆ ಇ ಈ ಉ ಊ ಎ ಏ</div>
-            <div class="bv-tier-text">ಕ ಗ ಚ ಜ ಟ ಡ ತ ದ ನ ಪ ಬ ಮ ಯ ರ ಲ ವ ಶ ಸ ಹ ಳ</div>
-            <div class="bv-tier-caption">Tulu Kannada-script specimen tiers · Tigalari palm-leaf lineage</div>
+          <div class="bv-spread-nav-btns">
+            <button id="bv-spread-prev" type="button" class="bv-folio-arrow-btn" aria-label="Previous language folio">
+              <span aria-hidden="true">←</span> Previous
+            </button>
+            <button id="bv-spread-next" type="button" class="bv-folio-arrow-btn" aria-label="Next language folio">
+              Next <span aria-hidden="true">→</span>
+            </button>
           </div>
         </div>
 
-        <div class="bv-book-recto">
-          <div style="display:grid;gap:1.15rem;">
-            <span class="bv-hand-note">coastal palm-leaf witness &amp; oral narratives</span>
-            <h2 style="font-size:clamp(2rem,3.5vw,2.75rem);margin:0;">Tulu and the Tigalari folio tradition</h2>
-            <p style="margin:0;">Spoken across Dakshina Kannada, Udupi, and northern Kasaragod, Tulu preserves centuries of sung paddana oral histories alongside historical Tigalari palm-leaf manuscripts.</p>
-            <p style="margin:0;color:var(--color-muted);">Because Tigalari lacks universal operating-system font coverage today, BhashaVerse renders verified Kannada-script specimens while preserving manuscript plates directly.</p>
-            <div class="bv-photo-tile" style="border-radius:18px;aspect-ratio:16/4.5;">
-              <img src="assets/images/kannada-talegari.png" alt="Historical Kannada palm-leaf talegari strip showing incised script and binding holes" loading="lazy">
+        <div id="bv-spread-viewport" class="bv-spread-viewport" tabindex="0" role="group" aria-label="Language specimen folios">
+          <div id="bv-spread-track" class="bv-spread-track"></div>
+        </div>
+
+        <div class="bv-scrubber-panel" aria-label="Manual folio scroll control">
+          <div class="bv-scrubber-row">
+            <label for="bv-spread-scrubber" class="bv-scrubber-label">Folio scroll</label>
+            <div class="bv-scrubber-track-wrap">
+              <div id="bv-scrubber-fill" class="bv-scrubber-fill" aria-hidden="true"></div>
+              <input id="bv-spread-scrubber" class="bv-folio-scrubber" type="range" min="0" max="800" value="0" step="1" aria-label="Scrub manually across all language specimen folios">
             </div>
-            <p style="margin:0;font-size:.9rem;color:var(--color-muted);">Plate: Talegari folio · Ananda Devaraj (CC BY-SA 4.0)</p>
+            <span id="bv-scrubber-pct" class="bv-scrubber-readout" aria-hidden="true">01 · 09</span>
           </div>
-          <div>
-            <a class="bv-btn" href="language-profile.html?lang=tulu">Read full Tulu profile</a>
-          </div>
+          <nav id="bv-spread-pips" class="bv-folio-pips" aria-label="Select a language folio directly"></nav>
         </div>
-      </div>
 
-      <footer class="bv-folio-footer" aria-label="Featured specimen spread metadata">
-        <span>Catalogue BV-S04</span>
-        <span>Collection: Dravidian Coast — Tulu Nadu</span>
-        <span>Status: Placeholder / Source Cited</span>
-        <span>Page 04</span>
-      </footer>
+        <p id="bv-spread-status" class="sr-only" role="status" aria-live="polite"></p>
+      </div>
     </div>
   </section>
 

@@ -249,6 +249,366 @@
       </article>`).join("");
   }
 
+  let scrollToTarget = (y) => {
+    window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+  };
+
+  /* Heavy, weighted archival scroll inertia for desktop wheel + anchor jumps */
+  function initHeavySmoothScroll(){
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const finePointer = window.matchMedia("(pointer: fine)").matches;
+    if (reduced || !finePointer) return;
+
+    let currentY = window.scrollY;
+    let targetY = window.scrollY;
+    let rafId = 0;
+    let internalScroll = false;
+
+    const maxScroll = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+
+    function tick(){
+      const diff = targetY - currentY;
+      if (Math.abs(diff) < 0.45) {
+        currentY = targetY;
+        internalScroll = true;
+        window.scrollTo(0, currentY);
+        internalScroll = false;
+        rafId = 0;
+        return;
+      }
+      currentY += diff * 0.082;
+      internalScroll = true;
+      window.scrollTo(0, currentY);
+      internalScroll = false;
+      rafId = requestAnimationFrame(tick);
+    }
+
+    document.documentElement.style.scrollBehavior = "auto";
+
+    scrollToTarget = (y, immediate) => {
+      const clamped = Math.max(0, Math.min(maxScroll(), y));
+      if (immediate) {
+        if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+        currentY = targetY = clamped;
+        internalScroll = true;
+        window.scrollTo(0, clamped);
+        internalScroll = false;
+        return;
+      }
+      targetY = clamped;
+      if (!rafId) {
+        currentY = window.scrollY;
+        rafId = requestAnimationFrame(tick);
+      }
+    };
+
+    window.addEventListener("wheel", (e) => {
+      if (e.ctrlKey || Math.abs(e.deltaY) < 0.01) return;
+      if (e.target.closest("#bv-india-map, select, textarea, [data-native-scroll]")) return;
+      let el = e.target;
+      while (el && el !== document.body && el !== document.documentElement) {
+        const st = getComputedStyle(el);
+        if ((st.overflowY === "auto" || st.overflowY === "scroll") && el.scrollHeight > el.clientHeight) return;
+        el = el.parentElement;
+      }
+      e.preventDefault();
+      const mult = e.deltaMode === 1 ? 34 : e.deltaMode === 2 ? window.innerHeight : 1;
+      const delta = e.deltaY * mult * 0.88;
+      targetY = Math.max(0, Math.min(maxScroll(), targetY + delta));
+      if (!rafId) {
+        currentY = window.scrollY;
+        rafId = requestAnimationFrame(tick);
+      }
+    }, { passive: false });
+
+    window.addEventListener("scroll", () => {
+      if (!internalScroll && !rafId) {
+        currentY = targetY = window.scrollY;
+      }
+    }, { passive: true });
+
+    window.addEventListener("keydown", (e) => {
+      if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(e.key)) {
+        if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+        setTimeout(() => { currentY = targetY = window.scrollY; }, 0);
+      }
+    });
+
+    document.addEventListener("click", (e) => {
+      const link = e.target.closest('a[href^="#"]');
+      if (!link) return;
+      const id = link.getAttribute("href").slice(1);
+      const targetEl = id ? document.getElementById(id) : null;
+      if (!targetEl) return;
+      e.preventDefault();
+      const top = window.scrollY + targetEl.getBoundingClientRect().top;
+      scrollToTarget(top, false);
+    });
+  }
+
+  /* Scroll-linked & manually scrubbable horizontal book spread across all 9 archive languages */
+  function initSpecimenSpread(){
+    const section = document.getElementById("s-spread");
+    const viewport = document.getElementById("bv-spread-viewport");
+    const track = document.getElementById("bv-spread-track");
+    const pipsEl = document.getElementById("bv-spread-pips");
+    const scrubber = document.getElementById("bv-spread-scrubber");
+    const fillEl = document.getElementById("bv-scrubber-fill");
+    const pctEl = document.getElementById("bv-scrubber-pct");
+    const counterEl = document.getElementById("bv-spread-counter");
+    const prevBtn = document.getElementById("bv-spread-prev");
+    const nextBtn = document.getElementById("bv-spread-next");
+    const statusEl = document.getElementById("bv-spread-status");
+    const langs = DATA.LANGUAGES || [];
+    if (!section || !track || !langs.length) return;
+
+    const total = langs.length;
+    const maxPos = Math.max(1, total - 1);
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const pad2 = n => String(n).padStart(2, "0");
+
+    if (scrubber) scrubber.max = String(maxPos * 100);
+
+    track.innerHTML = langs.map((lang, i) => {
+      const catId = `BV-S${pad2(i + 1)}`;
+      const isStub = !lang.scriptSpecimen && !lang.words;
+      const giantHtml = lang.nativeScript
+        ? `<div class="bv-giant-glyph" lang="${lang.langAttr}">${escapeHtml(lang.nativeScript)}</div>`
+        : `<div class="bv-giant-glyph bv-giant-glyph--stub">Koda</div>`;
+
+      const specimenHtml = lang.scriptSpecimen
+        ? `<div class="bv-specimen-tiers" lang="${lang.langAttr}">
+             <div class="bv-tier-display">${escapeHtml(lang.scriptSpecimen.vowels)}</div>
+             <div class="bv-tier-text">${escapeHtml(lang.scriptSpecimen.consonants)}</div>
+             <div class="bv-tier-caption">${escapeHtml(lang.scriptSpecimen.note)}</div>
+           </div>`
+        : `<div class="bv-specimen-tiers">
+             <div class="bv-tier-display">Script to be verified</div>
+             <div class="bv-tier-caption">Awaiting community guidance on preferred naming, orthography, and spoken documentation.</div>
+           </div>`;
+
+      let mediaOrContextHtml = "";
+      if (lang.featuredImg) {
+        mediaOrContextHtml = `
+          <div class="bv-photo-tile" style="border-radius:16px;aspect-ratio:16/3.9;">
+            <img src="${lang.featuredImg}" alt="${escapeHtml(lang.featuredAlt || lang.name)}" loading="lazy">
+          </div>
+          <p style="margin:0;font-size:.86rem;color:var(--color-muted);">Plate: ${escapeHtml(lang.featuredCredit || "")}</p>`;
+      } else if (lang.words) {
+        const w = lang.words;
+        mediaOrContextHtml = `
+          <div class="bv-recto-lexicon" aria-label="${escapeHtml(lang.name)} sample words">
+            ${["water", "home", "song"].map(k => `
+              <div class="bv-recto-lex-item">
+                <span class="bv-recto-lex-script" lang="${lang.langAttr}">${escapeHtml(w[k].script)}</span>
+                <span class="bv-recto-lex-meta">${escapeHtml(w[k].roman)} · ${k}</span>
+              </div>`).join("")}
+          </div>`;
+      } else {
+        mediaOrContextHtml = `
+          <div class="bv-recto-stub">
+            <strong>${escapeHtml(lang.rightsBadge)}</strong>
+            <span>No invented words or plates are displayed. Community speakers and contributors can deposit verified terms directly.</span>
+          </div>`;
+      }
+
+      const headingText = lang.id === "tulu"
+        ? "Tulu and the Tigalari folio tradition"
+        : `${lang.name} — ${lang.scriptLabel} witness`;
+
+      const ctaHtml = isStub
+        ? `<div style="display:flex;flex-wrap:wrap;gap:.65rem;">
+             <a class="bv-btn bv-btn--solid" href="contribute.html?lang=${encodeURIComponent(lang.id)}">Contribute ${escapeHtml(lang.name.split(" ")[0])} records</a>
+             <a class="bv-btn" href="language-profile.html?lang=${encodeURIComponent(lang.id)}">Open profile</a>
+           </div>`
+        : `<a class="bv-btn" href="language-profile.html?lang=${encodeURIComponent(lang.id)}">Read full ${escapeHtml(lang.name)} profile</a>`;
+
+      return `
+        <article class="bv-spread-slide" role="group" aria-roledescription="slide" aria-label="${i + 1} of ${total}: ${escapeHtml(lang.name)}" data-slide-idx="${i}">
+          <div class="bv-book-spread" style="--lang-accent:${lang.accent};--lang-accent-dark:${lang.accentDark}">
+            <div class="bv-book-verso">
+              <div>
+                <p style="margin:0 0 .85rem;color:var(--color-muted-on-dark);">Featured Specimen · ${escapeHtml(lang.family)} · ${escapeHtml(lang.state)}</p>
+                ${giantHtml}
+              </div>
+              ${specimenHtml}
+            </div>
+            <div class="bv-book-recto">
+              <div style="display:grid;gap:.85rem;">
+                <span class="bv-hand-note">${escapeHtml(lang.preferredNameNote || (lang.scriptLabel + " tradition"))}</span>
+                <h2 style="font-size:clamp(1.5rem,2.5vw,2.15rem);margin:0;">${escapeHtml(headingText)}</h2>
+                <p style="margin:0;font-size:.98rem;">${escapeHtml(lang.historyNote || lang.summary)}</p>
+                ${mediaOrContextHtml}
+              </div>
+              <div>${ctaHtml}</div>
+            </div>
+          </div>
+          <footer class="bv-folio-footer" aria-label="${escapeHtml(lang.name)} folio metadata">
+            <span>Catalogue ${catId}</span>
+            <span>Collection: ${escapeHtml(lang.family)} — ${escapeHtml(lang.state)}</span>
+            <span>Status: ${escapeHtml(lang.rightsBadge)}</span>
+            <span>Page ${pad2(i + 1)} of ${pad2(total)}</span>
+          </footer>
+        </article>`;
+    }).join("");
+
+    if (pipsEl) {
+      pipsEl.innerHTML = langs.map((lang, i) => `
+        <button type="button" class="bv-folio-pip" data-folio="${i}" ${i === 0 ? 'aria-current="true"' : ""}>
+          <span>${pad2(i + 1)}</span>
+          <span>${escapeHtml(lang.name.split(" ")[0])}</span>
+        </button>`).join("");
+    }
+
+    const slides = [...track.querySelectorAll(".bv-spread-slide")];
+    const pipBtns = pipsEl ? [...pipsEl.querySelectorAll(".bv-folio-pip")] : [];
+
+    let targetPos = 0;
+    let visualPos = 0;
+    let lastIndex = 0;
+    let isDraggingScrubber = false;
+    let rafRunning = false;
+    let settleTimer = null;
+
+    const isStickyMode = () => window.innerWidth >= 896 && !reduced;
+
+    function computeStickyPos(){
+      const rect = section.getBoundingClientRect();
+      const span = Math.max(1, section.offsetHeight - window.innerHeight);
+      const raw = Math.max(0, Math.min(1, (-rect.top) / span));
+      return raw * maxPos;
+    }
+
+    function applyVisual(pos){
+      track.style.transform = `translate3d(${(-pos * 100).toFixed(4)}%, 0, 0)`;
+      if (!reduced) {
+        slides.forEach((sl, idx) => {
+          const dist = Math.min(1, Math.abs(idx - pos));
+          sl.style.opacity = (1 - dist * 0.45).toFixed(3);
+        });
+      }
+
+      const activeIdx = Math.max(0, Math.min(total - 1, Math.round(pos)));
+      const lang = langs[activeIdx];
+      if (fillEl) fillEl.style.width = `${((pos / maxPos) * 100).toFixed(2)}%`;
+      if (scrubber && !isDraggingScrubber) scrubber.value = String(Math.round(pos * 100));
+      if (pctEl) pctEl.textContent = `${pad2(activeIdx + 1)} · ${pad2(total)}`;
+      if (counterEl && lang) counterEl.textContent = `Folio ${pad2(activeIdx + 1)} / ${pad2(total)} · ${lang.name}`;
+
+      if (activeIdx !== lastIndex) {
+        pipBtns.forEach((b, idx) => b.setAttribute("aria-current", idx === activeIdx ? "true" : "false"));
+        if (prevBtn) {
+          const prevWasFocused = document.activeElement === prevBtn;
+          prevBtn.disabled = activeIdx === 0;
+          if (prevBtn.disabled && prevWasFocused && nextBtn) nextBtn.focus();
+        }
+        if (nextBtn) {
+          const nextWasFocused = document.activeElement === nextBtn;
+          nextBtn.disabled = activeIdx === total - 1;
+          if (nextBtn.disabled && nextWasFocused && prevBtn) prevBtn.focus();
+        }
+        lastIndex = activeIdx;
+        clearTimeout(settleTimer);
+        settleTimer = setTimeout(() => {
+          if (statusEl && lang) statusEl.textContent = `Folio ${activeIdx + 1} of ${total}: ${lang.name}`;
+        }, 280);
+      }
+    }
+
+    function loop(){
+      const diff = targetPos - visualPos;
+      if (Math.abs(diff) < 0.0035 || reduced) {
+        visualPos = targetPos;
+        applyVisual(visualPos);
+        rafRunning = false;
+        return;
+      }
+      visualPos += diff * 0.125;
+      applyVisual(visualPos);
+      requestAnimationFrame(loop);
+    }
+
+    function ensureAnimating(){
+      if (reduced) {
+        visualPos = targetPos;
+        applyVisual(visualPos);
+        return;
+      }
+      if (!rafRunning) {
+        rafRunning = true;
+        requestAnimationFrame(loop);
+      }
+    }
+
+    function goToPosition(pos, immediate){
+      const clamped = Math.max(0, Math.min(maxPos, pos));
+      if (isStickyMode()) {
+        const docTop = window.scrollY + section.getBoundingClientRect().top;
+        const span = Math.max(1, section.offsetHeight - window.innerHeight);
+        scrollToTarget(docTop + (clamped / maxPos) * span, !!immediate);
+      } else {
+        targetPos = clamped;
+        ensureAnimating();
+      }
+    }
+
+    window.addEventListener("scroll", () => {
+      if (isStickyMode()) {
+        targetPos = computeStickyPos();
+        ensureAnimating();
+      }
+    }, { passive: true });
+
+    window.addEventListener("resize", () => {
+      if (isStickyMode()) {
+        targetPos = computeStickyPos();
+      }
+      applyVisual(visualPos);
+    });
+
+    if (prevBtn) {
+      prevBtn.disabled = true;
+      prevBtn.addEventListener("click", () => goToPosition(Math.round(targetPos) - 1, false));
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener("click", () => goToPosition(Math.round(targetPos) + 1, false));
+    }
+    if (pipsEl) {
+      pipsEl.addEventListener("click", (e) => {
+        const btn = e.target.closest(".bv-folio-pip");
+        if (btn) goToPosition(Number(btn.dataset.folio || 0), false);
+      });
+    }
+    if (scrubber) {
+      scrubber.addEventListener("pointerdown", () => { isDraggingScrubber = true; });
+      window.addEventListener("pointerup", () => { isDraggingScrubber = false; });
+      scrubber.addEventListener("input", () => {
+        const pos = Number(scrubber.value) / 100;
+        goToPosition(pos, true);
+      });
+    }
+
+    if (viewport) {
+      let startX = 0;
+      let startY = 0;
+      viewport.addEventListener("touchstart", (e) => {
+        const t = e.touches[0];
+        startX = t.clientX;
+        startY = t.clientY;
+      }, { passive: true });
+      viewport.addEventListener("touchend", (e) => {
+        const t = e.changedTouches[0];
+        const dx = t.clientX - startX;
+        const dy = t.clientY - startY;
+        if (Math.abs(dx) > 42 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+          goToPosition(Math.round(targetPos) + (dx < 0 ? 1 : -1), false);
+        }
+      }, { passive: true });
+    }
+
+    applyVisual(0);
+  }
+
   function renderDirectoryCards(){
     const grid = document.getElementById("lang-grid");
     if (!grid || !grid.classList.contains("bv-dir-masonry")) return;
@@ -899,10 +1259,12 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    initHeavySmoothScroll();
     initMoreMenu();
     initHeroControls();
     initPoster();
     initCategoryChart();
+    initSpecimenSpread();
     initLatestAdditions();
     renderDirectoryCards();
     initLanguageProfile();
